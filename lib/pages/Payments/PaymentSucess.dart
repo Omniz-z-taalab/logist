@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logist/models/order_list.dart';
 import '../../others/Dummy_Data_Orders.dart';
 import '../../others/variables.dart';
 import '../My_orders/OrderInfo.dart';
+import '../login/s1.dart';
 
 class paymentSucess extends StatefulWidget {
   const paymentSucess({Key? key}) : super(key: key);
@@ -36,10 +38,10 @@ class _paymentSucessState extends State<paymentSucess> {
         ),
         onPressed: () {
           //Button destination
-          // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
+          Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
           // Get.to(
-          //  () => orderInfo(Orders[1],true),
-          //  transition: Transition.rightToLeft
+           // () => orderInfo(Orders,true),
+           // transition: Transition.rightToLeft);
 
           // );
         },

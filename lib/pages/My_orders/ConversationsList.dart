@@ -130,9 +130,11 @@ class _conversationsListState extends State<conversationsList> {
                     flex: 4,
                     child: SizedBox(
                       height: 300,
-                      child: context.watch<ChatProvider>().isGetInbox
-                          ? _buildShimmerListView()
-                          : _buildListView(),
+                      child: context.watch<ChatProvider>().isGetInbox == 0
+
+                          ? const Center(child: Text('لاتوجد رسائل',style: TextStyle(color: Colors.black,fontSize: 20),),)
+                          : context.watch<ChatProvider>().isGetInbox
+                        ?_buildListView(): _buildShimmerListView()
                     )),
               ],
             ),

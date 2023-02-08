@@ -199,7 +199,7 @@ class _profileState extends State<profile> {
                         ),
                         validator: (value) {
                           if (value!.length < 3) {
-                            return '';
+                            return 'الاسم قصير يجب ان يكون اكثر من ٣ احرف';
                           }
                           return null;
                         },

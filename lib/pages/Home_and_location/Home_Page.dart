@@ -86,12 +86,11 @@ class MapSampleState extends State<MapSample> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
-          await openAppSettings();
+        await openAppSettings();
       }
     }
 
     return await getLocation();
-
   }
 
   // final GoogleMapController controller = GoogleMapController();
@@ -241,39 +240,67 @@ class MapSampleState extends State<MapSample> {
           ),
 
           // Localisation Button
-          Align(
+
+          Padding(
+            padding: const EdgeInsets.only(top: 40.0),
+            child: Align(
               alignment: const Alignment(0.9, -0.91),
-              child: InkWell(
-                child: Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.4),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        // changes position of shadow
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                // mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                 Container(width: 310,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            border: Border.all(color: Colors.black26)
+                          ),
+                          child: TextFormField(
+                           decoration:  InputDecoration(
+                             border: InputBorder.none,
+                             suffixIcon: IconButton(icon:Icon(Icons.saved_search,color: Colors.black54,size: 30,), onPressed: () {
+
+                             },
+                           ),
+                          ),
+                        ),
+
                       ),
-                    ],
+                  SizedBox(
+                    height: 20,
                   ),
-                  child: Image.asset(
-                    'assets/pics/arrow.png',
-                    scale: 2,
+                  InkWell(
+                    child: Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.4),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Image.asset(
+                        'assets/pics/arrow.png',
+                        scale: 2,
+                      ),
+                    ),
+                    onTap: () async {
+                      final GoogleMapController mapController =
+                          await _controller.future;
+                      mapController.animateCamera(CameraUpdate.newCameraPosition(
+                          CameraPosition(target: LatLng(lat, lng), zoom: 15)));
+                    },
                   ),
-                ),
-                onTap: () async {
-                  final GoogleMapController mapController =
-                      await _controller.future;
-                  mapController.animateCamera(
-                      CameraUpdate.newCameraPosition(CameraPosition(
-                    target: LatLng(lat, lng),
-                        zoom: 15
-                  )));
-                },
-              )),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
