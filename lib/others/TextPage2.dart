@@ -10,7 +10,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'variables.dart';
 import '../pages/Home_and_location/Home_package_active.dart';
 
@@ -41,7 +41,7 @@ class MapSample2State extends State<MapSample2> {
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
-  late LocationData currentLocation;
+  // late LocationData currentLocation;
 
 
   //Marker Variables
@@ -73,26 +73,26 @@ class MapSample2State extends State<MapSample2> {
   bool OriginSelected = false;
   double BarHeight = 125.0; //Bar height
 
-  void getCurrentLocation() async{
-
-    Location location = Location();
-
-    var _serviceEnabled = await location.serviceEnabled();
-
-    if(_serviceEnabled){
-      _serviceEnabled = await location.requestService();
-      if(_serviceEnabled){
-        location.getLocation().then((location) {
-          currentLocation = location;
-          print('${currentLocation.longitude} AND ${currentLocation.latitude} Are So important');
-        },);
-      } else{
-      }
-    }
-
-
-
-  }
+  // void getCurrentLocation() async{
+  //
+  //   Location location = Location();
+  //
+  //   var _serviceEnabled = await location.serviceEnabled();
+  //
+  //   if(_serviceEnabled){
+  //     _serviceEnabled = await location.requestService();
+  //     if(_serviceEnabled){
+  //       location.getLocation().then((location) {
+  //         currentLocation = location;
+  //         print('${currentLocation.longitude} AND ${currentLocation.latitude} Are So important');
+  //       },);
+  //     } else{
+  //     }
+  //   }
+  //
+  //
+  //
+  // }
 
 
 
@@ -160,7 +160,7 @@ class MapSample2State extends State<MapSample2> {
     super.initState();
 
     setMark();
-    getCurrentLocation();
+    // getCurrentLocation();
 
 
     _originController.text = 'Casablanca';
@@ -560,44 +560,45 @@ class MapSample2State extends State<MapSample2> {
                     child: Image.asset('assets/pics/arrow.png',scale: 2,),
                   ),
                   onTap: () async{
-                    var location = new Location();
+                    // var location = new Location();
 
-                    final GoogleMapController controller = await _controller.future;
+                    // final GoogleMapController controller = await _controller.future;
+                    //
+                    // var _serviceEnabled = await location.serviceEnabled();
+                    //
+                    // if(_serviceEnabled){
+                    //   _serviceEnabled = await location.requestService();
+                    //   if(_serviceEnabled){
+                    //     location.getLocation().then((location) {
+                    //       mylat = currentLocation.latitude!;
+                    //       mylng =  currentLocation.longitude!;
+                    //       setState(() {
+                    //
+                    //         //Setting marker on mao
+                    //         _setMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!));
+                    //
+                    //         //Changing Camera Position
+                    //         controller.animateCamera(
+                    //           CameraUpdate.newCameraPosition(
+                    //               CameraPosition(
+                    //                   target: LatLng(currentLocation.latitude!,currentLocation.longitude!),
+                    //                   zoom: 16
+                    //               )
+                    //           ),
+                    //         );
+                    //
+                    //         //Settings Values
+                    //
+                    //       });
+                    //
+                    //     },);
 
-                    var _serviceEnabled = await location.serviceEnabled();
-
-                    if(_serviceEnabled){
-                      _serviceEnabled = await location.requestService();
-                      if(_serviceEnabled){
-                        location.getLocation().then((location) {
-                          mylat = currentLocation.latitude!;
-                          mylng =  currentLocation.longitude!;
-                          setState(() {
-
-                            //Setting marker on mao
-                            _setMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!));
-
-                            //Changing Camera Position
-                            controller.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                  CameraPosition(
-                                      target: LatLng(currentLocation.latitude!,currentLocation.longitude!),
-                                      zoom: 16
-                                  )
-                              ),
-                            );
-
-                            //Settings Values
-
-                          });
-
-                        },);
-                      } else{
-                        print('Second Service is $_serviceEnabled');
-                        print('===============================');
-
-                      }
-                    }
+                    //   } else{
+                    //     print('Second Service is $_serviceEnabled');
+                    //     print('===============================');
+                    //
+                    //   }
+                    // }
 
 
                   },

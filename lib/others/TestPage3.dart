@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'PickupPlace2.dart';
 import 'variables.dart';
 import '../widgets/Location_service.dart';
@@ -64,7 +64,7 @@ class MapSample3State extends State<MapSample3> {
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
-  late LocationData currentLocation;
+  // late LocationData currentLocation;
 
   //Marker Variables
   //Marker function
@@ -120,38 +120,39 @@ class MapSample3State extends State<MapSample3> {
   bool DestSelected = false;
   double BarHeight = 125.0; //Bar height
 
-  void getCurrentLocation() async {
-    Location location = Location();
-
-    var _serviceEnabled = await location.serviceEnabled();
-
-    if (_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (_serviceEnabled) {
-        final currentLocation = await location.getLocation();
-        print(currentLocation.time);
-        if (currentLocation != null) {
-          final GoogleMapController controller = await _controller.future;
-          print(
-              '${currentLocation.longitude} AND ${currentLocation.latitude} Are So important');
-          mylat = currentLocation.latitude;
-          mylng = currentLocation.longitude;
-          //Setting marker on mao
-          _setMarker(
-              LatLng(currentLocation.latitude!, currentLocation.longitude!));
-
-          //Changing Camera Position
-          controller.animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(
-                  target: LatLng(
-                      currentLocation.latitude!, currentLocation.longitude!),
-                  zoom: 15.5)));
-        } else {
-          print('Location Data is null');
-        }
-      }
-    }
-  }
+  // void getCurrentLocation() async {
+  // //  Location location = Location();
+  //
+  //   var _serviceEnabled =    await isGPSEnabled();
+  //   //await location.serviceEnabled();
+  //
+  //   if (_serviceEnabled) {
+  //     _serviceEnabled = await location.requestPermission();
+  //     if (_serviceEnabled) {
+  //       final currentLocation = await location.getLocation();
+  //       print(currentLocation.time);
+  //       if (currentLocation != null) {
+  //         final GoogleMapController controller = await _controller.future;
+  //         print(
+  //             '${currentLocation.longitude} AND ${currentLocation.latitude} Are So important');
+  //         mylat = currentLocation.latitude;
+  //         mylng = currentLocation.longitude;
+  //         //Setting marker on mao
+  //         _setMarker(
+  //             LatLng(currentLocation.latitude!, currentLocation.longitude!));
+  //
+  //         //Changing Camera Position
+  //         controller.animateCamera(CameraUpdate.newCameraPosition(
+  //             CameraPosition(
+  //                 target: LatLng(
+  //                     currentLocation.latitude!, currentLocation.longitude!),
+  //                 zoom: 15.5)));
+  //       } else {
+  //         print('Location Data is null');
+  //       }
+  //     }
+  //   }
+  // }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(mylat!, mylng!),
@@ -507,7 +508,7 @@ class MapSample3State extends State<MapSample3> {
                     ),
                   ),
                   onTap: () async {
-                    getCurrentLocation();
+                    // getCurrentLocation();
                   },
                 )),
           ],

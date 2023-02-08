@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import '../../Classes/Order_Class.dart';
 import '../../others/variables.dart';
 import 'DetailsV2.dart';
@@ -45,7 +45,7 @@ class orderMapv2State extends State<orderMapv2> {
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
-  LocationData? currentLocation;
+  // LocationData? currentLocation;
 
   //Marker Variables
   //Marker function
@@ -67,13 +67,13 @@ class orderMapv2State extends State<orderMapv2> {
   }
 
 
-  void getCurrentLocation(){
-    Location location = Location();
-
-    location.getLocation().then((location) {
-      currentLocation = location;
-    },);
-  }
+  // void getCurrentLocation(){
+  //   Location location = Location();
+  //
+  //   location.getLocation().then((location) {
+  //     currentLocation = location;
+  //   },);
+  // }
 
   void MapInitFunctions() async{
     await setMark();

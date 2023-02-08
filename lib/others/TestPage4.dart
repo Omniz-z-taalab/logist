@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'PickupPlace2.dart';
 import 'variables.dart';
 import '../widgets/Location_service.dart';
@@ -23,17 +23,17 @@ class MapSample3State extends State<MapSample3> {
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
-  LocationData? currentLocation;
+  // LocationData? currentLocation;
   double Camlat = 24.7136;
   double Camlng = 46.6753;
 
-  void getCurrentLocation(){
-    Location location = Location();
-
-    location.getLocation().then((location) {
-      currentLocation = location;
-    },);
-  }
+  // void getCurrentLocation(){
+  //   Location location = Location();
+  //
+  //   location.getLocation().then((location) {
+  //     currentLocation = location;
+  //   },);
+  // }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(24.7136, 46.6753),

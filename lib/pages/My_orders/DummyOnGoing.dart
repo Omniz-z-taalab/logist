@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import '../../others/TestPage3.dart';
 import '../../others/variables.dart';
 import '../MainHomePage.dart';
@@ -40,7 +40,7 @@ class dummygoingState extends State<dummygoing> {
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
-  LocationData? currentLocation;
+  // LocationData? currentLocation;
 
   //Marker Variables
   //Marker function
@@ -66,13 +66,13 @@ class dummygoingState extends State<dummygoing> {
   double Camlng = 46.6753;
   String LocalDistance = '';
 
-  void getCurrentLocation(){
-    Location location = Location();
-
-    location.getLocation().then((location) {
-      currentLocation = location;
-    },);
-  }
+  // void getCurrentLocation(){
+  //   Location location = Location();
+  //
+  //   location.getLocation().then((location) {
+  //     currentLocation = location;
+  //   },);
+  // }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(24.7136, 46.6753),

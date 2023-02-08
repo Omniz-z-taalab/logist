@@ -63,15 +63,15 @@ class orderMapState extends State<orderMap> {
   double Camlng = 46.6753;
   String LocalDistance = '';
 
-  void getCurrentLocation() {
-    Location location = Location();
-
-    location.getLocation().then(
-      (location) {
-        currentLocation = location;
-      },
-    );
-  }
+  // void getCurrentLocation() {
+  //   Location location = Location();
+  //
+  //   location.getLocation().then(
+  //     (location) {
+  //       currentLocation = location;
+  //     },
+  //   );
+  // }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(mylat!, mylng!),
@@ -82,7 +82,7 @@ class orderMapState extends State<orderMap> {
   void initState() {
     super.initState();
     setMark();
-    getCurrentLocation();
+    // getCurrentLocation();
 
     _goToThePlace(dmlat, dmlng, bounds_ne, bounds_sw);
     _setPolyline(Dummy);

@@ -2,19 +2,20 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+// import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as locator;
 import '../../others/variables.dart';
 import '../Order_Setup/ChooseExtentions.dart';
 import '../Order_Setup/OrderMap.dart';
 import '../../widgets/Location_service.dart';
 import 'PickupPlace.dart';
-
-
 
 class MapSample extends StatefulWidget {
   @override
@@ -24,94 +25,155 @@ class MapSample extends StatefulWidget {
 late GoogleMapController googleMapController;
 
 class MapSampleState extends State<MapSample> {
-
   Completer<GoogleMapController> _controller = Completer();
-
+  var controller;
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
 
-  late LocationData currentLocation;
+  // late LocationData currentLocation;
 
   double Camlat = 24.7136;
   double Camlng = 46.6753;
 
-  void getCurrentLocation() async{
+  // bool gpsEnabled =false;
 
-    Location location = Location();
+  // late PermissionStatus status;
 
-    var _serviceEnabled = await location.serviceEnabled();
+  late bool gpsEnabled;
 
-    if(_serviceEnabled){
-      _serviceEnabled = await location.requestService();
-      if(_serviceEnabled){
-        final currentLocation = await location.getLocation();
-        //print(currentLocation.time);
-        if(currentLocation != null) {
-          final GoogleMapController controller = await _controller.future;
+  // late PermissionStatus status;
 
-          mylat = currentLocation.latitude;
-          mylng = currentLocation.longitude;
+  // Future<void> getPer() async {
+  //   gpsEnabled = await isGPSEnabled();
+  //   status = await getPermissionStatus();
+  //
+  //   if (status == PermissionStatus.denied) {
+  //     print('ay 7agaa');
+  //     // handler.openAppSettings();
+  //   } else {
+  //     if (!gpsEnabled) {
+  //       print('sa');
+  //       await requestPermission();
+  //     } else {
+  //       await getCurrentLocation();
+  //
+  //       print('wqeqewqe');
+  //     }
+  //   }
+  // }
 
-          //Changing Camera Position
-          controller.animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(
-                  target: LatLng(
-                      currentLocation.latitude!, currentLocation.longitude!),
-                  zoom: 15.5
-              )
-          ));
-        } else {
-          print('Location Data is null');
-        }
+  // Location location = Location();
 
+  /// Determine the current position of the device.
+  ///
+  /// When the location services are not enabled or permissions
+  /// are denied the `Future` will return an error.
+  Future<Position> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
-      } else{
-      }
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
     }
 
-
-
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('3333333333333333aaaaaaaaaa');
+        return Future.error('Location permissions are denied');
+      }
+    }
+    // print(getCurrentLocation().isBlank);
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await getLocation();
+    // _controller.animateCamera(CameraUpdate.newCameraPosition(
+    //     CameraPosition(
+    //         target: LatLng(
+    //             currentLocation.latitude!, currentLocation.longitude!),
+    //         zoom: 15.5
+    //     )
+    // ));
+    // Changing Camera Position
+    // controller.animateCamera(CameraUpdate.newCameraPosition(
+    //     CameraPosition(
+    //         target: LatLng(
+    //             currentLocation.latitude!, currentLocation.longitude!),
+    //         zoom: 15.5
+    //     )
+    // ));
+    //     } else {
+    //       print('Location Data is null');
+    //     }
+    //   }
+    // }
   }
+
+  // final GoogleMapController controller = GoogleMapController();
+  late double lat;
+  late double lng;
+
+  Future<Position> getLocation() async {
+    await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    print(position.latitude);
+    print('eeeeeeeeeeeeee=======================');
+    print(position.longitude);
+    lat = position.latitude;
+    lng = position.longitude;
+    return controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+            target: LatLng(position.latitude, position.longitude),
+            zoom: 15.5)));
+    // Changing Camera Position
+  }
+
+  CameraPosition kGooglePlex = CameraPosition(
+    target: LatLng(37.421998333333335, -122.084),
+    zoom: 15.4746,
+  );
 
   //Marker Variables
   //Marker function
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
-  BitmapDescriptor myIcon = BitmapDescriptor.defaultMarker;
 
+  BitmapDescriptor myIcon = BitmapDescriptor.defaultMarker;
 
   //Set Marker Picture
   Future<void> setMark() async {
-    final Uint8List markerIcon = await getBytesFromAsset('assets/pics/marker.png', 70);
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/pics/marker.png', 70);
     myIcon = BitmapDescriptor.fromBytes(markerIcon);
   }
 
-
-
-  static  CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(24.79131, 46.6753),
-    zoom: 15.4746,
-  );
-
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
+    CameraPosition;
     print('Initialling');
     setMark();
-
+    // getPer();
     getUsername();
     getUserphone();
 
     getCurrentLocation();
     //_setMarker(LatLng(32.294047, -6.709170));
-
   }
-
 
   void _setMarker(LatLng point) {
     setState(() {
@@ -125,10 +187,7 @@ class MapSampleState extends State<MapSample> {
     });
   }
 
-
-
-
-  void _setPolygon(){
+  void _setPolygon() {
     final String PolygonIdVal = 'polygon_$_polygonsIdCounter';
     _polygonsIdCounter++;
 
@@ -140,37 +199,32 @@ class MapSampleState extends State<MapSample> {
         fillColor: Colors.transparent,
       ),
     );
-
   }
 
-  void _setPolyline(List<PointLatLng>points){
+  void _setPolyline(List<PointLatLng> points) {
     final String PolylineIdVal = 'polygon_$_polylineIdCounter';
     _polylineIdCounter++;
 
-    _polylines.add(
-       Polyline(polylineId: PolylineId(PolylineIdVal),
-         width: 3,
-         color: Color(0xff015FF5),
-         points: points.map((point) => LatLng(point.latitude, point.longitude)
-           )
-           .toList(),
-       ));
-
+    _polylines.add(Polyline(
+      polylineId: PolylineId(PolylineIdVal),
+      width: 3,
+      color: Color(0xff015FF5),
+      points: points
+          .map((point) => LatLng(point.latitude, point.longitude))
+          .toList(),
+    ));
   }
 
   //Sets
-  Set<Marker> _markers =Set<Marker>();
-  Set<Polygon> _polygons =Set<Polygon>();
-  Set<Polyline> _polylines =Set<Polyline>();
+  Set<Marker> _markers = Set<Marker>();
+  Set<Polygon> _polygons = Set<Polygon>();
+  Set<Polyline> _polylines = Set<Polyline>();
   List<LatLng> polygonslatlng = <LatLng>[];
 
   int _polygonsIdCounter = 1;
   int _polylineIdCounter = 1;
 
   String distance = '0 KM';
-
-
-
   static final CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(37.43296265331129, -122.08832357078792),
@@ -183,21 +237,14 @@ class MapSampleState extends State<MapSample> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-
-
           GoogleMap(
-
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
             myLocationEnabled: true,
 
-
-            onTap: (point){
-              setState(() {
-
-              });
+            onTap: (point) {
+              setState(() {});
             },
-
 
             //mapToolbarEnabled: false,
 
@@ -209,25 +256,18 @@ class MapSampleState extends State<MapSample> {
 
             mapType: MapType.terrain,
 
+            initialCameraPosition: kGooglePlex,
 
-
-            initialCameraPosition: _kGooglePlex,
-
-            onMapCreated: (GoogleMapController controller) {
+            onMapCreated: (GoogleMapController controller) async {
               _controller.complete(controller);
-               googleMapController = controller ;
-
+              googleMapController = controller;
             },
-
-
-
           ),
 
           // Localisation Button
           Align(
               alignment: const Alignment(0.9, -0.91),
-              child:
-              InkWell(
+              child: InkWell(
                 child: Container(
                   width: 52,
                   height: 52,
@@ -243,64 +283,61 @@ class MapSampleState extends State<MapSample> {
                       ),
                     ],
                   ),
-
-                  child: Image.asset('assets/pics/arrow.png',scale: 2,),
+                  child: Image.asset(
+                    'assets/pics/arrow.png',
+                    scale: 2,
+                  ),
                 ),
-                onTap: () async{
-                  getCurrentLocation();
-
+                onTap: () async {
+                  final GoogleMapController mapController =
+                      await _controller.future;
+                  mapController.animateCamera(
+                      CameraUpdate.newCameraPosition(CameraPosition(
+                    target: LatLng(lat, lng),
+                        zoom: 15
+                  )));
                 },
-              )
-
-
-          ),
-
-
+              )),
         ],
       ),
-
     );
   }
 
   Future<void> _goToThePlace(
-      //Map<String,dynamic> place
-      double lat,
-      double lng,
-      Map<String, dynamic> boundsNe,
-      Map<String, dynamic> boundsSw,
-      ) async {
-
-
+    //Map<String,dynamic> place
+    double lat,
+    double lng,
+    Map<String, dynamic> boundsNe,
+    Map<String, dynamic> boundsSw,
+  ) async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: LatLng(lat,lng),zoom: 12),
-    ),
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 12),
+      ),
     );
-    
+
     controller.animateCamera(
       CameraUpdate.newLatLngBounds(
-        LatLngBounds(
-          southwest: LatLng(boundsSw['lat'],boundsSw['lng']),
-          northeast: LatLng(boundsNe['lat'],boundsNe['lng']),
-        ),
-        25
-      ),
+          LatLngBounds(
+            southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+            northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+          ),
+          25),
     );
     _setMarker(LatLng(lat, lng));
   }
 
-  Future<void> _goToThePlaceBack(Map<String,dynamic> place) async {
-
+  Future<void> _goToThePlaceBack(Map<String, dynamic> place) async {
     final double lat = place['geometry']['location']['lat'];
     final double lng = place['geometry']['location']['lng'];
 
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: LatLng(lat,lng),zoom: 12),
-    ),
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 12),
+      ),
     );
     _setMarker(LatLng(lat, lng));
   }
-
-
 }
