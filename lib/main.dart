@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logist/pages/MainHomePage.dart';
+import 'package:logist/pages/Order_Setup/ChooseExtentions.dart';
 import 'others/Splash.dart';
 import 'core/dependencies/bloc_provider.dart';
 import 'core/local/cache_helper.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
 
-        home: const mainHomePage(),
+        home: const chooseExtentions(),
         //  home:  logout(),
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:permission_handler/permission_handler.dart';
 
 // import 'package:location/location.dart';
 import 'package:flutter/material.dart';
@@ -84,35 +85,13 @@ class MapSampleState extends State<MapSample> {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        print('3333333333333333aaaaaaaaaa');
-        return Future.error('Location permissions are denied');
+      if (permission == LocationPermission.deniedForever) {
+          await openAppSettings();
       }
     }
-    // print(getCurrentLocation().isBlank);
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
+
     return await getLocation();
-    // _controller.animateCamera(CameraUpdate.newCameraPosition(
-    //     CameraPosition(
-    //         target: LatLng(
-    //             currentLocation.latitude!, currentLocation.longitude!),
-    //         zoom: 15.5
-    //     )
-    // ));
-    // Changing Camera Position
-    // controller.animateCamera(CameraUpdate.newCameraPosition(
-    //     CameraPosition(
-    //         target: LatLng(
-    //             currentLocation.latitude!, currentLocation.longitude!),
-    //         zoom: 15.5
-    //     )
-    // ));
-    //     } else {
-    //       print('Location Data is null');
-    //     }
-    //   }
-    // }
+
   }
 
   // final GoogleMapController controller = GoogleMapController();
@@ -128,10 +107,7 @@ class MapSampleState extends State<MapSample> {
     print(position.longitude);
     lat = position.latitude;
     lng = position.longitude;
-    return controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-            target: LatLng(position.latitude, position.longitude),
-            zoom: 15.5)));
+    return position;
     // Changing Camera Position
   }
 
