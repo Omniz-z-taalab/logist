@@ -67,6 +67,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   int _trType = 10;
   int _payload = 10;
   int _time = 10;
+  int _date = 10;
   int _note = 10;
   String TheNote = '';
   bool AllSelected = false;
@@ -105,7 +106,9 @@ class _chooseExtentionsState extends State<chooseExtentions> {
       return 'IconTruck';
     }
   }
-int num = 0;
+
+  int num = 0;
+
   String Trtext(int choice) {
     if (choice == 0) {
       setState(() {
@@ -190,11 +193,11 @@ int num = 0;
   }
 
   //Time Functions
-  String TimeText(int choice) {
+  Object TimeText(int choice) {
     if (choice == 10) {
       return 'التوقيت';
     } else {
-      return 'اليوم';
+      return true;
     }
   }
 
@@ -208,7 +211,6 @@ int num = 0;
 
   bool TimeNum(int choice) {
     if (choice == 10) {
-
       return true;
     } else {
       return false;
@@ -219,9 +221,9 @@ int num = 0;
   String NoteText(int choice) {
     if (choice == 10 || TheNote.isEmpty) {
       return 'ملاحظة للسائق';
-    } else if(choice == 3){
+    } else if (choice == 3) {
       setState(() {
-        botton =true;
+        botton = true;
       });
       return TheNote;
     }
@@ -231,7 +233,6 @@ int num = 0;
     print(botton);
     print('eeeeeeeeeee');
     return TheNote;
-
   }
 
   String NoteIcon(int choice) {
@@ -244,21 +245,19 @@ int num = 0;
 
   bool Notearrow(int choice) {
     if (choice == 10) {
-
       return true;
     } else {
-
       return false;
     }
   }
- bool? botton = false ;
+
+  bool? botton = false;
+
   //Arrow Option
   bool Trarrow(int choice) {
     if (choice == 10) {
-
       return true;
     } else {
-
       return false;
     }
   }
@@ -450,7 +449,8 @@ int num = 0;
     }
 
     //Time Options Tab
-    Widget OptionsTime(String title, String Icon, bool selected) {
+    Widget OptionsTime(
+        Object title, String Icon, bool selected, DateTime date) {
       return Container(
         width: double.infinity,
         height: 54,
@@ -472,9 +472,15 @@ int num = 0;
                         style: const TextStyle(
                             fontSize: 14, fontFamily: 'visbydemibold'),
                       )),
+            selected ?
+            Container()
+
+            : Text('/${Fhour(day)}.${Fhour(month)}.$year',
+                style: const TextStyle(
+                    fontSize: 14, fontFamily: 'visbydemibold')),
             Expanded(
                 child: Text(
-              title,
+              title.toString(),
               textAlign: TextAlign.end,
               style: const TextStyle(
                   fontSize: 14,
@@ -494,7 +500,7 @@ int num = 0;
 
     //Button
     Widget Next(String par) => MaterialButton(
-      color: Color(0xff42484F),
+          color: Color(0xff42484F),
           minWidth: double.infinity,
           height: 60,
           shape: RoundedRectangleBorder(
@@ -545,9 +551,7 @@ int num = 0;
         );
 
     Widget Confirm(String par) => MaterialButton(
-          color: botton == true
-              ? On
-              : Color(0xff42484F),
+          color: botton == true ? On : Color(0xff42484F),
           minWidth: double.infinity,
           height: 60,
           shape: RoundedRectangleBorder(
@@ -901,8 +905,7 @@ int num = 0;
             ),
           ],
         );
-      }
-      else if (type == 'TRtype') {
+      } else if (type == 'TRtype') {
         return ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -924,2045 +927,2361 @@ int num = 0;
                       ),
                     ),
                   ),
-                  num ==  1
-                 ? Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                     
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //Cold Truck
-                          //ListTile
-                          InkWell(
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 91,
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                color: _trType == 0
-                                    ? const Color(0xffEEEEEE)
-                                    : const Color(
-                                        0xffFFFFFF), //Original listtile Color
-                                //color: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(13.0)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
+                  num == 1
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                //Cold Truck
+                                //ListTile
+                                InkWell(
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 250),
+                                    height: 91,
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      color: _trType == 0
+                                          ? const Color(0xffEEEEEE)
+                                          : const Color(
+                                              0xffFFFFFF), //Original listtile Color
+                                      //color: Colors.transparent,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(13.0)),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  //Title
+                                                  const Text(
+                                                    'شاحنه مبردة',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: 'Montserrat',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Color(0xff191F28),
+                                                    ),
+                                                  ),
+
+                                                  //SizedBox
+                                                  const SizedBox(height: 5),
+
+                                                  //SubText
+                                                  const Text(
+                                                    'غالبا ما تستخدم لنقل (الطعام)',
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      fontFamily: 'Montserrat',
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: Color(0xff6C6C6C),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(14.0),
+                                              child: Container(
+                                                width: 55,
+                                                height: 49,
+                                                decoration: const BoxDecoration(
+                                                  //color: Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(100),
+                                                  ),
+                                                ),
+                                                alignment: Alignment.center,
+
+                                                //Image
+                                                child: Image.asset(
+                                                  'assets/pics/Aired.png',
+                                                  width: 40,
+                                                  height: 40,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                67)
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      _trType = 0;
+                                    });
+                                  },
+                                ),
+
+                                //Snow Truck
+                                //ListTile
+                                InkWell(
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 250),
+                                    height: 91,
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      color: _trType == 1
+                                          ? const Color(0xffEEEEEE)
+                                          : const Color(0xffFFFFFF),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(13.0)),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  //Title
+                                                  const Text(
+                                                    'شاحنة مثلجة',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: 'Montserrat',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Color(0xff191F28),
+                                                    ),
+                                                  ),
+
+                                                  //SizedBox
+                                                  const SizedBox(height: 5),
+
+                                                  //SubText
+                                                  const Text(
+                                                    'غالبا ما تستخدم لنقل (الطعام)',
+                                                    textDirection:
+                                                        TextDirection.rtl,
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      fontFamily: 'Montserrat',
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: Color(0xff6C6C6C),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(14.0),
+                                              child: Container(
+                                                width: 55,
+                                                height: 49,
+                                                decoration: const BoxDecoration(
+                                                  //color: Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(100),
+                                                  ),
+                                                ),
+                                                alignment: Alignment.center,
+
+                                                //Image
+                                                child: Image.asset(
+                                                  'assets/pics/Snow.png',
+                                                  width: 40,
+                                                  height: 40,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                67)
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      _trType = 1;
+                                    });
+                                  },
+                                ),
+
+                                const SizedBox(height: 36),
+                              ],
+                            ),
+                            Next('متابعة')
+                          ],
+                        )
+                      : num == 2
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    //Cold Truck
+                                    //ListTile
+
+                                    InkWell(
+                                      child: AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 250),
+                                        height: 91,
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                          color: _trType == 2
+                                              ? const Color(0xffEEEEEE)
+                                              : const Color(0xffFFFFFF),
+                                          //color: Colors.transparent,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(13.0)),
+                                        ),
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceEvenly,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: [
-                                            //Title
-                                            const Text(
-                                              'شاحنه مبردة',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff191F28),
-                                              ),
-                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      //Title
+                                                      const Text(
+                                                        'شاحنة جافة',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              Color(0xff191F28),
+                                                        ),
+                                                      ),
 
-                                            //SizedBox
-                                            const SizedBox(height: 5),
+                                                      //SizedBox
+                                                      const SizedBox(height: 5),
 
-                                            //SubText
-                                            const Text(
-                                              'غالبا ما تستخدم لنقل (الطعام)',
-                                              textDirection: TextDirection.rtl,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w300,
-                                                color: Color(0xff6C6C6C),
-                                              ),
+                                                      //SubText
+                                                      const Text(
+                                                        'غالبا ما تستخدم لنقل (مواد)',
+                                                        textDirection:
+                                                            TextDirection.rtl,
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                          fontFamily:
+                                                              'Montserrat',
+                                                          fontWeight:
+                                                              FontWeight.w300,
+                                                          color:
+                                                              Color(0xff6C6C6C),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      14.0),
+                                                  child: Container(
+                                                    width: 55,
+                                                    height: 49,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      //color: Colors.transparent,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(100),
+                                                      ),
+                                                    ),
+                                                    alignment: Alignment.center,
+
+                                                    //Image
+                                                    child: Image.asset(
+                                                      'assets/pics/Dry.png',
+                                                      width: 40,
+                                                      height: 40,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
+                                            Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    67)
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: Container(
-                                          width: 55,
-                                          height: 49,
-                                          decoration: const BoxDecoration(
-                                            //color: Colors.transparent,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(100),
-                                            ),
-                                          ),
-                                          alignment: Alignment.center,
-
-                                          //Image
-                                          child: Image.asset(
-                                            'assets/pics/Aired.png',
-                                            width: 40,
-                                            height: 40,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          67)
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                _trType = 0;
-                              });
-                            },
-                          ),
-
-                          //Snow Truck
-                          //ListTile
-                          InkWell(
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 91,
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                color: _trType == 1
-                                    ? const Color(0xffEEEEEE)
-                                    : const Color(0xffFFFFFF),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(13.0)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            //Title
-                                            const Text(
-                                              'شاحنة مثلجة',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff191F28),
-                                              ),
-                                            ),
-
-                                            //SizedBox
-                                            const SizedBox(height: 5),
-
-                                            //SubText
-                                            const Text(
-                                              'غالبا ما تستخدم لنقل (الطعام)',
-                                              textDirection: TextDirection.rtl,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w300,
-                                                color: Color(0xff6C6C6C),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: Container(
-                                          width: 55,
-                                          height: 49,
-                                          decoration: const BoxDecoration(
-                                            //color: Colors.transparent,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(100),
-                                            ),
-                                          ),
-                                          alignment: Alignment.center,
-
-                                          //Image
-                                          child: Image.asset(
-                                            'assets/pics/Snow.png',
-                                            width: 40,
-                                            height: 40,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          67)
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                _trType = 1;
-                              });
-                            },
-                          ),
-
-                          const SizedBox(height: 36),
-                        ],
-                      ),
-                      Next('متابعة')
-                    ],
-                  ):num == 2
-                      ?Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //Cold Truck
-                          //ListTile
-                         
-
-                          InkWell(
-                             child: AnimatedContainer(
-                               duration: const Duration(milliseconds: 250),
-                               height: 91,
-                               alignment: Alignment.centerLeft,
-                               decoration: BoxDecoration(
-                                 color: _trType == 2
-                                     ? const Color(0xffEEEEEE)
-                                     : const Color(0xffFFFFFF),
-                                 //color: Colors.transparent,
-                                 borderRadius: const BorderRadius.all(
-                                     Radius.circular(13.0)),
-                               ),
-                               child: Column(
-                                 mainAxisAlignment:
-                                     MainAxisAlignment.spaceEvenly,
-                                 crossAxisAlignment: CrossAxisAlignment.end,
-                                 children: [
-                                   Row(
-                                     children: [
-                                       Expanded(
-                                         child: Column(
-                                           mainAxisAlignment:
-                                               MainAxisAlignment.spaceBetween,
-                                           crossAxisAlignment:
-                                               CrossAxisAlignment.end,
-                                           children: [
-                                             //Title
-                                             const Text(
-                                               'شاحنة جافة',
-                                               style: TextStyle(
-                                                 fontSize: 14,
-                                                 fontFamily: 'Montserrat',
-                                                 fontWeight: FontWeight.w500,
-                                                 color: Color(0xff191F28),
-                                               ),
-                                             ),
-
-                                             //SizedBox
-                                             const SizedBox(height: 5),
-
-                                             //SubText
-                                             const Text(
-                                               'غالبا ما تستخدم لنقل (مواد)',
-                                               textDirection: TextDirection.rtl,
-                                               style: TextStyle(
-                                                 fontSize: 10,
-                                                 fontFamily: 'Montserrat',
-                                                 fontWeight: FontWeight.w300,
-                                                 color: Color(0xff6C6C6C),
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                       ),
-                                       Padding(
-                                         padding: const EdgeInsets.all(14.0),
-                                         child: Container(
-                                           width: 55,
-                                           height: 49,
-                                           decoration: const BoxDecoration(
-                                             //color: Colors.transparent,
-                                             borderRadius: BorderRadius.all(
-                                               Radius.circular(100),
-                                             ),
-                                           ),
-                                           alignment: Alignment.center,
-
-                                           //Image
-                                           child: Image.asset(
-                                             'assets/pics/Dry.png',
-                                             width: 40,
-                                             height: 40,
-                                           ),
-                                         ),
-                                       ),
-                                     ],
-                                   ),
-                                   Container(
-                                       width: MediaQuery.of(context).size.width -
-                                           67)
-                                 ],
-                               ),
-                             ),
-                             onTap: () {
-                               setState(() {
-                                 _trType = 2;
-                               });
-                             },
-                           ),
-                          const SizedBox(height: 36),
-                        ],
-                      ),
-                      Next('متابعة')
-                    ],
-                  ):
-                  num == 3?
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //Cold Truck
-                          //ListTile
-                          InkWell(
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 91,
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                color: _trType == 0
-                                    ? const Color(0xffEEEEEE)
-                                    : const Color(
-                                    0xffFFFFFF), //Original listtile Color
-                                //color: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(13.0)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
+                                      onTap: () {
+                                        setState(() {
+                                          _trType = 2;
+                                        });
+                                      },
+                                    ),
+                                    const SizedBox(height: 36),
+                                  ],
+                                ),
+                                Next('متابعة')
+                              ],
+                            )
+                          : num == 3
+                              ? Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                          children: [
-                                            //Title
-                                            const Text(
-                                              'شاحنه مبردة',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff191F28),
-                                              ),
-                                            ),
-
-                                            //SizedBox
-                                            const SizedBox(height: 5),
-
-                                            //SubText
-                                            const Text(
-                                              'غالبا ما تستخدم لنقل (الطعام)',
-                                              textDirection: TextDirection.rtl,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w300,
-                                                color: Color(0xff6C6C6C),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: Container(
-                                          width: 55,
-                                          height: 49,
-                                          decoration: const BoxDecoration(
-                                            //color: Colors.transparent,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(100),
-                                            ),
-                                          ),
-                                          alignment: Alignment.center,
-
-                                          //Image
-                                          child: Image.asset(
-                                            'assets/pics/Aired.png',
-                                            width: 40,
-                                            height: 40,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          67)
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                _trType = 0;
-                              });
-                            },
-                          ),
-
-                          //Snow Truck
-                          //ListTile
-                          InkWell(
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 91,
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                color: _trType == 1
-                                    ? const Color(0xffEEEEEE)
-                                    : const Color(0xffFFFFFF),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(13.0)),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                          children: [
-                                            //Title
-                                            const Text(
-                                              'شاحنة مثلجة',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff191F28),
-                                              ),
-                                            ),
-
-                                            //SizedBox
-                                            const SizedBox(height: 5),
-
-                                            //SubText
-                                            const Text(
-                                              'غالبا ما تستخدم لنقل (الطعام)',
-                                              textDirection: TextDirection.rtl,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w300,
-                                                color: Color(0xff6C6C6C),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: Container(
-                                          width: 55,
-                                          height: 49,
-                                          decoration: const BoxDecoration(
-                                            //color: Colors.transparent,
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(100),
-                                            ),
-                                          ),
-                                          alignment: Alignment.center,
-
-                                          //Image
-                                          child: Image.asset(
-                                            'assets/pics/Snow.png',
-                                            width: 40,
-                                            height: 40,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          67)
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {
-                                _trType = 1;
-                              });
-                            },
-                          ),
-
-
-                          InkWell(
-                             child: AnimatedContainer(
-                               duration: const Duration(milliseconds: 250),
-                               height: 91,
-                               alignment: Alignment.centerLeft,
-                               decoration: BoxDecoration(
-                                 color: _trType == 2
-                                     ? const Color(0xffEEEEEE)
-                                     : const Color(0xffFFFFFF),
-                                 //color: Colors.transparent,
-                                 borderRadius: const BorderRadius.all(
-                                     Radius.circular(13.0)),
-                               ),
-                               child: Column(
-                                 mainAxisAlignment:
-                                     MainAxisAlignment.spaceEvenly,
-                                 crossAxisAlignment: CrossAxisAlignment.end,
-                                 children: [
-                                   Row(
-                                     children: [
-                                       Expanded(
-                                         child: Column(
-                                           mainAxisAlignment:
-                                               MainAxisAlignment.spaceBetween,
-                                           crossAxisAlignment:
-                                               CrossAxisAlignment.end,
-                                           children: [
-                                             //Title
-                                             const Text(
-                                               'شاحنة جافة',
-                                               style: TextStyle(
-                                                 fontSize: 14,
-                                                 fontFamily: 'Montserrat',
-                                                 fontWeight: FontWeight.w500,
-                                                 color: Color(0xff191F28),
-                                               ),
-                                             ),
-
-                                             //SizedBox
-                                             const SizedBox(height: 5),
-
-                                             //SubText
-                                             const Text(
-                                               'غالبا ما تستخدم لنقل (مواد)',
-                                               textDirection: TextDirection.rtl,
-                                               style: TextStyle(
-                                                 fontSize: 10,
-                                                 fontFamily: 'Montserrat',
-                                                 fontWeight: FontWeight.w300,
-                                                 color: Color(0xff6C6C6C),
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                       ),
-                                       Padding(
-                                         padding: const EdgeInsets.all(14.0),
-                                         child: Container(
-                                           width: 55,
-                                           height: 49,
-                                           decoration: const BoxDecoration(
-                                             //color: Colors.transparent,
-                                             borderRadius: BorderRadius.all(
-                                               Radius.circular(100),
-                                             ),
-                                           ),
-                                           alignment: Alignment.center,
-
-                                           //Image
-                                           child: Image.asset(
-                                             'assets/pics/Dry.png',
-                                             width: 40,
-                                             height: 40,
-                                           ),
-                                         ),
-                                       ),
-                                     ],
-                                   ),
-                                   Container(
-                                       width: MediaQuery.of(context).size.width -
-                                           67)
-                                 ],
-                               ),
-                             ),
-                             onTap: () {
-                               setState(() {
-                                 _trType = 2;
-                               });
-                             },
-                           ),
-                          const SizedBox(height: 36),
-                        ],
-                      ),
-                      Next('متابعة')
-                    ],
-                  ):Container(
-                      color:Colors.red,
-                    height: 100,
-                  )],
-              ),
-            ),
-          ],
-        );
-      }
-      else if (type == 'payload') {
-        return ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 33,
-                right: 33,
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 9, bottom: 26),
-                    child: Container(
-                      width: 58,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                  ),
-                  num == 1?
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //Meds payload
-                            //ListTile
-                            //ادويه
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height:
-                                    MediaQuery.of(context).size.height == 667
-                                        ? 70 * 0
-                                        : 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 0
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                          0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
                                       children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              //Title
-                                              const Text(
-                                                'حولة أدوية',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              const SizedBox(height: 5),
-
-                                              //SubText
-                                              const Text(
-                                                'غالبا ما تستخدم لنقل (الطعام)',
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
+                                        //Cold Truck
+                                        //ListTile
+                                        InkWell(
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 250),
+                                            height: 91,
+                                            alignment: Alignment.centerLeft,
+                                            decoration: BoxDecoration(
+                                              color: _trType == 0
+                                                  ? const Color(0xffEEEEEE)
+                                                  : const Color(
+                                                      0xffFFFFFF), //Original listtile Color
                                               //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(13.0)),
                                             ),
-                                            alignment: Alignment.center,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          //Title
+                                                          const Text(
+                                                            'شاحنه مبردة',
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Color(
+                                                                  0xff191F28),
+                                                            ),
+                                                          ),
 
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/med.png',
-                                              width: 40,
-                                              height: 40,
+                                                          //SizedBox
+                                                          const SizedBox(
+                                                              height: 5),
+
+                                                          //SubText
+                                                          const Text(
+                                                            'غالبا ما تستخدم لنقل (الطعام)',
+                                                            textDirection:
+                                                                TextDirection
+                                                                    .rtl,
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300,
+                                                              color: Color(
+                                                                  0xff6C6C6C),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              14.0),
+                                                      child: Container(
+                                                        width: 55,
+                                                        height: 49,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          //color: Colors.transparent,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                100),
+                                                          ),
+                                                        ),
+                                                        alignment:
+                                                            Alignment.center,
+
+                                                        //Image
+                                                        child: Image.asset(
+                                                          'assets/pics/Aired.png',
+                                                          width: 40,
+                                                          height: 40,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            67)
+                                              ],
                                             ),
                                           ),
+                                          onTap: () {
+                                            setState(() {
+                                              _trType = 0;
+                                            });
+                                          },
                                         ),
+
+                                        //Snow Truck
+                                        //ListTile
+                                        InkWell(
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 250),
+                                            height: 91,
+                                            alignment: Alignment.centerLeft,
+                                            decoration: BoxDecoration(
+                                              color: _trType == 1
+                                                  ? const Color(0xffEEEEEE)
+                                                  : const Color(0xffFFFFFF),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(13.0)),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          //Title
+                                                          const Text(
+                                                            'شاحنة مثلجة',
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Color(
+                                                                  0xff191F28),
+                                                            ),
+                                                          ),
+
+                                                          //SizedBox
+                                                          const SizedBox(
+                                                              height: 5),
+
+                                                          //SubText
+                                                          const Text(
+                                                            'غالبا ما تستخدم لنقل (الطعام)',
+                                                            textDirection:
+                                                                TextDirection
+                                                                    .rtl,
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300,
+                                                              color: Color(
+                                                                  0xff6C6C6C),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              14.0),
+                                                      child: Container(
+                                                        width: 55,
+                                                        height: 49,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          //color: Colors.transparent,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                100),
+                                                          ),
+                                                        ),
+                                                        alignment:
+                                                            Alignment.center,
+
+                                                        //Image
+                                                        child: Image.asset(
+                                                          'assets/pics/Snow.png',
+                                                          width: 40,
+                                                          height: 40,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            67)
+                                              ],
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              _trType = 1;
+                                            });
+                                          },
+                                        ),
+
+                                        InkWell(
+                                          child: AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 250),
+                                            height: 91,
+                                            alignment: Alignment.centerLeft,
+                                            decoration: BoxDecoration(
+                                              color: _trType == 2
+                                                  ? const Color(0xffEEEEEE)
+                                                  : const Color(0xffFFFFFF),
+                                              //color: Colors.transparent,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(13.0)),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          //Title
+                                                          const Text(
+                                                            'شاحنة جافة',
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Color(
+                                                                  0xff191F28),
+                                                            ),
+                                                          ),
+
+                                                          //SizedBox
+                                                          const SizedBox(
+                                                              height: 5),
+
+                                                          //SubText
+                                                          const Text(
+                                                            'غالبا ما تستخدم لنقل (مواد)',
+                                                            textDirection:
+                                                                TextDirection
+                                                                    .rtl,
+                                                            style: TextStyle(
+                                                              fontSize: 10,
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w300,
+                                                              color: Color(
+                                                                  0xff6C6C6C),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              14.0),
+                                                      child: Container(
+                                                        width: 55,
+                                                        height: 49,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          //color: Colors.transparent,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                100),
+                                                          ),
+                                                        ),
+                                                        alignment:
+                                                            Alignment.center,
+
+                                                        //Image
+                                                        child: Image.asset(
+                                                          'assets/pics/Dry.png',
+                                                          width: 40,
+                                                          height: 40,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            67)
+                                              ],
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              _trType = 2;
+                                            });
+                                          },
+                                        ),
+                                        const SizedBox(height: 36),
                                       ],
                                     ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                67)
+                                    Next('متابعة')
                                   ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 0;
-                                });
-                              },
-                            ),
-
-                            //Food payload
-                            //ListTile
-                            //اطعمه
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 1
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                          0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              //Title
-                                              const Text(
-                                                'حمولة اطعمة',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              const SizedBox(height: 5),
-
-                                              //SubText
-                                              const Text(
-                                                'غالبا ما تستخدم لنقل (الطعام)',
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/food.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 1;
-                                });
-                              },
-                            ),
-
-                            //Metal Payload
-                            //ListTile
-                            //حديد
-                            // InkWell(
-                            //   child: AnimatedContainer(
-                            //     duration: const Duration(milliseconds: 250),
-                            //     height: 91,
-                            //     alignment: Alignment.centerLeft,
-                            //     decoration: BoxDecoration(
-                            //       color: _payload == 2
-                            //           ? const Color(0xffEEEEEE)
-                            //           : const Color(
-                            //           0xffFFFFFF), //Original listtile Color
-                            //       //color: Colors.transparent,
-                            //       borderRadius: const BorderRadius.all(
-                            //           Radius.circular(13.0)),
-                            //     ),
-                            //     child: Column(
-                            //       mainAxisAlignment:
-                            //       MainAxisAlignment.spaceEvenly,
-                            //       crossAxisAlignment: CrossAxisAlignment.end,
-                            //       children: [
-                            //         Row(
-                            //           children: [
-                            //             Expanded(
-                            //               child: Column(
-                            //                 mainAxisAlignment:
-                            //                 MainAxisAlignment.spaceBetween,
-                            //                 crossAxisAlignment:
-                            //                 CrossAxisAlignment.end,
-                            //                 children: [
-                            //                   //Title
-                            //                   const Text(
-                            //                     'حمولة حديد',
-                            //                     style: TextStyle(
-                            //                       fontSize: 14,
-                            //                       fontFamily: 'Montserrat',
-                            //                       fontWeight: FontWeight.w500,
-                            //                       color: Color(0xff191F28),
-                            //                     ),
-                            //                   ),
-                            //
-                            //                   //SizedBox
-                            //                   const SizedBox(height: 5),
-                            //
-                            //                   //SubText
-                            //                   const Text(
-                            //                     'غالبا ما تستخدم لنقل (مواد)',
-                            //                     textDirection:
-                            //                     TextDirection.rtl,
-                            //                     style: TextStyle(
-                            //                       fontSize: 10,
-                            //                       fontFamily: 'Montserrat',
-                            //                       fontWeight: FontWeight.w300,
-                            //                       color: Color(0xff6C6C6C),
-                            //                     ),
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //             ),
-                            //             Padding(
-                            //               padding: const EdgeInsets.all(14.0),
-                            //               child: Container(
-                            //                 width: 55,
-                            //                 height: 49,
-                            //                 decoration: const BoxDecoration(
-                            //                   //color: Colors.transparent,
-                            //                   borderRadius: BorderRadius.all(
-                            //                     Radius.circular(100),
-                            //                   ),
-                            //                 ),
-                            //                 alignment: Alignment.center,
-                            //
-                            //                 //Image
-                            //                 child: Image.asset(
-                            //                   'assets/pics/metal.png',
-                            //                   width: 40,
-                            //                   height: 40,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ],
-                            //         ),
-                            //         Container(
-                            //             width:
-                            //             MediaQuery.of(context).size.width -
-                            //                 67)
-                            //       ],
-                            //     ),
-                            //   ),
-                            //   onTap: () {
-                            //     setState(() {
-                            //       _payload = 2;
-                            //     });
-                            //   },
-                            // ),
-
-                            //package payload
-                            //ListTile
-                            //بضائع
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 3
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                          0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: const [
-                                              //Title
-                                              Text(
-                                                'حمولة بضائع',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              SizedBox(height: 5),
-
-                                              //SubText
-                                              Text(
-                                                'غالبا ما تستخدم لنقل (الطعام)',
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/package.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 3;
-                                });
-                              },
-                            ),
-
-                            //cattle payload
-                            //ListTile
-                            //مواشي
-                            // InkWell(
-                            //   child: AnimatedContainer(
-                            //     duration: const Duration(milliseconds: 250),
-                            //     height: 91,
-                            //     alignment: Alignment.centerLeft,
-                            //     decoration: BoxDecoration(
-                            //       color: _payload == 4
-                            //           ? const Color(0xffEEEEEE)
-                            //           : const Color(
-                            //               0xffFFFFFF), //Original listtile Color
-                            //       //color: Colors.transparent,
-                            //       borderRadius: const BorderRadius.all(
-                            //           Radius.circular(13.0)),
-                            //     ),
-                            //     child: Column(
-                            //       mainAxisAlignment:
-                            //           MainAxisAlignment.spaceEvenly,
-                            //       crossAxisAlignment: CrossAxisAlignment.end,
-                            //       children: [
-                            //         Row(
-                            //           children: [
-                            //             Expanded(
-                            //               child: Column(
-                            //                 mainAxisAlignment:
-                            //                     MainAxisAlignment.spaceBetween,
-                            //                 crossAxisAlignment:
-                            //                     CrossAxisAlignment.end,
-                            //                 children: const [
-                            //                   //Title
-                            //                   Text(
-                            //                     'حمولة مواشي',
-                            //                     style: TextStyle(
-                            //                       fontSize: 14,
-                            //                       fontFamily: 'Montserrat',
-                            //                       fontWeight: FontWeight.w500,
-                            //                       color: Color(0xff191F28),
-                            //                     ),
-                            //                   ),
-                            //
-                            //                   //SizedBox
-                            //                   SizedBox(height: 5),
-                            //
-                            //                   //SubText
-                            //                   Text(
-                            //                     'غالبا ما تستخدم لنقل (الطعام)',
-                            //                     textDirection:
-                            //                         TextDirection.rtl,
-                            //                     style: TextStyle(
-                            //                       fontSize: 10,
-                            //                       fontFamily: 'Montserrat',
-                            //                       fontWeight: FontWeight.w300,
-                            //                       color: Color(0xff6C6C6C),
-                            //                     ),
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //             ),
-                            //             Padding(
-                            //               padding: const EdgeInsets.all(14.0),
-                            //               child: Container(
-                            //                 width: 55,
-                            //                 height: 49,
-                            //                 decoration: const BoxDecoration(
-                            //                   //color: Colors.transparent,
-                            //                   borderRadius: BorderRadius.all(
-                            //                     Radius.circular(100),
-                            //                   ),
-                            //                 ),
-                            //                 alignment: Alignment.center,
-                            //
-                            //                 //Image
-                            //                 child: Image.asset(
-                            //                   'assets/pics/cattle.png',
-                            //                   width: 40,
-                            //                   height: 40,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ],
-                            //         ),
-                            //         Container(
-                            //             width:
-                            //                 MediaQuery.of(context).size.width -
-                            //                     67)
-                            //       ],
-                            //     ),
-                            //   ),
-                            //   onTap: () {
-                            //     setState(() {
-                            //       _payload = 4;
-                            //     });
-                            //   },
-                            // ),
-
-                            //Others (Special)
-                            //ListTile
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 5
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                          0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            // ignore: prefer_const_literals_to_create_immutables
-                                            children: [
-                                              //Title
-                                              const Text(
-                                                'خاص (أخرى)',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              const SizedBox(height: 5),
-
-                                              //SubText
-                                              const Text(
-                                                'غالبا ما تستخدم لنقل (مواد)',
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/others.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 5;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: typeButtonHeight()),
-                        Next('متابعة')
-                      ],
-                    ),
-                  ): num == 2 ? SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-
-                            //Metal Payload
-                            //ListTile
-                            //حديد
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 2
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                      0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            children: [
-                                              //Title
-                                              const Text(
-                                                'حمولة حديد',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              const SizedBox(height: 5),
-
-                                              //SubText
-                                              const Text(
-                                                'غالبا ما تستخدم لنقل (مواد)',
-                                                textDirection:
-                                                TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/metal.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                        MediaQuery.of(context).size.width -
-                                            67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 2;
-                                });
-                              },
-                            ),
-
-                            //package payload
-                            //ListTile
-                            //بضائع
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 3
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                      0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            children: const [
-                                              //Title
-                                              Text(
-                                                'حمولة بضائع',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              SizedBox(height: 5),
-
-                                              //SubText
-                                              Text(
-                                                'غالبا ما تستخدم لنقل (الطعام)',
-                                                textDirection:
-                                                TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/package.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                        MediaQuery.of(context).size.width -
-                                            67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 3;
-                                });
-                              },
-                            ),
-
-                            //cattle payload
-                            //ListTile
-                            //مواشي
-                            // InkWell(
-                            //   child: AnimatedContainer(
-                            //     duration: const Duration(milliseconds: 250),
-                            //     height: 91,
-                            //     alignment: Alignment.centerLeft,
-                            //     decoration: BoxDecoration(
-                            //       color: _payload == 4
-                            //           ? const Color(0xffEEEEEE)
-                            //           : const Color(
-                            //               0xffFFFFFF), //Original listtile Color
-                            //       //color: Colors.transparent,
-                            //       borderRadius: const BorderRadius.all(
-                            //           Radius.circular(13.0)),
-                            //     ),
-                            //     child: Column(
-                            //       mainAxisAlignment:
-                            //           MainAxisAlignment.spaceEvenly,
-                            //       crossAxisAlignment: CrossAxisAlignment.end,
-                            //       children: [
-                            //         Row(
-                            //           children: [
-                            //             Expanded(
-                            //               child: Column(
-                            //                 mainAxisAlignment:
-                            //                     MainAxisAlignment.spaceBetween,
-                            //                 crossAxisAlignment:
-                            //                     CrossAxisAlignment.end,
-                            //                 children: const [
-                            //                   //Title
-                            //                   Text(
-                            //                     'حمولة مواشي',
-                            //                     style: TextStyle(
-                            //                       fontSize: 14,
-                            //                       fontFamily: 'Montserrat',
-                            //                       fontWeight: FontWeight.w500,
-                            //                       color: Color(0xff191F28),
-                            //                     ),
-                            //                   ),
-                            //
-                            //                   //SizedBox
-                            //                   SizedBox(height: 5),
-                            //
-                            //                   //SubText
-                            //                   Text(
-                            //                     'غالبا ما تستخدم لنقل (الطعام)',
-                            //                     textDirection:
-                            //                         TextDirection.rtl,
-                            //                     style: TextStyle(
-                            //                       fontSize: 10,
-                            //                       fontFamily: 'Montserrat',
-                            //                       fontWeight: FontWeight.w300,
-                            //                       color: Color(0xff6C6C6C),
-                            //                     ),
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //             ),
-                            //             Padding(
-                            //               padding: const EdgeInsets.all(14.0),
-                            //               child: Container(
-                            //                 width: 55,
-                            //                 height: 49,
-                            //                 decoration: const BoxDecoration(
-                            //                   //color: Colors.transparent,
-                            //                   borderRadius: BorderRadius.all(
-                            //                     Radius.circular(100),
-                            //                   ),
-                            //                 ),
-                            //                 alignment: Alignment.center,
-                            //
-                            //                 //Image
-                            //                 child: Image.asset(
-                            //                   'assets/pics/cattle.png',
-                            //                   width: 40,
-                            //                   height: 40,
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ],
-                            //         ),
-                            //         Container(
-                            //             width:
-                            //                 MediaQuery.of(context).size.width -
-                            //                     67)
-                            //       ],
-                            //     ),
-                            //   ),
-                            //   onTap: () {
-                            //     setState(() {
-                            //       _payload = 4;
-                            //     });
-                            //   },
-                            // ),
-
-                            //Others (Special)
-                            //ListTile
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 5
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                      0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            // ignore: prefer_const_literals_to_create_immutables
-                                            children: [
-                                              //Title
-                                              const Text(
-                                                'خاص (أخرى)',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              const SizedBox(height: 5),
-
-                                              //SubText
-                                              const Text(
-                                                'غالبا ما تستخدم لنقل (مواد)',
-                                                textDirection:
-                                                TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/others.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                        MediaQuery.of(context).size.width -
-                                            67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 5;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: typeButtonHeight()),
-                        Next('متابعة')
-                      ],
-                    ),
-                  ): num == 3 ?
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-
-
-                            //Metal Payload
-                            //ListTile
-                            //حديد
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 2
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                      0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            children: [
-                                              //Title
-                                              const Text(
-                                                'حمولة حديد',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              const SizedBox(height: 5),
-
-                                              //SubText
-                                              const Text(
-                                                'غالبا ما تستخدم لنقل (مواد)',
-                                                textDirection:
-                                                TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/metal.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                        MediaQuery.of(context).size.width -
-                                            67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 2;
-                                });
-                              },
-                            ),
-
-                            //package payload
-                            //ListTile
-                            //بضائع
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 3
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                      0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            children: const [
-                                              //Title
-                                              Text(
-                                                'حمولة بضائع',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              SizedBox(height: 5),
-
-                                              //SubText
-                                              Text(
-                                                'غالبا ما تستخدم لنقل (الطعام)',
-                                                textDirection:
-                                                TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/package.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                        MediaQuery.of(context).size.width -
-                                            67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 3;
-                                });
-                              },
-                            ),
-
-                            //cattle payload
-                            //ListTile
-                            //مواشي
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 4
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                          0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: const [
-                                              //Title
-                                              Text(
-                                                'حمولة مواشي',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              SizedBox(height: 5),
-
-                                              //SubText
-                                              Text(
-                                                'غالبا ما تستخدم لنقل (الطعام)',
-                                                textDirection:
-                                                    TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/cattle.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 4;
-                                });
-                              },
-                            ),
-
-                            //Others (Special)
-                            //ListTile
-                            InkWell(
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 250),
-                                height: 91,
-                                alignment: Alignment.centerLeft,
-                                decoration: BoxDecoration(
-                                  color: _payload == 5
-                                      ? const Color(0xffEEEEEE)
-                                      : const Color(
-                                      0xffFFFFFF), //Original listtile Color
-                                  //color: Colors.transparent,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(13.0)),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                            // ignore: prefer_const_literals_to_create_immutables
-                                            children: [
-                                              //Title
-                                              const Text(
-                                                'خاص (أخرى)',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff191F28),
-                                                ),
-                                              ),
-
-                                              //SizedBox
-                                              const SizedBox(height: 5),
-
-                                              //SubText
-                                              const Text(
-                                                'غالبا ما تستخدم لنقل (مواد)',
-                                                textDirection:
-                                                TextDirection.rtl,
-                                                style: TextStyle(
-                                                  fontSize: 10,
-                                                  fontFamily: 'Montserrat',
-                                                  fontWeight: FontWeight.w300,
-                                                  color: Color(0xff6C6C6C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(14.0),
-                                          child: Container(
-                                            width: 55,
-                                            height: 49,
-                                            decoration: const BoxDecoration(
-                                              //color: Colors.transparent,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(100),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-
-                                            //Image
-                                            child: Image.asset(
-                                              'assets/pics/others.png',
-                                              width: 40,
-                                              height: 40,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        width:
-                                        MediaQuery.of(context).size.width -
-                                            67)
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  _payload = 5;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: typeButtonHeight()),
-                        Next('متابعة')
-                      ],
-                    ),
-                  ):
-                  Container()
+                                )
+                              : Container(
+                                  color: Colors.red,
+                                  height: 100,
+                                )
                 ],
               ),
             ),
           ],
         );
-      }
-      else if (type == 'time') {
+      } else if (type == 'payload') {
+        return ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 33,
+                right: 33,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 9, bottom: 26),
+                    child: Container(
+                      width: 58,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                  num == 1
+                      ? SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  //Meds payload
+                                  //ListTile
+                                  //ادويه
+                                  InkWell(
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      height:
+                                          MediaQuery.of(context).size.height ==
+                                                  667
+                                              ? 70 * 0
+                                              : 91,
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                        color: _payload == 0
+                                            ? const Color(0xffEEEEEE)
+                                            : const Color(
+                                                0xffFFFFFF), //Original listtile Color
+                                        //color: Colors.transparent,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(13.0)),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    //Title
+                                                    const Text(
+                                                      'حولة أدوية',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            Color(0xff191F28),
+                                                      ),
+                                                    ),
+
+                                                    //SizedBox
+                                                    const SizedBox(height: 5),
+
+                                                    //SubText
+                                                    const Text(
+                                                      'غالبا ما تستخدم لنقل (الطعام)',
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color:
+                                                            Color(0xff6C6C6C),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(14.0),
+                                                child: Container(
+                                                  width: 55,
+                                                  height: 49,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    //color: Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(100),
+                                                    ),
+                                                  ),
+                                                  alignment: Alignment.center,
+
+                                                  //Image
+                                                  child: Image.asset(
+                                                    'assets/pics/med.png',
+                                                    width: 40,
+                                                    height: 40,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  67)
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _payload = 0;
+                                      });
+                                    },
+                                  ),
+
+                                  //Food payload
+                                  //ListTile
+                                  //اطعمه
+                                  InkWell(
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      height: 91,
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                        color: _payload == 1
+                                            ? const Color(0xffEEEEEE)
+                                            : const Color(
+                                                0xffFFFFFF), //Original listtile Color
+                                        //color: Colors.transparent,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(13.0)),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    //Title
+                                                    const Text(
+                                                      'حمولة اطعمة',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            Color(0xff191F28),
+                                                      ),
+                                                    ),
+
+                                                    //SizedBox
+                                                    const SizedBox(height: 5),
+
+                                                    //SubText
+                                                    const Text(
+                                                      'غالبا ما تستخدم لنقل (الطعام)',
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color:
+                                                            Color(0xff6C6C6C),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(14.0),
+                                                child: Container(
+                                                  width: 55,
+                                                  height: 49,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    //color: Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(100),
+                                                    ),
+                                                  ),
+                                                  alignment: Alignment.center,
+
+                                                  //Image
+                                                  child: Image.asset(
+                                                    'assets/pics/food.png',
+                                                    width: 40,
+                                                    height: 40,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  67)
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _payload = 1;
+                                      });
+                                    },
+                                  ),
+
+                                  //Metal Payload
+                                  //ListTile
+                                  //حديد
+                                  // InkWell(
+                                  //   child: AnimatedContainer(
+                                  //     duration: const Duration(milliseconds: 250),
+                                  //     height: 91,
+                                  //     alignment: Alignment.centerLeft,
+                                  //     decoration: BoxDecoration(
+                                  //       color: _payload == 2
+                                  //           ? const Color(0xffEEEEEE)
+                                  //           : const Color(
+                                  //           0xffFFFFFF), //Original listtile Color
+                                  //       //color: Colors.transparent,
+                                  //       borderRadius: const BorderRadius.all(
+                                  //           Radius.circular(13.0)),
+                                  //     ),
+                                  //     child: Column(
+                                  //       mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceEvenly,
+                                  //       crossAxisAlignment: CrossAxisAlignment.end,
+                                  //       children: [
+                                  //         Row(
+                                  //           children: [
+                                  //             Expanded(
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                 MainAxisAlignment.spaceBetween,
+                                  //                 crossAxisAlignment:
+                                  //                 CrossAxisAlignment.end,
+                                  //                 children: [
+                                  //                   //Title
+                                  //                   const Text(
+                                  //                     'حمولة حديد',
+                                  //                     style: TextStyle(
+                                  //                       fontSize: 14,
+                                  //                       fontFamily: 'Montserrat',
+                                  //                       fontWeight: FontWeight.w500,
+                                  //                       color: Color(0xff191F28),
+                                  //                     ),
+                                  //                   ),
+                                  //
+                                  //                   //SizedBox
+                                  //                   const SizedBox(height: 5),
+                                  //
+                                  //                   //SubText
+                                  //                   const Text(
+                                  //                     'غالبا ما تستخدم لنقل (مواد)',
+                                  //                     textDirection:
+                                  //                     TextDirection.rtl,
+                                  //                     style: TextStyle(
+                                  //                       fontSize: 10,
+                                  //                       fontFamily: 'Montserrat',
+                                  //                       fontWeight: FontWeight.w300,
+                                  //                       color: Color(0xff6C6C6C),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: const EdgeInsets.all(14.0),
+                                  //               child: Container(
+                                  //                 width: 55,
+                                  //                 height: 49,
+                                  //                 decoration: const BoxDecoration(
+                                  //                   //color: Colors.transparent,
+                                  //                   borderRadius: BorderRadius.all(
+                                  //                     Radius.circular(100),
+                                  //                   ),
+                                  //                 ),
+                                  //                 alignment: Alignment.center,
+                                  //
+                                  //                 //Image
+                                  //                 child: Image.asset(
+                                  //                   'assets/pics/metal.png',
+                                  //                   width: 40,
+                                  //                   height: 40,
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //         Container(
+                                  //             width:
+                                  //             MediaQuery.of(context).size.width -
+                                  //                 67)
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  //   onTap: () {
+                                  //     setState(() {
+                                  //       _payload = 2;
+                                  //     });
+                                  //   },
+                                  // ),
+
+                                  //package payload
+                                  //ListTile
+                                  //بضائع
+                                  InkWell(
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      height: 91,
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                        color: _payload == 3
+                                            ? const Color(0xffEEEEEE)
+                                            : const Color(
+                                                0xffFFFFFF), //Original listtile Color
+                                        //color: Colors.transparent,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(13.0)),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: const [
+                                                    //Title
+                                                    Text(
+                                                      'حمولة بضائع',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            Color(0xff191F28),
+                                                      ),
+                                                    ),
+
+                                                    //SizedBox
+                                                    SizedBox(height: 5),
+
+                                                    //SubText
+                                                    Text(
+                                                      'غالبا ما تستخدم لنقل (الطعام)',
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color:
+                                                            Color(0xff6C6C6C),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(14.0),
+                                                child: Container(
+                                                  width: 55,
+                                                  height: 49,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    //color: Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(100),
+                                                    ),
+                                                  ),
+                                                  alignment: Alignment.center,
+
+                                                  //Image
+                                                  child: Image.asset(
+                                                    'assets/pics/package.png',
+                                                    width: 40,
+                                                    height: 40,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  67)
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _payload = 3;
+                                      });
+                                    },
+                                  ),
+
+                                  //cattle payload
+                                  //ListTile
+                                  //مواشي
+                                  // InkWell(
+                                  //   child: AnimatedContainer(
+                                  //     duration: const Duration(milliseconds: 250),
+                                  //     height: 91,
+                                  //     alignment: Alignment.centerLeft,
+                                  //     decoration: BoxDecoration(
+                                  //       color: _payload == 4
+                                  //           ? const Color(0xffEEEEEE)
+                                  //           : const Color(
+                                  //               0xffFFFFFF), //Original listtile Color
+                                  //       //color: Colors.transparent,
+                                  //       borderRadius: const BorderRadius.all(
+                                  //           Radius.circular(13.0)),
+                                  //     ),
+                                  //     child: Column(
+                                  //       mainAxisAlignment:
+                                  //           MainAxisAlignment.spaceEvenly,
+                                  //       crossAxisAlignment: CrossAxisAlignment.end,
+                                  //       children: [
+                                  //         Row(
+                                  //           children: [
+                                  //             Expanded(
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment.spaceBetween,
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.end,
+                                  //                 children: const [
+                                  //                   //Title
+                                  //                   Text(
+                                  //                     'حمولة مواشي',
+                                  //                     style: TextStyle(
+                                  //                       fontSize: 14,
+                                  //                       fontFamily: 'Montserrat',
+                                  //                       fontWeight: FontWeight.w500,
+                                  //                       color: Color(0xff191F28),
+                                  //                     ),
+                                  //                   ),
+                                  //
+                                  //                   //SizedBox
+                                  //                   SizedBox(height: 5),
+                                  //
+                                  //                   //SubText
+                                  //                   Text(
+                                  //                     'غالبا ما تستخدم لنقل (الطعام)',
+                                  //                     textDirection:
+                                  //                         TextDirection.rtl,
+                                  //                     style: TextStyle(
+                                  //                       fontSize: 10,
+                                  //                       fontFamily: 'Montserrat',
+                                  //                       fontWeight: FontWeight.w300,
+                                  //                       color: Color(0xff6C6C6C),
+                                  //                     ),
+                                  //                   ),
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding: const EdgeInsets.all(14.0),
+                                  //               child: Container(
+                                  //                 width: 55,
+                                  //                 height: 49,
+                                  //                 decoration: const BoxDecoration(
+                                  //                   //color: Colors.transparent,
+                                  //                   borderRadius: BorderRadius.all(
+                                  //                     Radius.circular(100),
+                                  //                   ),
+                                  //                 ),
+                                  //                 alignment: Alignment.center,
+                                  //
+                                  //                 //Image
+                                  //                 child: Image.asset(
+                                  //                   'assets/pics/cattle.png',
+                                  //                   width: 40,
+                                  //                   height: 40,
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //         Container(
+                                  //             width:
+                                  //                 MediaQuery.of(context).size.width -
+                                  //                     67)
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  //   onTap: () {
+                                  //     setState(() {
+                                  //       _payload = 4;
+                                  //     });
+                                  //   },
+                                  // ),
+
+                                  //Others (Special)
+                                  //ListTile
+                                  InkWell(
+                                    child: AnimatedContainer(
+                                      duration:
+                                          const Duration(milliseconds: 250),
+                                      height: 91,
+                                      alignment: Alignment.centerLeft,
+                                      decoration: BoxDecoration(
+                                        color: _payload == 5
+                                            ? const Color(0xffEEEEEE)
+                                            : const Color(
+                                                0xffFFFFFF), //Original listtile Color
+                                        //color: Colors.transparent,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(13.0)),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  // ignore: prefer_const_literals_to_create_immutables
+                                                  children: [
+                                                    //Title
+                                                    const Text(
+                                                      'خاص (أخرى)',
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            Color(0xff191F28),
+                                                      ),
+                                                    ),
+
+                                                    //SizedBox
+                                                    const SizedBox(height: 5),
+
+                                                    //SubText
+                                                    const Text(
+                                                      'غالبا ما تستخدم لنقل (مواد)',
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontFamily:
+                                                            'Montserrat',
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color:
+                                                            Color(0xff6C6C6C),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(14.0),
+                                                child: Container(
+                                                  width: 55,
+                                                  height: 49,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    //color: Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(100),
+                                                    ),
+                                                  ),
+                                                  alignment: Alignment.center,
+
+                                                  //Image
+                                                  child: Image.asset(
+                                                    'assets/pics/others.png',
+                                                    width: 40,
+                                                    height: 40,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  67)
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        _payload = 5;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: typeButtonHeight()),
+                              Next('متابعة')
+                            ],
+                          ),
+                        )
+                      : num == 2
+                          ? SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      //Metal Payload
+                                      //ListTile
+                                      //حديد
+                                      InkWell(
+                                        child: AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 250),
+                                          height: 91,
+                                          alignment: Alignment.centerLeft,
+                                          decoration: BoxDecoration(
+                                            color: _payload == 2
+                                                ? const Color(0xffEEEEEE)
+                                                : const Color(
+                                                    0xffFFFFFF), //Original listtile Color
+                                            //color: Colors.transparent,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(13.0)),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        //Title
+                                                        const Text(
+                                                          'حمولة حديد',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Color(
+                                                                0xff191F28),
+                                                          ),
+                                                        ),
+
+                                                        //SizedBox
+                                                        const SizedBox(
+                                                            height: 5),
+
+                                                        //SubText
+                                                        const Text(
+                                                          'غالبا ما تستخدم لنقل (مواد)',
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          style: TextStyle(
+                                                            fontSize: 10,
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            color: Color(
+                                                                0xff6C6C6C),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            14.0),
+                                                    child: Container(
+                                                      width: 55,
+                                                      height: 49,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        //color: Colors.transparent,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(100),
+                                                        ),
+                                                      ),
+                                                      alignment:
+                                                          Alignment.center,
+
+                                                      //Image
+                                                      child: Image.asset(
+                                                        'assets/pics/metal.png',
+                                                        width: 40,
+                                                        height: 40,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      67)
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _payload = 2;
+                                          });
+                                        },
+                                      ),
+
+                                      //package payload
+                                      //ListTile
+                                      //بضائع
+                                      InkWell(
+                                        child: AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 250),
+                                          height: 91,
+                                          alignment: Alignment.centerLeft,
+                                          decoration: BoxDecoration(
+                                            color: _payload == 3
+                                                ? const Color(0xffEEEEEE)
+                                                : const Color(
+                                                    0xffFFFFFF), //Original listtile Color
+                                            //color: Colors.transparent,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(13.0)),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: const [
+                                                        //Title
+                                                        Text(
+                                                          'حمولة بضائع',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Color(
+                                                                0xff191F28),
+                                                          ),
+                                                        ),
+
+                                                        //SizedBox
+                                                        SizedBox(height: 5),
+
+                                                        //SubText
+                                                        Text(
+                                                          'غالبا ما تستخدم لنقل (الطعام)',
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          style: TextStyle(
+                                                            fontSize: 10,
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            color: Color(
+                                                                0xff6C6C6C),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            14.0),
+                                                    child: Container(
+                                                      width: 55,
+                                                      height: 49,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        //color: Colors.transparent,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(100),
+                                                        ),
+                                                      ),
+                                                      alignment:
+                                                          Alignment.center,
+
+                                                      //Image
+                                                      child: Image.asset(
+                                                        'assets/pics/package.png',
+                                                        width: 40,
+                                                        height: 40,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      67)
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _payload = 3;
+                                          });
+                                        },
+                                      ),
+
+                                      //cattle payload
+                                      //ListTile
+                                      //مواشي
+                                      // InkWell(
+                                      //   child: AnimatedContainer(
+                                      //     duration: const Duration(milliseconds: 250),
+                                      //     height: 91,
+                                      //     alignment: Alignment.centerLeft,
+                                      //     decoration: BoxDecoration(
+                                      //       color: _payload == 4
+                                      //           ? const Color(0xffEEEEEE)
+                                      //           : const Color(
+                                      //               0xffFFFFFF), //Original listtile Color
+                                      //       //color: Colors.transparent,
+                                      //       borderRadius: const BorderRadius.all(
+                                      //           Radius.circular(13.0)),
+                                      //     ),
+                                      //     child: Column(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.spaceEvenly,
+                                      //       crossAxisAlignment: CrossAxisAlignment.end,
+                                      //       children: [
+                                      //         Row(
+                                      //           children: [
+                                      //             Expanded(
+                                      //               child: Column(
+                                      //                 mainAxisAlignment:
+                                      //                     MainAxisAlignment.spaceBetween,
+                                      //                 crossAxisAlignment:
+                                      //                     CrossAxisAlignment.end,
+                                      //                 children: const [
+                                      //                   //Title
+                                      //                   Text(
+                                      //                     'حمولة مواشي',
+                                      //                     style: TextStyle(
+                                      //                       fontSize: 14,
+                                      //                       fontFamily: 'Montserrat',
+                                      //                       fontWeight: FontWeight.w500,
+                                      //                       color: Color(0xff191F28),
+                                      //                     ),
+                                      //                   ),
+                                      //
+                                      //                   //SizedBox
+                                      //                   SizedBox(height: 5),
+                                      //
+                                      //                   //SubText
+                                      //                   Text(
+                                      //                     'غالبا ما تستخدم لنقل (الطعام)',
+                                      //                     textDirection:
+                                      //                         TextDirection.rtl,
+                                      //                     style: TextStyle(
+                                      //                       fontSize: 10,
+                                      //                       fontFamily: 'Montserrat',
+                                      //                       fontWeight: FontWeight.w300,
+                                      //                       color: Color(0xff6C6C6C),
+                                      //                     ),
+                                      //                   ),
+                                      //                 ],
+                                      //               ),
+                                      //             ),
+                                      //             Padding(
+                                      //               padding: const EdgeInsets.all(14.0),
+                                      //               child: Container(
+                                      //                 width: 55,
+                                      //                 height: 49,
+                                      //                 decoration: const BoxDecoration(
+                                      //                   //color: Colors.transparent,
+                                      //                   borderRadius: BorderRadius.all(
+                                      //                     Radius.circular(100),
+                                      //                   ),
+                                      //                 ),
+                                      //                 alignment: Alignment.center,
+                                      //
+                                      //                 //Image
+                                      //                 child: Image.asset(
+                                      //                   'assets/pics/cattle.png',
+                                      //                   width: 40,
+                                      //                   height: 40,
+                                      //                 ),
+                                      //               ),
+                                      //             ),
+                                      //           ],
+                                      //         ),
+                                      //         Container(
+                                      //             width:
+                                      //                 MediaQuery.of(context).size.width -
+                                      //                     67)
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      //   onTap: () {
+                                      //     setState(() {
+                                      //       _payload = 4;
+                                      //     });
+                                      //   },
+                                      // ),
+
+                                      //Others (Special)
+                                      //ListTile
+                                      InkWell(
+                                        child: AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 250),
+                                          height: 91,
+                                          alignment: Alignment.centerLeft,
+                                          decoration: BoxDecoration(
+                                            color: _payload == 5
+                                                ? const Color(0xffEEEEEE)
+                                                : const Color(
+                                                    0xffFFFFFF), //Original listtile Color
+                                            //color: Colors.transparent,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(13.0)),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      // ignore: prefer_const_literals_to_create_immutables
+                                                      children: [
+                                                        //Title
+                                                        const Text(
+                                                          'خاص (أخرى)',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Color(
+                                                                0xff191F28),
+                                                          ),
+                                                        ),
+
+                                                        //SizedBox
+                                                        const SizedBox(
+                                                            height: 5),
+
+                                                        //SubText
+                                                        const Text(
+                                                          'غالبا ما تستخدم لنقل (مواد)',
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          style: TextStyle(
+                                                            fontSize: 10,
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            color: Color(
+                                                                0xff6C6C6C),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            14.0),
+                                                    child: Container(
+                                                      width: 55,
+                                                      height: 49,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        //color: Colors.transparent,
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(100),
+                                                        ),
+                                                      ),
+                                                      alignment:
+                                                          Alignment.center,
+
+                                                      //Image
+                                                      child: Image.asset(
+                                                        'assets/pics/others.png',
+                                                        width: 40,
+                                                        height: 40,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      67)
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _payload = 5;
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: typeButtonHeight()),
+                                  Next('متابعة')
+                                ],
+                              ),
+                            )
+                          : num == 3
+                              ? SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          //Metal Payload
+                                          //ListTile
+                                          //حديد
+                                          InkWell(
+                                            child: AnimatedContainer(
+                                              duration: const Duration(
+                                                  milliseconds: 250),
+                                              height: 91,
+                                              alignment: Alignment.centerLeft,
+                                              decoration: BoxDecoration(
+                                                color: _payload == 2
+                                                    ? const Color(0xffEEEEEE)
+                                                    : const Color(
+                                                        0xffFFFFFF), //Original listtile Color
+                                                //color: Colors.transparent,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(13.0)),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            //Title
+                                                            const Text(
+                                                              'حمولة حديد',
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color(
+                                                                    0xff191F28),
+                                                              ),
+                                                            ),
+
+                                                            //SizedBox
+                                                            const SizedBox(
+                                                                height: 5),
+
+                                                            //SubText
+                                                            const Text(
+                                                              'غالبا ما تستخدم لنقل (مواد)',
+                                                              textDirection:
+                                                                  TextDirection
+                                                                      .rtl,
+                                                              style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                color: Color(
+                                                                    0xff6C6C6C),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(14.0),
+                                                        child: Container(
+                                                          width: 55,
+                                                          height: 49,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            //color: Colors.transparent,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  100),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+
+                                                          //Image
+                                                          child: Image.asset(
+                                                            'assets/pics/metal.png',
+                                                            width: 40,
+                                                            height: 40,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              67)
+                                                ],
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                _payload = 2;
+                                              });
+                                            },
+                                          ),
+
+                                          //package payload
+                                          //ListTile
+                                          //بضائع
+                                          InkWell(
+                                            child: AnimatedContainer(
+                                              duration: const Duration(
+                                                  milliseconds: 250),
+                                              height: 91,
+                                              alignment: Alignment.centerLeft,
+                                              decoration: BoxDecoration(
+                                                color: _payload == 3
+                                                    ? const Color(0xffEEEEEE)
+                                                    : const Color(
+                                                        0xffFFFFFF), //Original listtile Color
+                                                //color: Colors.transparent,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(13.0)),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: const [
+                                                            //Title
+                                                            Text(
+                                                              'حمولة بضائع',
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color(
+                                                                    0xff191F28),
+                                                              ),
+                                                            ),
+
+                                                            //SizedBox
+                                                            SizedBox(height: 5),
+
+                                                            //SubText
+                                                            Text(
+                                                              'غالبا ما تستخدم لنقل (الطعام)',
+                                                              textDirection:
+                                                                  TextDirection
+                                                                      .rtl,
+                                                              style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                color: Color(
+                                                                    0xff6C6C6C),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(14.0),
+                                                        child: Container(
+                                                          width: 55,
+                                                          height: 49,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            //color: Colors.transparent,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  100),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+
+                                                          //Image
+                                                          child: Image.asset(
+                                                            'assets/pics/package.png',
+                                                            width: 40,
+                                                            height: 40,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              67)
+                                                ],
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                _payload = 3;
+                                              });
+                                            },
+                                          ),
+
+                                          //cattle payload
+                                          //ListTile
+                                          //مواشي
+                                          InkWell(
+                                            child: AnimatedContainer(
+                                              duration: const Duration(
+                                                  milliseconds: 250),
+                                              height: 91,
+                                              alignment: Alignment.centerLeft,
+                                              decoration: BoxDecoration(
+                                                color: _payload == 4
+                                                    ? const Color(0xffEEEEEE)
+                                                    : const Color(
+                                                        0xffFFFFFF), //Original listtile Color
+                                                //color: Colors.transparent,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(13.0)),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: const [
+                                                            //Title
+                                                            Text(
+                                                              'حمولة مواشي',
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color(
+                                                                    0xff191F28),
+                                                              ),
+                                                            ),
+
+                                                            //SizedBox
+                                                            SizedBox(height: 5),
+
+                                                            //SubText
+                                                            Text(
+                                                              'غالبا ما تستخدم لنقل (الطعام)',
+                                                              textDirection:
+                                                                  TextDirection
+                                                                      .rtl,
+                                                              style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                color: Color(
+                                                                    0xff6C6C6C),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(14.0),
+                                                        child: Container(
+                                                          width: 55,
+                                                          height: 49,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            //color: Colors.transparent,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  100),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+
+                                                          //Image
+                                                          child: Image.asset(
+                                                            'assets/pics/cattle.png',
+                                                            width: 40,
+                                                            height: 40,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              67)
+                                                ],
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                _payload = 4;
+                                              });
+                                            },
+                                          ),
+
+                                          //Others (Special)
+                                          //ListTile
+                                          InkWell(
+                                            child: AnimatedContainer(
+                                              duration: const Duration(
+                                                  milliseconds: 250),
+                                              height: 91,
+                                              alignment: Alignment.centerLeft,
+                                              decoration: BoxDecoration(
+                                                color: _payload == 5
+                                                    ? const Color(0xffEEEEEE)
+                                                    : const Color(
+                                                        0xffFFFFFF), //Original listtile Color
+                                                //color: Colors.transparent,
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(13.0)),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          // ignore: prefer_const_literals_to_create_immutables
+                                                          children: [
+                                                            //Title
+                                                            const Text(
+                                                              'خاص (أخرى)',
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color(
+                                                                    0xff191F28),
+                                                              ),
+                                                            ),
+
+                                                            //SizedBox
+                                                            const SizedBox(
+                                                                height: 5),
+
+                                                            //SubText
+                                                            const Text(
+                                                              'غالبا ما تستخدم لنقل (مواد)',
+                                                              textDirection:
+                                                                  TextDirection
+                                                                      .rtl,
+                                                              style: TextStyle(
+                                                                fontSize: 10,
+                                                                fontFamily:
+                                                                    'Montserrat',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w300,
+                                                                color: Color(
+                                                                    0xff6C6C6C),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(14.0),
+                                                        child: Container(
+                                                          width: 55,
+                                                          height: 49,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            //color: Colors.transparent,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  100),
+                                                            ),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+
+                                                          //Image
+                                                          child: Image.asset(
+                                                            'assets/pics/others.png',
+                                                            width: 40,
+                                                            height: 40,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              67)
+                                                ],
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                _payload = 5;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: typeButtonHeight()),
+                                      Next('متابعة')
+                                    ],
+                                  ),
+                                )
+                              : Container()
+                ],
+              ),
+            ),
+          ],
+        );
+      } else if (type == 'time') {
         return ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -3210,9 +3529,8 @@ int num = 0;
                     ],
                   ),
 
-                  SizedBox(
-                      height:
-                          timeButtonHeight()), //todo:make sure to check this when u go to android
+                  SizedBox(height: timeButtonHeight()),
+                  //todo:make sure to check this when u go to android
 
                   Next('متابعة'),
                 ],
@@ -3220,8 +3538,7 @@ int num = 0;
             ),
           ],
         );
-      }
-      else if (type == 'note') {
+      } else if (type == 'note') {
         _note = 1;
         return ListView(
           padding: EdgeInsets.zero,
@@ -3318,20 +3635,16 @@ int num = 0;
 
                                     //Note is Optional so no need to check
 
-                                    validator: (value){
-                                      if(value!.isEmpty || value == null)
-                                      {
+                                    validator: (value) {
+                                      if (value!.isEmpty || value == null) {
                                         setState(() {
                                           TextError = false;
                                         });
-                                        return'اكتب شيئا';
-                                      }
-                                      else
-                                        setState(()
-                                        {
+                                        return 'اكتب شيئا';
+                                      } else
+                                        setState(() {
                                           TextError = false;
                                         });
-
                                     },
                                   ),
                                 )),
@@ -3349,8 +3662,7 @@ int num = 0;
             ),
           ],
         );
-      }
-      else {
+      } else {
         return const Text('Nothing more to Show');
       }
     }
@@ -3521,8 +3833,8 @@ int num = 0;
 
                       //التوقيت
                       InkWell(
-                        child: OptionsTime(
-                            TimeText(_time), TimeIcon(_time), TimeNum(_time)),
+                        child: OptionsTime(TimeText(_time), TimeIcon(_time),
+                            TimeNum(_time), DateTime(_date)),
                         onTap: () {
                           setState(() {
                             MaxHe = 780;
@@ -3540,8 +3852,8 @@ int num = 0;
 
                       //Note to the Driver
                       InkWell(
-                        child: Options(NoteText(_note), NoteIcon(_note),
-                            Notearrow(_note)),
+                        child: Options(
+                            NoteText(_note), NoteIcon(_note), Notearrow(_note)),
                         onTap: () {
                           setState(() {
                             MaxHe = 500;
