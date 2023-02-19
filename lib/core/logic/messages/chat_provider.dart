@@ -4,24 +4,24 @@ import '../../../models/chat/content_message.dart';
 import '../../../models/chat/inbox_model.dart';
 import '../../../models/chat/message.dart';
 import '../../utilities/api_path.dart';
-import '../../utilities/api_service.dart';
+import '../../utilities/dio_helper.dart';
 
 class ChatProvider extends ChangeNotifier {
   bool isGetInbox = false;
   bool isGetConversation = false;
   bool isSentMessage = false;
   bool isReadMessage = false;
-  List<Inbox> inboxMessage = [];
+  List<ChatListResponse> inboxMessage = [];
   Future<void> getInbox({int? userId}) async {
     isGetInbox = true;
     // notifyListeners();
     try {
-      var response = await DioManager().get(
-        '${AppApiPaths.base}api/v1/messenger/Conversation?SenderId=2&receiverId=1',
+      var response = await DioHelper.getData(
+         url: '${AppApiPaths.base}/api/v1/messenger/inbox?user_id=$userId',
       );
       print(response);
       inboxMessage =
-          (response as List<dynamic>).map((e) => Inbox.fromJson(e)).toList();
+          (response as List<dynamic>).map((e) => ChatListResponse.fromJson(e)).toList();
 
       isGetInbox = false;
       notifyListeners();
@@ -36,8 +36,8 @@ class ChatProvider extends ChangeNotifier {
     // notifyListeners();
 
     try {
-      var response = await DioManager().get(
-        '${AppApiPaths.base}/api/v1/messenger/inbox?user_id=2',
+      var response = await DioHelper.getData(
+       url: '${AppApiPaths.base}/api/v1/messenger/inbox?user_id=2',
       );
 
       messages =
@@ -55,8 +55,8 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().post(
-          '${AppApiPaths.base}/api/v1/messenger/Send_message',
+      var response = await DioHelper.postData(
+         url: '${AppApiPaths.base}/api/v1/messenger/Send_message',
           data: contentMessage!.toJson());
       print(response);
       getMesages(
@@ -77,8 +77,8 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().post(
-          '${AppApiPaths.base}/api/v1/messenger/Read_message',
+      var response = await DioHelper.postData(
+        url:  '${AppApiPaths.base}/api/v1/messenger/Read_message',
           data: {"Hash_id": "1-2-2023-01-15 00:18:40"});
       print(response);
 

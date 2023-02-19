@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/order_list.dart';
 import '../../../../models/order_model.dart';
 import '../../../utilities/api_path.dart';
-import '../../../utilities/api_service.dart';
+import '../../../utilities/dio_helper.dart';
 
 class OrderProvider extends ChangeNotifier {
   bool isLoading = false;
@@ -15,7 +15,7 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().get(
+      var response = await DioHelper.getData(url:
         '${AppApiPaths.base}/api/v1/user/GetOrders',
       );
       orders =
@@ -38,7 +38,7 @@ class OrderProvider extends ChangeNotifier {
 
     try {
       var response =
-          await DioManager().post('${AppApiPaths.base}/api/v1/order', data: {
+          await DioHelper.postData(url: '${AppApiPaths.base}/api/v1/order', data: {
         "Driver_ID": 5,
         "Date_of_Order": "2023-01-13",
         "Distination": {"lant": 30.0817441, "long": 31.2365508},
@@ -66,9 +66,10 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .post('${AppApiPaths.base}/api/v1/order/AcceptOrder', data: {
-        {"id": 6}
+      var response = await DioHelper
+          .postData(url:'${AppApiPaths.base}/api/v1/order/AcceptOrder',
+          data: {
+        "id": 6
       });
 
       isLoading = false;
@@ -87,9 +88,9 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .post('${AppApiPaths.base}/api/v1/order/CancelOrder', data: {
-        {"id": 6}
+      var response = await DioHelper
+          .postData(url:'${AppApiPaths.base}/api/v1/order/CancelOrder', data: {
+        "id": 6
       });
 
       isLoading = false;
@@ -108,9 +109,9 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .post('${AppApiPaths.base}/api/v1/order/CompleteOrder', data: {
-        {"id": 6}
+      var response = await DioHelper
+          .postData(url:'${AppApiPaths.base}/api/v1/order/CompleteOrder', data: {
+        "id": 6
       });
 
       isLoading = false;
@@ -129,12 +130,12 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .post('${AppApiPaths.base}/api/v1/order/UpdateLocation', data: {
+      var response = await DioHelper
+          .postData(url:'${AppApiPaths.base}/api/v1/order/UpdateLocation', data:
         {
           "location": {"lant": 30.0812558, "long": 31.2511902},
           "id": 6
-        }
+
       });
 
       isLoading = false;
@@ -153,12 +154,12 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .get('${AppApiPaths.base}/api/v1/order/UpdateLocation', data: {
+      var response = await DioHelper
+          .getData(url:'${AppApiPaths.base}/api/v1/order/UpdateLocation', data:
         {
           "location": {"lant": 30.0812558, "long": 31.2511902},
           "id": 6
-        }
+
       });
 
       isLoading = false;
@@ -177,8 +178,8 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .get('${AppApiPaths.base}/api/v1/order/DriversToDeliver', data: {
+      var response = await DioHelper
+          .getData(url:'${AppApiPaths.base}/api/v1/order/DriversToDeliver', data: {
         {"lan": 30.0812558, "lon": 31.2511902, "Range": range}
       });
 

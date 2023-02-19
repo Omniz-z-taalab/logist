@@ -10,16 +10,16 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../core/logic/layout/order/order_provider.dart';
 
-class ordersListv2 extends StatefulWidget {
-  ordersListv2({Key? key, this.isLoading = true}) : super(key: key);
+class Orders extends StatefulWidget {
+  Orders({Key? key, this.isLoading = true}) : super(key: key);
   bool isLoading;
 
   @override
-  State<ordersListv2> createState() => _ordersListv2State(isLoading);
+  State<Orders> createState() => _OrdersState(isLoading);
 }
 
-class _ordersListv2State extends State<ordersListv2> {
-  _ordersListv2State(this.isLoading);
+class _OrdersState extends State<Orders> {
+  _OrdersState(this.isLoading);
 
   //PageView
   final controller = PageController(initialPage: 1);

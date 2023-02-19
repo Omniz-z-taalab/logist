@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'PickupPlace2.dart';
 import 'variables.dart';
 import '../widgets/Location_service.dart';
-import '../pages/Home_and_location/PickupPlace.dart';
+import '../pages/Navigation_bar/PickupPlace.dart';
 
 
 

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../utilities/api_service.dart';
+import '../../utilities/dio_helper.dart';
 
 import '../../../models/viecle_model.dart';
 import '../../utilities/api_path.dart';
@@ -23,13 +23,13 @@ class VieclesProvider extends ChangeNotifier {
 
     try {
       var response =
-          await DioManager().post('${AppApiPaths.base}/api/v1/viecles/', data: {
+          await DioHelper.postData(url:'${AppApiPaths.base}/api/v1/viecles/', data: {
         "name": "v-three",
         "desc": "test v-one",
         "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
       });
 
-      showToast(response['msg'], true, true);
+      showToast(response.data['msg'], true, true);
 
       isAddViecle = false;
       notifyListeners();
@@ -46,8 +46,9 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      Response response = await DioManager().get(
-        '${AppApiPaths.base}/api/v1/viecles/',
+      Response response = await DioHelper.getData(
+
+        url: '${AppApiPaths.base}/api/v1/viecles/',
       );
       // viecles=(response.data as List<dynamic>).map((e){Viecle.fromJson(e)}).toList();
       print(response.data);
@@ -67,14 +68,14 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .post('${AppApiPaths.base}/api/v1/viecles/Trailers', data: {
+      var response = await DioHelper
+          .postData(url:'${AppApiPaths.base}/api/v1/viecles/Trailers', data: {
         "name": "t-one",
         "desc": "test t-one",
         "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
       });
 
-      showToast(response['msg'], true, true);
+      showToast(response.data['msg'], true, true);
 
       isAddTrailer = false;
       notifyListeners();
@@ -91,8 +92,8 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      Response response = await DioManager().get(
-        '${AppApiPaths.base}/api/v1/viecles/Trailers',
+      Response response = await DioHelper.getData(
+       url:'${AppApiPaths.base}/api/v1/viecles/Trailers',
       );
       // viecles=(response.data as List<dynamic>).map((e){Viecle.fromJson(e)}).toList();
       print(response.data);
@@ -112,14 +113,14 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .post('${AppApiPaths.base}/api/v1/viecles/TrailerTypes', data: {
+      var response = await DioHelper
+          .postData(url:'${AppApiPaths.base}/api/v1/viecles/TrailerTypes', data: {
         "name": "tt-one",
         "desc": "test v-one",
         "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
       });
 
-      showToast(response['msg'], true, true);
+      showToast(response.data['msg'], true, true);
 
       isAddTrailer = false;
       notifyListeners();
@@ -136,8 +137,8 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      Response response = await DioManager().get(
-        '${AppApiPaths.base}/api/v1/viecles/TrailerTypes?name=tt-three',
+      Response response = await DioHelper.getData(
+       url: '${AppApiPaths.base}/api/v1/viecles/TrailerTypes?name=tt-three',
       );
       // viecles=(response.data as List<dynamic>).map((e){Viecle.fromJson(e)}).toList();
       print(response.data);

@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/response/response.dart';
 import '../../../../models/user_model.dart';
 
 import '../../../local/cache_helper.dart';
 import '../../../utilities/api_path.dart';
-import '../../../utilities/api_service.dart';
+import '../../../utilities/dio_helper.dart';
 
 class ProfileProvider extends ChangeNotifier {
   bool isLoading = false;
@@ -18,19 +19,23 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> updateUser(UserModel userModel) async {
     isLoading = true;
     notifyListeners();
+    print('4444444444444444444');
+    print(userModel!.fullName);
 
     try {
       var response =
-          await DioManager().post('${AppApiPaths.base}/api/v1/user/', data: {
-        "FullName": userModel.fullName ?? "",
+          await DioHelper.postData(url:'/api/v1/user/',
+              data: {
+        "FullName": userModel.fullName ,
         "phonenumber": userModel.phoneNumber,
         "adrress": userModel.adrress,
         "email": userModel.email
       });
-      // print(response);
-      userModel = UserModel.fromJson(response);
+      print('6666666666666');
+      print(response);
+      userModel = UserModel.fromJson(response.data);
       showToast("تم تعديل بنجاج", true, true);
-      // getUser();
+       getUser();
 
       isLoading = false;
       notifyListeners();
@@ -44,18 +49,12 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> getUser() async {
     isLoading = true;
     notifyListeners();
-
     try {
-      String? token = CacheHelper.getData(key:'accessToken');
-      print(token);
-      var response = await DioManager().get(
-        '${AppApiPaths.base}/api/v1/user/',
+      var response = await DioHelper.getData(
+        url: '/api/v1/user/',
       );
-       print(response);
-       print('3333333333333333');
-       print(token);
-       print('3333332222222');
-      userModel = UserModel.fromJson(response);
+
+      userModel = UserModel.fromJson(response.data);
       isLoading = false;
         name = userModel!.fullName;
       notifyListeners();
@@ -66,24 +65,24 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> uploadDocs({File? file}) async {
-    isLoadingFile = true;
-    notifyListeners();
-
-    // try {
-    var response = await DioManager().uploadFiles(
-        '${AppApiPaths.base}/api/v1/auth/UploadDocument',
-        file: file!);
-    print(response);
-    return response['url'];
-    // userModel = UserModel.fromJson(json.decode(response));
-
-    //   isLoadingFile = false;
-    //   notifyListeners();
-    // } catch (error) {
-    //   isLoadingFile = false;
-    //   // notifyListeners();
-    //   // return isExist!;
-    // }
-  }
+  // Future<String> uploadDocs({File? file}) async {
+  //   isLoadingFile = true;
+  //   notifyListeners();
+  //
+  //   // try {
+  //   var response = await DioManager().uploadFiles(
+  //       '${AppApiPaths.base}/api/v1/auth/UploadDocument',
+  //       file: file!);
+  //   print(response);
+  //   return response['url'];
+  //   // userModel = UserModel.fromJson(json.decode(response));
+  //
+  //   //   isLoadingFile = false;
+  //   //   notifyListeners();
+  //   // } catch (error) {
+  //   //   isLoadingFile = false;
+  //   //   // notifyListeners();
+  //   //   // return isExist!;
+  //   // }
+  // }
 }

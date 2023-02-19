@@ -1,15 +1,17 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import '../../models/user_model.dart';
 import '../../others/variables.dart';
-import 'Settings.dart';
+import '../Navigation_bar/Settings.dart';
 import '../../widgets/Texts.dart';
 import 'package:provider/provider.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../../core/logic/layout/profile/profile_provider.dart';
-
+enum ImageSourceType { gallery, camera }
 class profile extends StatefulWidget {
   const profile({Key? key, this.userModel}) : super(key: key);
   final UserModel? userModel;
@@ -20,8 +22,27 @@ class profile extends StatefulWidget {
 
 class _profileState extends State<profile> {
   //------------------------Costume Widgets------------------------
+  var _image;
+  var imagePicker;
+  var type;
 
+  ImagePicker picker = ImagePicker();
+  // Future pickImage() async {
+  //   try {
+  //     final image = await picker.pickImage(source: ImageSource.gallery);
+  //     if(image == null) return;
+  //     final imageTemp = File(image.path);
+  //     setState(() => this.image = imageTemp);
+  //   } on PlatformException catch(e) {
+  //     print('Failed to pick image: $e');
+  //   }
+  // }
   //Profile picture
+  _openCamera(BuildContext context) async{
+    var picture =await ImagePicker().getImage(source: ImageSource.camera);
+    setState(() {
+      _image = picture;
+    });}
   Widget Profile_pic() {
     return Column(
       children: [
@@ -34,8 +55,10 @@ class _profileState extends State<profile> {
             // backgroundColor: Colors.white,
             radius: 50,
             child: Center(
-              child: Text(
-                context
+              child:
+              Text(
+
+                 context
                     .read<ProfileProvider>()
                     .userModel!
                     .fullName!.split('')[0].toUpperCase(),
@@ -43,7 +66,7 @@ class _profileState extends State<profile> {
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
+              )
               // ),
             ),
           ),
@@ -72,9 +95,8 @@ class _profileState extends State<profile> {
             ),
             textAlign: TextAlign.right,
           ),
-          onPressed: () {
-            print('User want to change  his pic');
-          },
+          onPressed: ()async {
+    print('User want to change  his pic');}
         ),
       ],
     );
@@ -104,6 +126,7 @@ class _profileState extends State<profile> {
       setUserphone(phonenum);
       print(phonenum);
       setUsername(tmpname);
+      context.read<ProfileProvider>().updateUser(widget.userModel!);
     });
   }
 

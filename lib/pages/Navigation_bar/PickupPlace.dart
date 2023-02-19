@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../../others/TextPage2.dart';
 import '../../others/variables.dart';
-import 'Home_package_active.dart';
+import '../Home_and_location/Home_package_active.dart';
 import '../../widgets/Location_service.dart';
 import '../../widgets/SearchAPI.dart';
 

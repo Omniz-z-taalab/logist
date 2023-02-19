@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:logist/core/utilities/dio_helper.dart';
 import 'package:logist/pages/MainHomePage.dart';
 import 'package:logist/pages/Order_Setup/ChooseExtentions.dart';
 import 'others/Splash.dart';
@@ -9,9 +10,12 @@ import 'core/dependencies/bloc_provider.dart';
 import 'core/local/cache_helper.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  CacheHelper.init();
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
+  DioHelper.init();
+
+  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }

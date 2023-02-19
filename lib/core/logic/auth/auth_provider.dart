@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../local/cache_helper.dart';
 
-import '../../utilities/api_service.dart';
+import '../../utilities/dio_helper.dart';
 
 import '../../../models/driver_model.dart';
 import '../../utilities/api_path.dart';
@@ -38,18 +38,19 @@ class AuthProvider extends ChangeNotifier {
       print(phoneNumber);
       print('11111111111111');
       try {
-      var response = await DioManager().post(
-          '${AppApiPaths.base}/api/v1/auth/CheckIfUserExists',
-          data: {"phonenumber": phoneNumber},
+      Response response = await DioHelper.postData(
+         url: '/api/v1/auth/CheckIfUserExists',
+          data:  {"phonenumber": phoneNumber},
       );
       print('33333333333');
       print(response);
-      isExist = response['already'];
+      isExist = response.data['already'];
 
       isLoading = false;
       notifyListeners();
       return isExist!;
     } catch (error) {
+        print(error);
       isLoading = false;
        notifyListeners();
       return isExist!;
@@ -61,16 +62,20 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().post(
-          '${AppApiPaths.base}/api/v1/auth/VerifyNumber',
+      var response = await DioHelper.postData(
+
+        url:'/api/v1/auth/VerifyNumber',
           data: {"phonenumber": phoneNumber, "key": key},
-          isAuth: false);
+      );
       print(response);
-      isVerify = response['Verified'];
+      isVerify = response.data['Verified'];
+      print(response.data['accesToken']);
+
+      print('777777777');
       if (!isVerify) {
         showToast("الرمز غير صحيح", true, false);
       }
-
+      CacheHelper.putData(key: 'accessToken', value: response.data['accesToken']);
       isLoading = false;
       notifyListeners();
       return isVerify;
@@ -86,13 +91,14 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().post(
-          '${AppApiPaths.base}/api/v1/auth/Verify',
+      var response = await DioHelper.postData(
+
+        url: '${AppApiPaths.base}/api/v1/auth/Verify',
           data: {"phonenumber": phoneNumber},
-          isAuth: false);
+          );
       print(response);
-      isExist = response;
-      String? tokeeeeeeeen = CacheHelper.getData(key: 'accessToken');
+      isExist = response.data;
+      String? tokeeeeeeeen = CacheHelper.getData(key: 'accesToken');
       print(tokeeeeeeeen);
       print(tokeeeeeeeen);
       print('tokeeeeeeeeeeeeeeeeeeeeeeeeeen is');
@@ -113,7 +119,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       var response =
-          await DioManager().post('${AppApiPaths.base}/api/v1/auth/regester',
+          await DioHelper.postData(url:'${AppApiPaths.base}/api/v1/auth/regester',
               data: {
                 "FullName": name ,
                 "phonenumber": "+20$phone" ,
@@ -128,7 +134,7 @@ class AuthProvider extends ChangeNotifier {
       print(email);
       print(name);
         print('322222');
-      CacheHelper.putData(key: 'accessToken', value: response['accesToken']);
+      CacheHelper.putData(key: 'accessToken', value: response.data['accesToken']);
       isLoading = false;
       String? tokeeeeeeeen = CacheHelper.getData(key: 'accessToken');
       print(tokeeeeeeeen);
@@ -149,13 +155,13 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().post('${AppApiPaths.base}/api/v1/auth/',
+      var response = await DioHelper.postData(url:'${AppApiPaths.base}/api/v1/auth/',
           data: {"phonenumber": phoneNumber, "key": key});
       print(response);
       print('true');
       // isVerify = response['Verified'];
-      if (response['accesToken'] != null) {
-        CacheHelper.putData(key: 'accessToken', value: response['accesToken']);
+      if (response.data['accesToken'] != null) {
+        CacheHelper.putData(key: 'accessToken', value: response.data['accesToken']);
         isVerify = true;
       } else {
         isVerify = false;
@@ -178,8 +184,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager()
-          .post('${AppApiPaths.base}/api/v1/auth/driverRegester',
+      var response = await DioHelper
+          .postData(url:'${AppApiPaths.base}/api/v1/auth/driverRegester',
               data: {
                 "FullName": "test driver",
                 "phonenumber": "+201098032881",
@@ -200,10 +206,10 @@ class AuthProvider extends ChangeNotifier {
                 "TrailerIds": 2,
                 "TrailerTypeIds": 3
               },
-              isAuth: false);
+              );
       print(response);
 
-      CacheHelper.putData(key: 'accessToken', value: response['accesToken']);
+      CacheHelper.putData(key: 'accessToken', value: response.data['accesToken']);
 
       isLoading = false;
       notifyListeners();

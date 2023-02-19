@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/logic/messages/chat_provider.dart';
-import '../../others/variables.dart';
-import '../Order_Setup/messages.dart';
+import '../../../core/logic/messages/chat_provider.dart';
+import '../../../others/variables.dart';
+import '../../Order_Setup/messages.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../core/logic/layout/profile/profile_provider.dart';
+import '../../../core/logic/layout/profile/profile_provider.dart';
 
 class conversationsList extends StatefulWidget {
   const conversationsList({Key? key}) : super(key: key);
@@ -22,50 +22,6 @@ class conversationsList extends StatefulWidget {
 class _conversationsListState extends State<conversationsList> {
   final ApanelController = PanelController();
 
-  // final int _selectedIndex = 0;
-
-  // bool isLoading = true;
-
-  // var Names = [
-  //   'محمد أشرف',
-  //   'خالد نوري',
-  //   'محمد رمضان',
-  //   'هيثم  بن الحسين',
-  //   'عبد المجيد سعيد',
-  //   'سيف الدين مفتاح',
-  //   'مصطفى نجيب',
-  // ];
-
-  // var Texts = [
-  //   'مرحبا اخوي لقد تم توصيل الشحنة بنجاح',
-  //   'مرحبا اخوي لقد تم توصيل الشحنة بنجاح',
-  //   'مرحبا اخوي لقد تم توصيل الشحنة بنجاح',
-  //   'مرحبا اخوي لقد تم توصيل الشحنة بنجاح',
-  //   'مرحبا اخوي لقد تم توصيل الشحنة بنجاح',
-  //   'مرحبا اخوي لقد تم توصيل الشحنة بنجاح',
-  //   'مرحبا اخوي لقد تم توصيل الشحنة بنجاح',
-  // ];
-
-  // var Pics = [
-  //   'assets/pics/user1.png',
-  //   'assets/pics/user2.png',
-  //   'assets/pics/user5.png',
-  //   'assets/pics/user3.png',
-  //   'assets/pics/user4.png',
-  //   'assets/pics/user6.png',
-  //   'assets/pics/user7.png',
-  // ];
-
-  // var Rating = [
-  //   true,
-  //   true,
-  //   false,
-  //   false,
-  //   false,
-  //   true,
-  //   false,
-  // ];
-  //Open Sliding bar
   void Open() {
     ApanelController.isPanelClosed ? ApanelController.open() : null;
   }
@@ -73,6 +29,7 @@ class _conversationsListState extends State<conversationsList> {
   @override
   void initState() {
     super.initState();
+    context.read<ProfileProvider>().getUser();
     context.read<ChatProvider>().getInbox();
 
     // done();

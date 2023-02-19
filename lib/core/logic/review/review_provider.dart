@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../utilities/api_service.dart';
+import '../../utilities/dio_helper.dart';
 
 import '../../../models/review.dart';
 import '../../utilities/api_path.dart';
@@ -14,10 +14,11 @@ class ReviewProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().get(
-          '${AppApiPaths.base}/api/v1/review/Reviews',
+      var response = await DioHelper.getData(
+
+        url:  '${AppApiPaths.base}/api/v1/review/Reviews',
           data: {"DriverId": 3});
-      review = Review.fromJson(response);
+      review = Review.fromJson(response.data);
 
       isLoading = false;
       notifyListeners();
@@ -32,11 +33,12 @@ class ReviewProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioManager().post(
-          '${AppApiPaths.base}/api/v1/review/AddReview',
+      var response = await DioHelper.postData(
+
+        url:'${AppApiPaths.base}/api/v1/review/AddReview',
           data: {"DriverId": 3, "Rating": 4});
       // review = Review.fromJson(response);
-      if (response['review_id'] != null) {
+      if (response.data['review_id'] != null) {
         showToast("Success", true, true);
       }
 

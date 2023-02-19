@@ -15,7 +15,7 @@ import '../MainHomePage.dart';
 import 'Details.dart';
 import 'OrderList.dart';
 import '../../widgets/Location_service.dart';
-import '../Home_and_location/PickupPlace.dart';
+import '../Navigation_bar/PickupPlace.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 

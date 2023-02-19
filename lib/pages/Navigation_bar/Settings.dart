@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../others/variables.dart';
-import 'Language.dart';
-import 'Logout.dart';
-import 'Notification.dart';
-import 'Profile.dart';
+import '../Menu_and_settings/Language.dart';
+import '../Menu_and_settings/Logout.dart';
+import '../Menu_and_settings/Notification.dart';
+import '../Menu_and_settings/Profile.dart';
 import '../Payments/PaymentPage.dart';
 import '../Support/Tickets.dart';
 import 'package:provider/provider.dart';
@@ -234,10 +234,10 @@ class _settingsState extends State<settings> {
   void initState() {
     super.initState();
     context.read<ProfileProvider>().getUser();
-    print(context.read<ProfileProvider>().getUser());
+    // print(context.read<ProfileProvider>().userModel!.fullName);
     print('rrrrrrr');
     // timer =
-    //     Timer.periodic(Duration(seconds: 15), (Timer t) => refreshSettings());
+    //     Timer.periodic(Duration(seconds: 1), (Timer t) => refreshSettings());
   }
 
   @override

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import '../core/logic/layout/profile/profile_provider.dart';
 import '../others/variables.dart';
 import 'Home_and_location/Home_Page.dart';
-import 'Home_and_location/PickupPlace.dart';
+import 'Navigation_bar/PickupPlace.dart';
 import 'Menu_and_settings/Notification.dart';
 import 'Menu_and_settings/Profile.dart';
-import 'Menu_and_settings/Settings.dart';
-import 'My_orders/ConversationsList.dart';
-import 'My_orders/OrdersListV2.dart';
+import 'Navigation_bar/Settings.dart';
+import 'Navigation_bar/Chats/ConversationsList.dart';
+import 'Navigation_bar/order_bar.dart';
 
 class mainHomePage extends StatefulWidget {
   const mainHomePage({Key? key}) : super(key: key);
@@ -55,7 +57,11 @@ class _mainHomePageState extends State<mainHomePage> {
       }
     });
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -552,7 +558,7 @@ class _mainHomePageState extends State<mainHomePage> {
                           } else if (index == 1) {
                             // SetDummyData();
                             Get.to(
-                              () => ordersListv2(),
+                              () => Orders(),
                             );
                           } else if (index == 2) {
                             Change();

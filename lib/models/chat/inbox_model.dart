@@ -1,4 +1,4 @@
-class Inbox {
+class ChatListResponse {
   int? receiverId;
   int? senderId;
   String? lastMessage;
@@ -8,17 +8,17 @@ class Inbox {
   String? name;
   String? profileImage;
 
-  Inbox(
+  ChatListResponse(
       {this.receiverId,
-      this.senderId,
-      this.lastMessage,
-      this.seen,
-      this.unseenNumber,
-      this.hash,
-      this.name,
-      this.profileImage});
+        this.senderId,
+        this.lastMessage,
+        this.seen,
+        this.unseenNumber,
+        this.hash,
+        this.name,
+        this.profileImage});
 
-  Inbox.fromJson(Map<String, dynamic> json) {
+  ChatListResponse.fromJson(Map<String, dynamic> json) {
     receiverId = json['receiverId'];
     senderId = json['SenderId'];
     lastMessage = json['lastMessage'];

@@ -17,7 +17,7 @@ import '../../models/chat/message.dart';
 
 class conversation extends StatefulWidget {
   const conversation({Key? key, required this.inbox}) : super(key: key);
-  final Inbox? inbox;
+  final ChatListResponse? inbox;
 
   @override
   State<conversation> createState() => _conversationState();
@@ -244,22 +244,22 @@ class _conversationState extends State<conversation> {
         setState(() {
           isLoading = true;
         });
-        uploadFile();
+        // uploadFile();
       }
     }
   }
 
-  void uploadFile() {
-    context.read<ProfileProvider>().uploadDocs(file: imageFile).then((value) {
-      context.read<ChatProvider>().sentMesages(
-          // senderId: widget.inbox!.senderId!,
-          // recieveId: widget.inbox!.receiverId,
-          contentMessage: ContentMessage(
-              senderId: widget.inbox!.senderId!,
-              receiverId: widget.inbox!.receiverId,
-              contentImage: value));
-    });
-  }
+  // void uploadFile() {
+  //   context.read<ProfileProvider>().uploadDocs(file: imageFile).then((value) {
+  //     context.read<ChatProvider>().sentMesages(
+  //         // senderId: widget.inbox!.senderId!,
+  //         // recieveId: widget.inbox!.receiverId,
+  //         contentMessage: ContentMessage(
+  //             senderId: widget.inbox!.senderId!,
+  //             receiverId: widget.inbox!.receiverId,
+  //             contentImage: value));
+  //   });
+  // }
 }
 //   void getSticker() {
 //     // Hide keyboard when sticker appear
