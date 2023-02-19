@@ -10,14 +10,14 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'Details.dart';
 
 
-class DummyorderInfo extends StatefulWidget {
-  const DummyorderInfo({Key? key}) : super(key: key);
+class OrderDetails extends StatefulWidget {
+  const OrderDetails({Key? key}) : super(key: key);
 
   @override
-  State<DummyorderInfo> createState() => _DummyorderInfoState();
+  State<OrderDetails> createState() => _OrderDetailsState();
 }
 
-class _DummyorderInfoState extends State<DummyorderInfo> {
+class _OrderDetailsState extends State<OrderDetails> {
 
 
 

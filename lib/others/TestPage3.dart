@@ -24,7 +24,7 @@ class MapSample3 extends StatefulWidget {
 late GoogleMapController googleMapController;
 
 class MapSample3State extends State<MapSample3> {
-  final String key = 'AIzaSyAmvScp6-pEERvH5CjkLJwQG7cxUh30Vno';
+  final String key = 'AIzaSyA8R2ZGRtTqb3ZaPFIGY2nxfWospmbfBTY';
 
   Future<List<String>> GetAddressName(double lat, double Long) async {
     final String url =
@@ -118,7 +118,7 @@ class MapSample3State extends State<MapSample3> {
     'يمكنك تحديد مكان التسليم يدوية أو البحث'
   ];
   bool DestSelected = false;
-  double BarHeight = 125.0; //Bar height
+  double BarHeight = 250.0; //Bar height
 
   // void getCurrentLocation() async {
   // //  Location location = Location();
@@ -239,62 +239,36 @@ class MapSample3State extends State<MapSample3> {
       zoom: 19.151926040649414);
 
   Widget Next(String par) => MaterialButton(
-        disabledColor: Color(0xff42484F).withOpacity(0.90),
-        color: On,
-        minWidth: double.infinity,
-        height: 60,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100.0),
+    disabledColor: Color(0xff42484F).withOpacity(0.90),
+    color: On,
+    minWidth: double.infinity,
+    height: 60,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(100.0),
+    ),
+    child: Container(
+      child: Text(
+        par,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+          fontFamily: 'Montserrat',
+          fontWeight: FontWeight.w500,
         ),
-        child: Container(
-          child: Text(
-            par,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        onPressed: !neterror
-            ? null
-            : () async {
-                //Button destination
-
-                var directions =
-                    await LocationService().getDirections(OrPoint, DesPoint);
-                var state = directions['status'];
-
-                if (state) {
-                  // //Getting Route Info
-                  Dummy = directions['popyline_decoded'];
-                  dmlat = directions['start_location']['lat'];
-                  dmlng = directions['start_location']['lng'];
-                  bounds_sw = directions['bounds_sw'];
-                  bounds_ne = directions['bounds_ne'];
-                  distance = directions['distance'].toString();
-
-                  Get.to(() => package_place2(),
-                      transition: Transition.rightToLeft);
-                } else {
-                  // setState(() {
-                  //   Titles[1] = "لم يتم العتور على أي مسار رحلة مناسب المرجو تغير نقاط الرحلة";
-                  // });
-
-                  Fluttertoast.showToast(
-                    msg:
-                        "لم يتم العتور على أي مسار رحلة مناسب المرجو تغير نقاط الرحلة",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 7,
-                    textColor: Colors.white,
-                    fontSize: 16.0,
-                  );
-                  print('No valid trip found');
-                }
-              },
+      ),
+    ),
+    onPressed: () {
+      //Button destination
+      // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
+      print(par);
+      Get.to(
+              ()=> package_place2(),
+          transition: Transition.rightToLeft
       );
+      print('Went to Map2');
+
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -362,7 +336,7 @@ class MapSample3State extends State<MapSample3> {
 
             AnimatedContainer(
               //Dimentions
-              height: BarHeight,
+              height: 200,
               width: double.infinity,
 
               //Animations
@@ -388,12 +362,12 @@ class MapSample3State extends State<MapSample3> {
 
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 25, left: 33, right: 33, bottom: 21),
+                    top: 15, left: 33, right: 33, bottom: 21),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      // height: 77,
+                      height: 77,
                       alignment: Alignment.centerLeft,
 
                       decoration: const BoxDecoration(
@@ -467,17 +441,11 @@ class MapSample3State extends State<MapSample3> {
                     ),
 
                     //Next Button
-                    AnimatedOpacity(
-                      // If the widget is visible, animate to 0.0 (invisible).
-                      // If the widget is hidden, animate to 1.0 (fully visible).
-                      opacity: !DestSelected ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 500),
-                      // The green box must be a child of the AnimatedOpacity widget.
+                    Container(
+                      child: !DestSelected ?  Container(height: 0,width: 0,):Next('أختر المكان') ,
 
-                      child: !DestSelected
-                          ? Next('أختر المكان')
-                          : Container(height: 0, width: 0),
-                    )
+
+              )
                   ],
                 ),
               ),

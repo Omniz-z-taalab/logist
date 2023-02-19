@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../others/variables.dart';
-import 'Register.dart';
+import 'chekUser.dart';
 import 's2.dart';
 import '../../widgets/Texts.dart';
 
@@ -148,7 +148,7 @@ class _s1State extends State<s1> {
                             )),
                         onPressed: () {
                           CacheHelper.putData(key: 'onBoarding', value: true);
-                          Get.to(() => Register(),
+                          Get.to(() => CheckUser(),
                               transition: Transition.rightToLeft);
                           // Reposition();
                         },

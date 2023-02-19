@@ -73,7 +73,7 @@ class _settingsState extends State<settings> {
 
           //User Name
           Text(
-            context.read<ProfileProvider>().userModel!.fullName!,
+            context.read<ProfileProvider>().name!,
             style: const TextStyle(
               fontFamily: 'Montserrat',
               height: 1.2,
@@ -234,6 +234,8 @@ class _settingsState extends State<settings> {
   void initState() {
     super.initState();
     context.read<ProfileProvider>().getUser();
+    print(context.read<ProfileProvider>().getUser());
+    print('rrrrrrr');
     // timer =
     //     Timer.periodic(Duration(seconds: 15), (Timer t) => refreshSettings());
   }
@@ -285,21 +287,21 @@ class _settingsState extends State<settings> {
 
                       SizedBox(height: 15),
                       //radios
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(13),
-                          color: Sbackground,
-                        ),
-                        child: Column(
-                          children: [
-                            radioOption('تفعيل التنبيهات',
-                                'assets/pics/notification.png', 'T', 1),
-                            radioOption('تفعيل الوضع الليلي',
-                                'assets/pics/sun.png', 'B', 2),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   width: double.infinity,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(13),
+                      //     color: Sbackground,
+                      //   ),
+                      //   child: Column(
+                      //     children: [
+                      //       radioOption('تفعيل التنبيهات',
+                      //           'assets/pics/notification.png', 'T', 1),
+                      //       radioOption('تفعيل الوضع الليلي',
+                      //           'assets/pics/sun.png', 'B', 2),
+                      //     ],
+                      //   ),
+                      // ),
 
                       //user options
                       Padding(

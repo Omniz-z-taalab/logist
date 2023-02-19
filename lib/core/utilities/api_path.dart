@@ -1,5 +1,5 @@
 class AppApiPaths {
-  static const String base = "https://logist99.herokuapp.com";
+  static const String base = "https://logist8768.herokuapp.com";
   static const String auth = '$base/api/v1/auth';
   static const String customer = '$base/customer';
   static const String subscribe = '$customer/subscribe';

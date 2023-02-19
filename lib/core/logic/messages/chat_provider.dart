@@ -15,10 +15,9 @@ class ChatProvider extends ChangeNotifier {
   Future<void> getInbox({int? userId}) async {
     isGetInbox = true;
     // notifyListeners();
-
     try {
       var response = await DioManager().get(
-        '${AppApiPaths.base}/api/v1/messenger/inbox?user_id=2',
+        '${AppApiPaths.base}api/v1/messenger/Conversation?SenderId=2&receiverId=1',
       );
       print(response);
       inboxMessage =
@@ -38,7 +37,7 @@ class ChatProvider extends ChangeNotifier {
 
     try {
       var response = await DioManager().get(
-        '${AppApiPaths.base}/api/v1/messenger/Conversation?SenderId=1&receiverId=2',
+        '${AppApiPaths.base}/api/v1/messenger/inbox?user_id=2',
       );
 
       messages =

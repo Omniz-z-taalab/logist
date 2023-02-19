@@ -35,7 +35,10 @@ class _profileState extends State<profile> {
             radius: 50,
             child: Center(
               child: Text(
-                widget.userModel!.fullName!.split('')[0].toUpperCase(),
+                context
+                    .read<ProfileProvider>()
+                    .userModel!
+                    .fullName!.split('')[0].toUpperCase(),
                 style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,

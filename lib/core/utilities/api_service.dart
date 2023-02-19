@@ -13,7 +13,6 @@ import 'intersiptor_log.dart';
 
 const _defaultConnectTimeout = Duration.millisecondsPerMinute;
 const _defaultReceiveTimeout = Duration.millisecondsPerMinute;
-
 class DioManager {
   Dio? _dio = Dio();
 
@@ -65,19 +64,21 @@ class DioManager {
       {data,
       Map<String, dynamic>? queryParameters,
       Options? options,
-      CancelToken? cancelToken,
+      // CancelToken? cancelToken,
       ProgressCallback? onReceiveProgress,
+         token,
       bool isAuth = true}) async {
     if (isAuth) {
       await authorize();
     }
+    String? token = CacheHelper.getData(key:'accessToken');
     try {
       var response = await _dio?.request(
         uri,
         data: data,
         queryParameters: queryParameters,
         options: Options(method: "GET"),
-        cancelToken: cancelToken,
+        // cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
       return  response?.data;

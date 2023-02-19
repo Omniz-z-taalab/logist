@@ -11,7 +11,7 @@
         android:label="logist">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAmvScp6-pEERvH5CjkLJwQG7cxUh30Vno" />
+            android:value="35eVGFE1Em4v9bviqonWkA6XZBDM41M" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

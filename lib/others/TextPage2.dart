@@ -100,58 +100,41 @@ class MapSample2State extends State<MapSample2> {
     target: LatLng(mylat!, mylng!),
     zoom: 15.4746,
   );
+  String SubDest = 'يمكنك تحديد مكان التسليم يدوية أو البحث';
 
   Future<List<String>> GetAddressName(double lat,double Long) async{
-    final String url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$Long&key=$key';
+    final String url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$Long&key=$key';
     try {
       var response = await http.get(Uri.parse(url));
+      var json = convert.jsonDecode(response.body);
+      print('Sent $lat , $Long');
+      print('Received $json');
+      var status = json['status'];
 
-      if (response.statusCode == 200) {
-        var json = convert.jsonDecode(response.body);
-        var status = json['status'];
-        print('Status is $status');
-        print('Sent $lat , $Long');
-        print('and Got $json');
-
-        if (status != 'ZERO_RESULTS') {
-          var placeId = json['results'][0]['formatted_address'];
-          var name = json['results'][0]['address_components'][3]['short_name'];
-          var address = json['plus_code']['compound_code'];
-          print(
-              '===================================================================');
-          print(name);
-          print(
-              '===================================================================');
-          SubOrigin = placeId;
-          //return [SubOrigin,SubOrigin];
-          return [name, address];
-        }
-        else {
-          var name = json['plus_code']['global_code'];
-          var address = json['plus_code']['compound_code'];
-          return [name, address];
-        }
-      } else if (response.statusCode == 404) {
-        var name = 'nothing';
-        var address = 'مشكل في الخادم';
-        return [name, address];
-      } else if (response.statusCode == 500) {
-        var name = 'nothing';
-        var address = 'مشكل في الخادم';
+      if (status != 'ZERO_RESULTS') {
+        var placeId = json['results'][0]['formatted_address'];
+        var name = json['results'][0]['address_components'][2]['short_name'];
+        var address = json['plus_code']['compound_code'];
+        print(
+            '===================================================================');
+        print(name);
+        print(address);
+        print(
+            '===================================================================');
+        SubDest = placeId;
+        //return [SubOrigin,SubOrigin];
         return [name, address];
       } else {
-        var name = 'nothing';
-        var address = 'مشكل في الخادم';
+        var name = json['plus_code']['global_code'];
+        var address = json['plus_code']['compound_code'];
         return [name, address];
       }
-    } catch (exception){
-
+    } catch (exception) {
       var name = 'nothing';
       var address = 'مشكلة في الإتصال بالإنترنت';
       return [name, address];
     }
-
-
 
   }
 
@@ -471,7 +454,7 @@ class MapSample2State extends State<MapSample2> {
                 child:
 
                   Padding(
-                    padding: const EdgeInsets.only(left: 33,right: 33,top: 25,bottom: 23),
+                    padding: const EdgeInsets.only(left: 33,right: 33,top: 25,bottom: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

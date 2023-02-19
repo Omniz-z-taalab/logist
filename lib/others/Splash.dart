@@ -6,7 +6,7 @@ import 'variables.dart';
 import '../pages/MainHomePage.dart';
 import '../pages/login/s1.dart';
 
-import '../pages/login/Register.dart';
+import '../pages/login/chekUser.dart';
 
 class splash extends StatefulWidget {
   const splash({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class _splashState extends State<splash> {
       CacheHelper.getData(key: 'onBoarding') == null
           ? Get.offAll(const s1())
           : CacheHelper.getData(key: 'accessToken') == null
-              ? Get.offAll(const Register())
+              ? Get.offAll(const CheckUser())
               : Get.offAll(const mainHomePage());
     });
   }

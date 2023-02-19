@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../../../models/user_model.dart';
 
+import '../../../local/cache_helper.dart';
 import '../../../utilities/api_path.dart';
 import '../../../utilities/api_service.dart';
 
@@ -12,6 +13,7 @@ class ProfileProvider extends ChangeNotifier {
   bool isLoadingFile = false;
   bool? isExist = false;
   UserModel? userModel;
+    String? name;
 
   Future<void> updateUser(UserModel userModel) async {
     isLoading = true;
@@ -44,13 +46,18 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      String? token = CacheHelper.getData(key:'accessToken');
+      print(token);
       var response = await DioManager().get(
         '${AppApiPaths.base}/api/v1/user/',
       );
-      // print(response);
+       print(response);
+       print('3333333333333333');
+       print(token);
+       print('3333332222222');
       userModel = UserModel.fromJson(response);
-
       isLoading = false;
+        name = userModel!.fullName;
       notifyListeners();
     } catch (error) {
       isLoading = false;

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'Name.dart';
+import 'register.dart';
 import '../../widgets/Texts.dart';
 import '../../others/variables.dart';
 import 'package:provider/provider.dart';

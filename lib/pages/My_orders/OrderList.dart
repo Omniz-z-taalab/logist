@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/pages/My_orders/DummyOnGoing.dart';
-import 'package:logist/pages/My_orders/DummyOrderInfo.dart';
+import 'package:logist/pages/My_orders/order_details.dart';
 import 'package:logist/pages/Order_Setup/OrderMap.dart';
 import 'package:logist/widgets/Location_service.dart';
 import 'package:shimmer/shimmer.dart';
@@ -356,7 +356,7 @@ class _OrderListState extends State<OrderList> {
             );
           else
             Get.to(
-                    () => DummyorderInfo(),
+                    () => OrderDetails(),
                 transition: Transition.rightToLeft
             );
 

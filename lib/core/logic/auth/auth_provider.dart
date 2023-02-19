@@ -35,12 +35,14 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> existsUser({String? phoneNumber}) async {
     isLoading = true;
     notifyListeners();
-
-    try {
+      print(phoneNumber);
+      print('11111111111111');
+      try {
       var response = await DioManager().post(
           '${AppApiPaths.base}/api/v1/auth/CheckIfUserExists',
-          data: {"phonenumber": "+201277856368"},
-          isAuth: false);
+          data: {"phonenumber": phoneNumber},
+      );
+      print('33333333333');
       print(response);
       isExist = response['already'];
 
@@ -49,7 +51,7 @@ class AuthProvider extends ChangeNotifier {
       return isExist!;
     } catch (error) {
       isLoading = false;
-      // notifyListeners();
+       notifyListeners();
       return isExist!;
     }
   }
@@ -61,7 +63,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       var response = await DioManager().post(
           '${AppApiPaths.base}/api/v1/auth/VerifyNumber',
-          data: {"phonenumber": "+201277856368", "key": key},
+          data: {"phonenumber": phoneNumber, "key": key},
           isAuth: false);
       print(response);
       isVerify = response['Verified'];
@@ -86,11 +88,14 @@ class AuthProvider extends ChangeNotifier {
     try {
       var response = await DioManager().post(
           '${AppApiPaths.base}/api/v1/auth/Verify',
-          data: {"phonenumber": "+201277856368"},
+          data: {"phonenumber": phoneNumber},
           isAuth: false);
       print(response);
       isExist = response;
-
+      String? tokeeeeeeeen = CacheHelper.getData(key: 'accessToken');
+      print(tokeeeeeeeen);
+      print(tokeeeeeeeen);
+      print('tokeeeeeeeeeeeeeeeeeeeeeeeeeen is');
       isLoading = false;
       notifyListeners();
       return isExist!;
@@ -101,7 +106,8 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> registerUser() async {
+  Future<bool> registerUser(String? address,String? email,String? name,String? phone) async {
+    print('----------------------------------------------------------------');
     isLoading = true;
     notifyListeners();
 
@@ -109,17 +115,25 @@ class AuthProvider extends ChangeNotifier {
       var response =
           await DioManager().post('${AppApiPaths.base}/api/v1/auth/regester',
               data: {
-                "FullName": _name ?? '',
-                "phonenumber": _phone ?? '',
-                "adrress": _address ?? "26st el-mostshfa shubra",
-                "email": _email ?? "test@test.com"
+                "FullName": name ,
+                "phonenumber": "+20$phone" ,
+                "adrress": address ,
+                "email": email
               },
-              isAuth: false);
+              );
+
       print(response);
-
+      print(name);
+      print(phone);
+      print(email);
+      print(name);
+        print('322222');
       CacheHelper.putData(key: 'accessToken', value: response['accesToken']);
-
       isLoading = false;
+      String? tokeeeeeeeen = CacheHelper.getData(key: 'accessToken');
+      print(tokeeeeeeeen);
+      print(tokeeeeeeeen);
+      print('tokeeeeeeeeeeeeeeeeeeeeeeeeeen is');
       notifyListeners();
       return isVerify;
     } catch (error) {
@@ -136,14 +150,16 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       var response = await DioManager().post('${AppApiPaths.base}/api/v1/auth/',
-          data: {"phonenumber": "+201277856368", "key": key}, isAuth: false);
-      // print(response);
+          data: {"phonenumber": phoneNumber, "key": key});
+      print(response);
+      print('true');
       // isVerify = response['Verified'];
       if (response['accesToken'] != null) {
         CacheHelper.putData(key: 'accessToken', value: response['accesToken']);
         isVerify = true;
       } else {
         isVerify = false;
+
       }
 
       isLoading = false;

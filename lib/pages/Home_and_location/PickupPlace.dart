@@ -22,6 +22,59 @@ class pickupPlace extends StatefulWidget {
 class _pickupPlaceState extends State<pickupPlace> {
 
   final String key = 'AIzaSyA8R2ZGRtTqb3ZaPFIGY2nxfWospmbfBTY';
+  // Future<List<String>> GetAddressName(double lat,double Long) async{
+  //   final String url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$Long&key=$key';
+  //   try {
+  //     var response = await http.get(Uri.parse(url));
+  //
+  //     if (response.statusCode == 200) {
+  //       var json = convert.jsonDecode(response.body);
+  //       var status = json['status'];
+  //       print('Status is $status');
+  //       print('Sent $lat , $Long');
+  //       print('and Got $json');
+  //
+  //       if (status != 'ZERO_RESULTS') {
+  //         var placeId = json['results'][0]['formatted_address'];
+  //         var name = json['results'][0]['address_components'][3]['short_name'];
+  //         var address = json['plus_code']['compound_code'];
+  //         print(
+  //             '===================================================================');
+  //         print(name);
+  //         print(
+  //             '===================================================================');
+  //         SubOrigin = placeId;
+  //         //return [SubOrigin,SubOrigin];
+  //         return [name, address];
+  //       }
+  //       else {
+  //         var name = json['plus_code']['global_code'];
+  //         var address = json['plus_code']['compound_code'];
+  //         return [name, address];
+  //       }
+  //     } else if (response.statusCode == 404) {
+  //       var name = 'nothing';
+  //       var address = 'مشكل في الخادم';
+  //       return [name, address];
+  //     } else if (response.statusCode == 500) {
+  //       var name = 'nothing';
+  //       var address = 'مشكل في الخادم';
+  //       return [name, address];
+  //     } else {
+  //       var name = 'nothing';
+  //       var address = 'مشكل في الخادم';
+  //       return [name, address];
+  //     }
+  //   } catch (exception){
+  //
+  //     var name = 'nothing';
+  //     var address = 'مشكلة في الإتصال بالإنترنت';
+  //     return [name, address];
+  //   }
+  //
+  //
+  //
+  // }
 
   //Suggestion function
   Future<List<place>> getUserSuggestions(String query) async {
@@ -51,7 +104,7 @@ class _pickupPlaceState extends State<pickupPlace> {
           print(i);
           print(element['description']);
           addPlace(element['description'],element['structured_formatting']['main_text']);
-          }
+        }
         i++;
       });
       i=0;
@@ -105,53 +158,53 @@ class _pickupPlaceState extends State<pickupPlace> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
 
-                          TypeAheadField<place?>(
-
-                            minCharsForSuggestions: 3,
-
-                              suggestionsCallback: getUserSuggestions,
-
-                              itemBuilder: (context ,place? suggestion ){
-
-
-                                //clearList();
-                                return Container(height: 0,width: 0);
-                              },
-
-                              onSuggestionSelected: (place? suggestion) async{
-                                final place = suggestion!;
-
-                                //Get name And Subtitle address
-                                Origine = await LocationService().getPlaceNameFullName(place.name);
-                               //  OrPoint;
-                                Get.to(package_place());
-                                //Go to the Second page
-                              },
-
-                              textFieldConfiguration: TextFieldConfiguration(
-
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.search),
-
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(46),
-                                      borderSide: BorderSide.none
-                                  ),
-
-                                  hintText: 'ادخل عنوان التحميل',
-                                  hintTextDirection: TextDirection.rtl,
-                                  hintStyle: TextStyle(
-                                    color: Color(0xffC0C0C0),
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                  ),
-                                  filled: true,
-                                  fillColor: Color(0xffFBFBFB)
-
-                                )
-                              ),
-                          ),
+                          // TypeAheadField<place?>(
+                          //
+                          //   minCharsForSuggestions: 3,
+                          //
+                          //   suggestionsCallback: getUserSuggestions,
+                          //
+                          //   itemBuilder: (context ,place? suggestion ){
+                          //
+                          //
+                          //     //clearList();
+                          //     return Container(height: 0,width: 0);
+                          //   },
+                          //
+                          //   onSuggestionSelected: (place? suggestion) async{
+                          //     final place = suggestion!;
+                          //
+                          //     //Get name And Subtitle address
+                          //     Origine = await LocationService().getPlaceNameFullName(place.name);
+                          //     //  OrPoint;
+                          //     Get.to(package_place());
+                          //     //Go to the Second page
+                          //   },
+                          //
+                          //   textFieldConfiguration: TextFieldConfiguration(
+                          //
+                          //       decoration: InputDecoration(
+                          //           prefixIcon: Icon(Icons.search),
+                          //
+                          //           border: OutlineInputBorder(
+                          //               borderRadius: BorderRadius.circular(46),
+                          //               borderSide: BorderSide.none
+                          //           ),
+                          //
+                          //           hintText: 'ادخل عنوان التحميل',
+                          //           hintTextDirection: TextDirection.rtl,
+                          //           hintStyle: TextStyle(
+                          //             color: Color(0xffC0C0C0),
+                          //             fontFamily: 'Montserrat',
+                          //             fontWeight: FontWeight.w400,
+                          //             fontSize: 12,
+                          //           ),
+                          //           filled: true,
+                          //           fillColor: Color(0xffFBFBFB)
+                          //
+                          //       )
+                          //   ),
+                          // ),
 
                           pickupMapButton(),
 
@@ -196,49 +249,50 @@ class _pickupPlaceState extends State<pickupPlace> {
         return places.length != 0
 
             ? ListTile(
-                trailing: Image.asset('assets/pics/blackMarker.png',width: 21,height: 28,),
-                title: Text(
-                  places[i][0],
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: Color(0xff191F28),
-                    fontFamily: 'Montserrat',
-                    fontSize: 14,
+          trailing: Image.asset('assets/pics/blackMarker.png',width: 21,height: 28,),
+          title: Text(
+            places[i][0],
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              color: Color(0xff191F28),
+              fontFamily: 'Montserrat',
+              fontSize: 14,
 
-                  ),
-                ),
-                subtitle: Text(
-                  places[i][1],
-                  textAlign: TextAlign.end,
+            ),
+          ),
+          subtitle: Text(
+            places[i][1],
+            textAlign: TextAlign.end,
 
-                  style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    color: Color(0xff6C6C6C),
-                    fontFamily: 'Montserrat',
-                    fontSize: 10,
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              color: Color(0xff6C6C6C),
+              fontFamily: 'Montserrat',
+              fontSize: 10,
 
-                  ),
-                ),
-                onTap: () async{
-                  //print(places.length);
+            ),
+          ),
+          onTap: () async{
+            //print(places.length);
+            print('---------------------');
 
-                  //Get name And Subtitle address
-                  var results = await LocationService().getPlaceV2(places[i][0]);
+            //Get name And Subtitle address
+            var results = await LocationService().getPlaceNameFullName(places[i][0]);
+            print('---------------------');
+            print(results[2]);
 
-                  print(results[2]);
-
-                  Origine = [results[0],results[1]];
-                  //  OrPoint;
-                  //Get.to(package_place());
-                  //Go to the Second page
-
-
+            Origine = [results[0],results[1]];
+            //  OrPoint;
+            //Get.to(package_place());
+            //Go to the Second page
 
 
-                  //print(places.length);
 
-                },
-              )
+
+            //print(places.length);
+
+          },
+        )
 
             : Container(height: 0, width: 0);
 
@@ -251,10 +305,10 @@ class _pickupPlaceState extends State<pickupPlace> {
 
     if(places.length < 7 )
       setState(() {
-      places.add([city,Local]);
+        places.add([city,Local]);
       });
     else
-       clearList();
+      clearList();
 
 
 
@@ -304,4 +358,3 @@ class _pickupPlaceState extends State<pickupPlace> {
     );
   }
 }
-

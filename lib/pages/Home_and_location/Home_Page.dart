@@ -1,7 +1,14 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
+import '../../others/TextPage2.dart';
+import '../../others/variables.dart';
+import 'Home_package_active.dart';
+import '../../widgets/Location_service.dart';
+import '../../widgets/SearchAPI.dart';
 
 // import 'package:location/location.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +18,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart' as locator;
-import '../../others/variables.dart';
-import '../Order_Setup/ChooseExtentions.dart';
-import '../Order_Setup/OrderMap.dart';
-import '../../widgets/Location_service.dart';
-import 'PickupPlace.dart';
+
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:location/location.dart' as locate;
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -36,39 +45,17 @@ class MapSampleState extends State<MapSample> {
   double Camlat = 24.7136;
   double Camlng = 46.6753;
 
-  // bool gpsEnabled =false;
+// Future<List<Suggestion>> getSuggestions(String query) async{
+//   PlacesAutocompleteResponse response = await places.autocomplete(query,tueps:['(cities'], component:[Component(Component.country, 'eg')])
+// }
 
-  // late PermissionStatus status;
 
   late bool gpsEnabled;
+  List<List<String>> places = [];
 
-  // late PermissionStatus status;
+  String? kGoogleApiKey = "AIzaSyA8R2ZGRtTqb3ZaPFIGY2nxfWospmbfBTY";
 
-  // Future<void> getPer() async {
-  //   gpsEnabled = await isGPSEnabled();
-  //   status = await getPermissionStatus();
-  //
-  //   if (status == PermissionStatus.denied) {
-  //     print('ay 7agaa');
-  //     // handler.openAppSettings();
-  //   } else {
-  //     if (!gpsEnabled) {
-  //       print('sa');
-  //       await requestPermission();
-  //     } else {
-  //       await getCurrentLocation();
-  //
-  //       print('wqeqewqe');
-  //     }
-  //   }
-  // }
 
-  // Location location = Location();
-
-  /// Determine the current position of the device.
-  ///
-  /// When the location services are not enabled or permissions
-  /// are denied the `Future` will return an error.
   Future<Position> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -135,6 +122,7 @@ class MapSampleState extends State<MapSample> {
         await getBytesFromAsset('assets/pics/marker.png', 70);
     myIcon = BitmapDescriptor.fromBytes(markerIcon);
   }
+  GoogleMapController? mapController; //contrller for Google map
 
   @override
   void initState() {
@@ -205,6 +193,7 @@ class MapSampleState extends State<MapSample> {
       target: LatLng(37.43296265331129, -122.08832357078792),
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
+  String location = "Search Location";
 
   @override
   Widget build(BuildContext context) {
@@ -249,23 +238,63 @@ class MapSampleState extends State<MapSample> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                 Container(width: 310,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                            border: Border.all(color: Colors.black26)
-                          ),
-                          child: TextFormField(
-                           decoration:  InputDecoration(
-                             border: InputBorder.none,
-                             suffixIcon: IconButton(icon:Icon(Icons.saved_search,color: Colors.black54,size: 30,), onPressed: () {
+                Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 1,
+                      blurRadius: 1,
+                      // changes position of shadow
+                    ),
+                  ],
+                ),
+                child:
+                 IconButton(onPressed:()
 
-                             },
-                           ),
-                          ),
-                        ),
+                      async {
+                        var place = await PlacesAutocomplete.show(
+                            context: context,
+                            apiKey: kGoogleApiKey!,
+                            mode: Mode.overlay,
+                            types: [],
+                            strictbounds: false,
+                            components: [Component(Component.country, 'sa')],
+                            //google_map_webservice package
+                            onError: (err){
+                              print(err);
+                              print('3333322111111111111111');
+                            }
+                        );
 
-                      ),
+                        if(place != null){
+                          setState(() {
+                            location = place.description.toString();
+                          });
+
+                          //form google_maps_webservice package
+                          final plist = GoogleMapsPlaces(apiKey:kGoogleApiKey,
+                              apiHeaders: await GoogleApiHeaders().getHeaders(),
+                      //from google_api_headers package
+                      );
+                      String placeid = place.placeId ?? "0";
+                      final detail = await plist.getDetailsByPlaceId(placeid);
+                      final geometry = detail.result.geometry!;
+                      final lat = geometry.location.lat;
+                      final lang = geometry.location.lng;
+                      var newlatlang = LatLng(lat, lang);
+
+
+                      //move map camera to selected place with animation
+                          googleMapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: newlatlang, zoom: 17)));
+                    }
+                    },
+                   icon: Icon(Icons.search),
+                  ),),
                   SizedBox(
                     height: 20,
                   ),
@@ -343,4 +372,110 @@ class MapSampleState extends State<MapSample> {
     );
     _setMarker(LatLng(lat, lng));
   }
+
+  Future<void> plaseId(String? placeId) async{
+    GoogleMapsPlaces place = GoogleMapsPlaces(
+      apiKey: kGoogleApiKey,
+      apiHeaders: await GoogleApiHeaders().getHeaders(),
+    );
+    PlacesDetailsResponse detailsResponse= await place.getDetailsByPlaceId(placeId!);
+    controller.animateCamera(LatLng(detailsResponse.result.geometry!.location!.lat, detailsResponse.result.geometry!.location!.lng));
+  }
+  Widget pickupMapButton(){
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10,bottom: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              flex:4,
+              child: Text(
+                'تحديد الموقع على الخريطة',
+
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'ArabotoFat',
+                ),
+              ),
+            ),
+            Expanded( child: Image.asset('assets/pics/maps.png',width: 36,height: 36,)),
+          ],
+        ),
+      ),
+      onTap: (){
+        //Use Map search Instead
+        Get.to(
+                ()=>MapSample2(),
+            transition: Transition.rightToLeft
+        );
+
+
+      },
+    );
+  }
+  Widget locationList(){
+    return ListView.builder(
+
+      shrinkWrap: true,
+      itemCount: places.length,
+
+      itemBuilder: (context, i) {
+
+        return places.length != 0
+
+            ? ListTile(
+          trailing: Image.asset('assets/pics/blackMarker.png',width: 21,height: 28,),
+          title: Text(
+            places[i][0],
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              color: Color(0xff191F28),
+              fontFamily: 'Montserrat',
+              fontSize: 14,
+
+            ),
+          ),
+          subtitle: Text(
+            places[i][1],
+            textAlign: TextAlign.end,
+
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              color: Color(0xff6C6C6C),
+              fontFamily: 'Montserrat',
+              fontSize: 10,
+
+            ),
+          ),
+          onTap: () async{
+            print(places.length);
+            print('--------------------');
+
+            //Get name And Subtitle address
+            var results = await LocationService().getPlaceV2(places[i][i]);
+
+            print(results);
+            print('32233223322');
+
+            Origine = [results[1],results[2]];
+            //  OrPoint;
+            Get.to(MapSample());
+            //Go to the Second page
+
+
+
+
+            //print(places.length);
+
+          },
+        )
+
+            : Container(height: 0, width: 0);
+
+      },
+    );
+  }
+
 }

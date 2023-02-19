@@ -38,7 +38,7 @@ class LocationService {
     var results = json['result'] as Map<String, dynamic>;
     //print(results);
     var name = results['address_components'][0]['long_name'];
-    var FullName = results['address_components'][2]['long_name'];
+    var FullName = results['address_components'][1]['long_name'];
     var Orlat = results['geometry']['location']['lat'];
     var Orlng = results['geometry']['location']['lng'];
     LatLng latlng = LatLng(Orlat, Orlng);

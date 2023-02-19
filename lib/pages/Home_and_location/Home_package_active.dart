@@ -6,7 +6,7 @@ import '../../others/variables.dart';
 
 
 class package_place extends StatefulWidget {
-  const package_place({Key? key}) : super(key: key);
+  const package_place( {Key? key}) : super(key: key);
 
   @override
   State<package_place> createState() => _package_placeState();

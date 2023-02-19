@@ -3,19 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../core/logic/auth/auth_provider.dart';
 import '../../others/variables.dart';
-import 'Name.dart';
+import 'register.dart';
 import 'Verification.dart';
 import '../../widgets/Texts.dart';
 import 'package:provider/provider.dart';
 
-class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+class CheckUser extends StatefulWidget {
+  const CheckUser({Key? key}) : super(key: key);
 
   @override
-  _RegisterState createState() => _RegisterState();
+  _CheckUserState createState() => _CheckUserState();
 }
 
-class _RegisterState extends State<Register> {
+class _CheckUserState extends State<CheckUser> {
   bool isfull = false;
 
   final _number = TextEditingController();
@@ -40,7 +40,7 @@ class _RegisterState extends State<Register> {
         onPressed: () {
           if (formKey.currentState!.validate()) {
             setUserphone('966' + _number.text);
-            phonenum = '+966' + _number.text;
+            phonenum = '+20' + _number.text;
             // }
             // if (_number.text.length == 9) {
             context
@@ -100,12 +100,12 @@ class _RegisterState extends State<Register> {
                       controller: _number,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(9),
+                        LengthLimitingTextInputFormatter(10),
                         FilteringTextInputFormatter.digitsOnly,
                       ],
                       autofocus: false,
                       onChanged: (value) {
-                        if (value.length == 9) {
+                        if (value.length == 10) {
                           setState(() {
                             isfull = true;
                           });
@@ -182,7 +182,7 @@ class _RegisterState extends State<Register> {
                             )),
                       ),
                       validator: (value) {
-                        if (value!.length != 9) {
+                        if (value!.length != 10) {
                           return 'ادخل الرقم الصحيح';
                         }
                         return null;

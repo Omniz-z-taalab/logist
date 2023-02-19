@@ -8,9 +8,6 @@ import 'Menu_and_settings/Profile.dart';
 import 'Menu_and_settings/Settings.dart';
 import 'My_orders/ConversationsList.dart';
 import 'My_orders/OrdersListV2.dart';
-import '../widgets/Location_service.dart';
-
-import 'Order_Setup/ChooseExtentions.dart';
 
 class mainHomePage extends StatefulWidget {
   const mainHomePage({Key? key}) : super(key: key);
@@ -23,31 +20,14 @@ class _mainHomePageState extends State<mainHomePage> {
   //Icon Rotation
   double _counter = 0;
 
+
+
   //todo: Set Auto Start function To Dump Data
   //Alpha tools
   void SetDummyData() async {
     // var directions = await LocationService()
     //     .getDirections('24.7718399,46.7874393', '24.7474501,46.7274109');
-
-    //Marker Dummy data
-    dslat = 24.7474501;
-    dslng = 46.7274109;
-
-    Orlat = 24.7718399;
-    Orlng = 46.7874393;
-
-    Origine = [' Riyadh', ' Riyadh,Saudi Arabia'];
-    Destination = ['Al Alamein, King Abdullah', 'Riyadh,Saudi Arabia'];
-
-    // // //Getting Route Info
-    // Dummy = directions['popyline_decoded'];
-    // dmlat = directions['start_location']['lat'];
-    // dmlng = directions['start_location']['lng'];
-    // bounds_sw = directions['bounds_sw'];
-    // bounds_ne = directions['bounds_ne'];
-    // distance = directions['distance'].toString();
   }
-
   //Animation variables
   bool Clicked = false;
   double ContHeight = 0;
@@ -174,14 +154,14 @@ class _mainHomePageState extends State<mainHomePage> {
                                                 ),
                                               ),
                                             ),
-                                            Expanded(
+                                            const Expanded(
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
-                                                children: const [
+                                                children: [
                                                   //Title
                                                   Text(
                                                     'توصيل عادي',
@@ -247,9 +227,8 @@ class _mainHomePageState extends State<mainHomePage> {
                                   ),
                                   onTap: () async {
                                     Change();
-
-                                    // Get.to(const pickupPlace());
-                                    Get.to(const chooseExtentions());
+                                     Get.to(const pickupPlace());
+                                    // Get.to(const chooseExtentions());
                                   },
                                 ),
                                 const SizedBox(height: 7),
@@ -308,7 +287,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                                 ),
                                               ),
                                             ),
-                                            Expanded(
+                                          const  Expanded(
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
