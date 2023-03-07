@@ -84,16 +84,7 @@ class SendMessageWidget extends StatelessWidget {
                   ),
                   margin: const EdgeInsets.only(bottom: 20, right: 10),
                 )
-          // // Sticker
-          // : Container(
-          //     child: Image.asset(
-          //       'images/${messageChat.content}.gif',
-          //       width: 100,
-          //       height: 100,
-          //       fit: BoxFit.cover,
-          //     ),
-          //     margin: EdgeInsets.only(bottom: isLastMessageRight(index) ? 20 : 10, right: 10),
-          //   ),
+
         ], mainAxisAlignment: MainAxisAlignment.end),
         // Container(
         //   child: Text(

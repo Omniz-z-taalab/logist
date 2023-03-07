@@ -11,16 +11,17 @@ class OrderProvider extends ChangeNotifier {
   //get orders
   List<Orders> orders = [];
   Future<bool> getOrders() async {
+    orders=[];
     isGetLoading = true;
     notifyListeners();
 
     try {
       var response = await DioHelper.getData(url:
-        '${AppApiPaths.base}/api/v1/user/GetOrders',
+        '${AppApiPaths.base}/api/v1/employee/orders',
       );
-      orders =
-          (response as List<dynamic>).map((e) => Orders.fromJson(e)).toList();
 
+          response .data.forEach((e) => orders.add(Orders.fromJson(e)));
+            print('sssssssssss');
       isGetLoading = false;
       notifyListeners();
       return isLoading;

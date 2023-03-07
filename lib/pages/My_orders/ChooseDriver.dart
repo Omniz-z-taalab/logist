@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 // ignore: file_names
 // ignore_for_file: file_names
 
@@ -11,14 +12,62 @@ import 'package:logist/pages/My_orders/TruckDrivers.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../models/viecelModel/viecleModel.dart';
+
 class chooseDriver extends StatefulWidget {
-  const chooseDriver({Key? key}) : super(key: key);
+  var lat1;
+  var lat2;
+  var lng1;
+  var lng2;
+  String noteText;
+  int PayloadText;
+  List<String> TimeNum;
+  String Trtext;
+  int Typetext;
+  String placeuserpick1;
+  String placeuserdown1;
+  String placeuserpick2;
+  String placeuserdown2;
+  int vicleId;
+
+  chooseDriver(
+      this.lat1,
+      this.lat2,
+      this.lng1,
+      this.lng2,
+      this.noteText,
+      this.PayloadText,
+      this.TimeNum,
+      this.Trtext,
+      this.Typetext,
+      this.placeuserpick1,
+      this.placeuserdown1,
+      this.placeuserpick2,
+      this.placeuserdown2,
+      this.vicleId);
 
   @override
   State<chooseDriver> createState() => _chooseDriverState();
 }
 
 class _chooseDriverState extends State<chooseDriver> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.lat1);
+    print(widget.lat2);
+    print(widget.lng1);
+    print(widget.lng2);
+    print(widget.noteText);
+    print(widget.PayloadText);
+    print(widget.TimeNum);
+    print(widget.Trtext);
+    print(widget.Typetext);
+    print('eeeeeeeeee');
+    print(widget.PayloadText);
+  }
+
   //Choose Button
   Widget Choose(String par, Color col, String Type) => MaterialButton(
         color: col,
@@ -44,9 +93,25 @@ class _chooseDriverState extends State<chooseDriver> {
           //print('up'); //todo:Getback later
           if (Type == 'manual') {
             print('manual');
-            Get.to(() => truckdrivers(), transition: Transition.rightToLeft);
-          } else if (Type == 'auto') {
-            // Get.to(orderMap());
+            Get.to(
+                () => truckdrivers(
+                    widget.lat1,
+                    widget.lat2,
+                    widget.lng1,
+                    widget.lng2,
+                    widget.noteText,
+                    widget.PayloadText,
+                    widget.TimeNum,
+                    widget.Trtext,
+                    widget.Typetext,
+                    widget.placeuserpick1,
+                    widget.placeuserdown1,
+                    widget.placeuserpick2,
+                    widget.placeuserdown2, widget.vicleId),
+                transition: Transition.rightToLeft);
+          }
+          else if (Type == 'auto') {
+             // Get.to(orderMap());
             setState(() {
               Clicked = true;
             });
@@ -624,7 +689,7 @@ class _chooseDriverState extends State<chooseDriver> {
         onPressed: () {
           driverData = [Name, Truck, Pic, ratings, Reviews];
           //Button destination
-          Get.to(() => resume(), transition: Transition.rightToLeft);
+          // Get.to(() => ResumeScreen(), transition: Transition.rightToLeft);
         },
       );
 }

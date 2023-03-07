@@ -85,31 +85,6 @@ class _paymentMethodsState extends State<paymentMethods> {
             ),
 
             //Price Text
-            Align(
-              alignment: Alignment(0, 0.95),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RichText(
-                      text: TextSpan(
-                        style: TextStyle(fontFamily: 'visbydemibold',fontSize: 24,color: Color(0xff191F28)),
-                        children: <TextSpan>[
-                          TextSpan(text: '261.96'),
-                          TextSpan(text: 'SAR',style: TextStyle(fontFamily: 'visbylight',fontSize: 18,color: Color(0xff191F28)) )
-                        ]
-                      )
-                  ),
-                  Text(
-                      'السعر النهائي',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w200,
-                      fontFamily: 'Montserrat'
-                    ),
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),

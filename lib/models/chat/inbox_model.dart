@@ -40,5 +40,4 @@ class ChatListResponse {
     data['name'] = this.name;
     data['profileImage'] = this.profileImage;
     return data;
-  }
-}
+  }}

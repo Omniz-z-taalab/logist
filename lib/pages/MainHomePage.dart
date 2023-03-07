@@ -4,12 +4,13 @@ import 'package:provider/provider.dart';
 import '../core/logic/layout/profile/profile_provider.dart';
 import '../others/variables.dart';
 import 'Home_and_location/Home_Page.dart';
+import 'Navigation_bar/Chats/all_masseges.dart';
 import 'Navigation_bar/PickupPlace.dart';
 import 'Menu_and_settings/Notification.dart';
 import 'Menu_and_settings/Profile.dart';
 import 'Navigation_bar/Settings.dart';
-import 'Navigation_bar/Chats/ConversationsList.dart';
 import 'Navigation_bar/order_bar.dart';
+import 'Order_Setup/ChooseExtentions.dart';
 
 class mainHomePage extends StatefulWidget {
   const mainHomePage({Key? key}) : super(key: key);
@@ -233,7 +234,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                   ),
                                   onTap: () async {
                                     Change();
-                                     Get.to(const pickupPlace());
+                                     Get.to( chooseExtentions());
                                     // Get.to(const chooseExtentions());
                                   },
                                 ),

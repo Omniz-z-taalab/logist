@@ -9,7 +9,7 @@ class AppMessage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
             // constraints: const BoxConstraints(minWidth: 205, maxWidth: 250),

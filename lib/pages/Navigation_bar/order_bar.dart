@@ -134,8 +134,8 @@ class _OrdersState extends State<Orders> {
                           'الحالية',
                           style: TextStyle(
                               color: CurrentPage == 1
-                                  ? Color(0xff2c55fb)
-                                  : Color(0xffB8BED3),
+                                  ? const Color(0xff2c55fb)
+                                  : const Color(0xffB8BED3),
                               fontFamily: 'Madani',
                               fontSize: 14,
                               fontWeight: FontWeight.w500),
@@ -206,7 +206,7 @@ class _OrdersState extends State<Orders> {
                     child: context.read<OrderProvider>().isGetLoading
                         ? ShimmerData()
                         : context.read<OrderProvider>().orders.isNotEmpty
-                            ? OrdersList(
+                            ? OrdersListDone(
                                 context.read<OrderProvider>().orders, context)
                             : const Center(child: Text("لايوجد طلبات")),
                   ),

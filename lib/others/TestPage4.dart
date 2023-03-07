@@ -140,7 +140,7 @@ class MapSample3State extends State<MapSample3> {
       //Button destination
       // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
       print(par);
-      Get.to(package_place2());
+      // Get.to(package_place2(22,33,1,2));
       print('Went to Map2');
 
     },
@@ -358,7 +358,7 @@ class MapSample3State extends State<MapSample3> {
         child: FittedBox(
           child: FloatingActionButton(
               onPressed: (){
-                Get.to(pickupPlace());
+                // Get.to(pickupPlace());
               },
               elevation: 0,
               backgroundColor: Colors.white,

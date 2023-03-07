@@ -7,19 +7,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart' as locator;
 // import 'package:location/location.dart';
-import 'variables.dart';
-import '../pages/Home_and_location/Home_package_active.dart';
+import '../../models/viecelModel/viecleModel.dart';
+import '../../others/variables.dart';
+import 'Home_package_active.dart';
 
 
 
 
-class MapSample2 extends StatefulWidget {
+class LocationUser1 extends StatefulWidget {
+  String noteText;
+  int PayloadText;
+  List<String> TimeNum;
+  String Trtext;
+  int Typetext;
+  int vicleId;
+  // String place1;
+  // String place2;
+  LocationUser1(this.noteText,this.PayloadText,this.TimeNum,this.Trtext ,this.Typetext,this.vicleId);
+
   @override
-  State<MapSample2> createState() => MapSample2State();
+  State<LocationUser1> createState() => LocationUser1State();
 }
 
 
@@ -27,7 +40,7 @@ late GoogleMapController googleMapController;
 
 
 
-class MapSample2State extends State<MapSample2> {
+class LocationUser1State extends State<LocationUser1> {
 
   //Loading
   bool isLoading = false;
@@ -54,7 +67,8 @@ class MapSample2State extends State<MapSample2> {
   }
   BitmapDescriptor myIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor Myplace = BitmapDescriptor.defaultMarker;
-
+    var latt;
+    var lngg;
 
   //Set Marker Picture
   Future<void> setMark() async {
@@ -73,27 +87,6 @@ class MapSample2State extends State<MapSample2> {
   bool OriginSelected = false;
   double BarHeight = 125.0; //Bar height
 
-  // void getCurrentLocation() async{
-  //
-  //   Location location = Location();
-  //
-  //   var _serviceEnabled = await location.serviceEnabled();
-  //
-  //   if(_serviceEnabled){
-  //     _serviceEnabled = await location.requestService();
-  //     if(_serviceEnabled){
-  //       location.getLocation().then((location) {
-  //         currentLocation = location;
-  //         print('${currentLocation.longitude} AND ${currentLocation.latitude} Are So important');
-  //       },);
-  //     } else{
-  //     }
-  //   }
-  //
-  //
-  //
-  // }
-
 
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -101,7 +94,10 @@ class MapSample2State extends State<MapSample2> {
     zoom: 15.4746,
   );
   String SubDest = 'يمكنك تحديد مكان التسليم يدوية أو البحث';
-
+var Lat;
+var Lng;
+var placeUserpick1;
+var placeUserpick2;
   Future<List<String>> GetAddressName(double lat,double Long) async{
     final String url =
         'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$Long&key=$key';
@@ -111,7 +107,9 @@ class MapSample2State extends State<MapSample2> {
       print('Sent $lat , $Long');
       print('Received $json');
       var status = json['status'];
-
+        Lat = lat;
+        Lng = Long;
+        print('lattttttttttt$Lat,longggggggggg$Lng');
       if (status != 'ZERO_RESULTS') {
         var placeId = json['results'][0]['formatted_address'];
         var name = json['results'][0]['address_components'][2]['short_name'];
@@ -330,8 +328,10 @@ class MapSample2State extends State<MapSample2> {
       //Button destination
       // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
       print(par);
+      print('wwwwwwwww');
       Get.to(
-          ()=> package_place(),
+          ()=> package_place(Lat,Lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,placeUserpick1,placeUserpick2, widget. vicleId
+          ),
           transition: Transition.rightToLeft
       );
       print('Went to Map2');
@@ -383,7 +383,7 @@ class MapSample2State extends State<MapSample2> {
                     OrPoint = point.latitude.toString() + ',' + point.longitude.toString();
 
                     // polygonslatlng.add(point);
-                    // _setPolygon();
+                     // _setPolygon();
                     // _setMarker(point);
                     isLoading = false;
                     netError = false;
@@ -395,10 +395,18 @@ class MapSample2State extends State<MapSample2> {
                     Titles[0] = Titles[1];
                     Titles[1] = 'المرجو التحقق من جودة الأنترنت ';
                     isLoading = false;
+
                     netError = true;
                   });
+
                 }
+
               }
+                placeUserpick1 = Titles[0];
+                placeUserpick2 = Titles[1];
+                print(placeUserpick1);
+                print(placeUserpick2);
+                print('yaaaaaaayaaaaaaa raaaaab');
               },
 
               polylines: _polylines,
@@ -543,38 +551,26 @@ class MapSample2State extends State<MapSample2> {
                     child: Image.asset('assets/pics/arrow.png',scale: 2,),
                   ),
                   onTap: () async{
-                    // var location = new Location();
+    Future<Position> getLocation() async {
+    await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition(
+    desiredAccuracy: LocationAccuracy.high);
+    print(position.latitude);
+    print(position.longitude);
+    latt = position.latitude;
+     lngg = position.longitude;
 
-                    // final GoogleMapController controller = await _controller.future;
-                    //
-                    // var _serviceEnabled = await location.serviceEnabled();
-                    //
-                    // if(_serviceEnabled){
-                    //   _serviceEnabled = await location.requestService();
-                    //   if(_serviceEnabled){
-                    //     location.getLocation().then((location) {
-                    //       mylat = currentLocation.latitude!;
-                    //       mylng =  currentLocation.longitude!;
-                    //       setState(() {
-                    //
-                    //         //Setting marker on mao
-                    //         _setMarker(LatLng(currentLocation.latitude!, currentLocation.longitude!));
-                    //
-                    //         //Changing Camera Position
-                    //         controller.animateCamera(
-                    //           CameraUpdate.newCameraPosition(
-                    //               CameraPosition(
-                    //                   target: LatLng(currentLocation.latitude!,currentLocation.longitude!),
-                    //                   zoom: 16
-                    //               )
-                    //           ),
-                    //         );
-                    //
-                    //         //Settings Values
-                    //
-                    //       });
-                    //
-                    //     },);
+    return position;
+    // Changing Camera Position
+    }
+                            //Changing Camera Position
+                            final GoogleMapController mapController =
+                            await _controller.future;
+                            mapController.animateCamera(CameraUpdate.newCameraPosition(
+    CameraPosition(target: LatLng(latt, lngg), zoom: 15))
+                            );
+
+                            //Settings Val
 
                     //   } else{
                     //     print('Second Service is $_serviceEnabled');
