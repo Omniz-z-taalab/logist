@@ -21,10 +21,10 @@ class _paymentPageState extends State<paymentPage> {
   final months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   final years = [22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 
-  TextEditingController _num = TextEditingController();
-  TextEditingController _name = TextEditingController();
-  TextEditingController _cvv = TextEditingController();
-  TextEditingController _MM = TextEditingController();
+  final TextEditingController _num = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _cvv = TextEditingController();
+  final TextEditingController _MM = TextEditingController();
   TextEditingController _YY = TextEditingController();
 
   @override

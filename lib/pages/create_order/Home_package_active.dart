@@ -1,12 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../others/TestPage3.dart';
+import '../../models/viecelModel/viecleModel.dart';
+import '../../others/location_user_2.dart';
 import '../../others/variables.dart';
 
 
 class package_place extends StatefulWidget {
-  const package_place( {Key? key}) : super(key: key);
+  var lat;
+  var lng;
+  String noteText;
+  int PayloadText;
+  List<String> TimeNum;
+  String Trtext;
+  int Typetext;
+  String placeuserpick1;
+  String placeuserdown1;
+  int vicleId;
+
+  package_place(this.lat,this.lng,this.noteText,this.PayloadText,this.TimeNum,this.Trtext,this.Typetext,this.placeuserpick1,this.placeuserdown1,this.vicleId);
 
   @override
   State<package_place> createState() => _package_placeState();
@@ -16,9 +28,18 @@ class package_place extends StatefulWidget {
 
 class _package_placeState extends State<package_place> {
   int currentStep = 1;
+var lat;
+var lng;
 
-
-
+@override
+  void initState() {
+  print('444444444');
+    super.initState();
+    lat = widget.lat;
+    lng = widget.lng;
+    print('lat${lat}++++++++long${lng}');
+    print('lat${widget.TimeNum}++++++++long${lng}');
+  }
 
 
 
@@ -46,10 +67,11 @@ class _package_placeState extends State<package_place> {
           // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
           print(par);
           Get.to(
-              () => MapSample3(),
+              () => LocationUser2(lat,lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,widget.placeuserpick1,widget.placeuserdown1, widget.vicleId
+              ),
               transition: Transition.rightToLeft
           );
-
+            print('went to user2');
         },
       );
 

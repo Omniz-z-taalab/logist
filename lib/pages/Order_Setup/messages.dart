@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../core/logic/layout/profile/profile_provider.dart';
 import '../../models/chat/content_message.dart';
 import '../../others/variables.dart';
@@ -36,9 +38,10 @@ class _conversationState extends State<conversation> {
 
   @override
   void initState() {
-    context.read<ChatProvider>().getMesages(
-        senderId: widget.inbox!.senderId, recieveId: widget.inbox!.receiverId);
-    listScrollController.addListener(_scrollListener);
+    print(widget.inbox!.senderId);
+    context.read<ChatProvider>().getMesages();
+    context.read<ChatProvider>().readMesages(widget!.inbox!.hash);
+    // listScrollController.addListener(_scrollListener);
     super.initState();
   }
 
@@ -55,8 +58,7 @@ class _conversationState extends State<conversation> {
 
   @override
   Widget build(BuildContext context) {
-    List<Message> messages =
-        context.watch<ChatProvider>().messages.reversed.toList();
+    List<Message>? messages = context.watch<ChatProvider>().messages;
     return Scaffold(
         backgroundColor: Obackground,
         appBar: AppBar(
@@ -134,21 +136,28 @@ class _conversationState extends State<conversation> {
             children: [
               //
               Flexible(
-                child: ListView.builder(
+                child: context.read<ChatProvider>().messages == 0 ?Center(
+                  child:Text('noo'),
+                ) : context.read<ChatProvider>().isGetConversation == true
+                    ?_buildShimmerListView()
+
+                :ListView.builder(
                   padding: const EdgeInsets.all(10),
                   itemBuilder: (context, index) {
-                    if (messages[index].senderId == widget.inbox!.senderId) {
+                    print(messages![0].contentImage);
+                    if (messages![index].senderId == widget.inbox!.senderId) {
                       return SendMessageWidget(
                         message: messages[index],
                       );
                     }
                     return RecieveMessage(
-                      message: messages[index],
+                      message: messages![index],
                     );
                   },
-                  itemCount: messages.length,
-                  reverse: true,
-                  // controller: listScrollController,
+                   itemCount: messages!.length,
+                  reverse: false,
+                  controller: listScrollController,
+
                 ),
               ),
               Padding(
@@ -199,11 +208,9 @@ class _conversationState extends State<conversation> {
                           context
                               .read<ChatProvider>()
                               .sentMesages(
-                                  // senderId: widget.inbox!.senderId!,
-                                  // recieveId: widget.inbox!.receiverId,
                                   contentMessage: ContentMessage(
-                                      senderId: widget.inbox!.senderId!,
-                                      receiverId: widget.inbox!.receiverId,
+                                      // senderId: widget.inbox!.senderId!,
+                                      // receiverId: widget.inbox!.receiverId,
                                       contentText: textEditingController.text))
                               .then((value) {
                             textEditingController.clear();
@@ -231,6 +238,83 @@ class _conversationState extends State<conversation> {
             ],
           ),
         ));
+  }
+
+  ListView _buildShimmerListView() {
+    Random random = new Random();
+    int randomwidth1 = 59 + random.nextInt(50);
+    int randomwidth2 = 59 + random.nextInt(50);
+
+    print(randomwidth1);
+    print(randomwidth2);
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListTile(
+              tileColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    height: 10,
+                    width: 92,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xffcecece),
+                    ),
+                  ),
+                ],
+              ),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    height: 9,
+                    width: randomwidth1 + 0.00,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xffcecece),
+                    ),
+                  ),
+                  Container(
+                    height: 9,
+                    width: 10,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  Container(
+                    height: 9,
+                    width: randomwidth2 + 0.00,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xffcecece),
+                    ),
+                  ),
+                ],
+              ),
+              trailing: Container(
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: Color(0xffcecece),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Future getImage() async {

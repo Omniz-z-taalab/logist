@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:logist/core/logic/price_payment/price_payment.dart';
+import 'package:provider/provider.dart';
 import '../../others/variables.dart';
 import '../My_orders/payloading.dart';
 import 'PaymentPage.dart';
@@ -226,10 +229,13 @@ class _chooseCardState extends State<chooseCard> {
                           color: Colors.white),),
                       onPressed: (){
                         if(age != 0)
+                          context.read<PriceProvider>().payOrder();
+                        context.read<PriceProvider>().responsee == false
+                          ?
                           Get.to(
                             () => const payloading(),
                             transition: Transition.rightToLeft,
-                          );
+                          ): Fluttertoast.showToast(msg: 'error');
                       }
                   ),
                 ],

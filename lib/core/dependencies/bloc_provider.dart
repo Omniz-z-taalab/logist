@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logist/core/logic/price_payment/price_payment.dart';
+import '../logic/drivers/driver_provider.dart';
 import '../logic/layout/profile/profile_provider.dart';
 import '../logic/messages/chat_provider.dart';
 import '../logic/review/review_provider.dart';
@@ -21,9 +23,7 @@ class AppMainProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => LayoutProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => LayoutProvider()),
         ChangeNotifierProvider(create: (context) => LocationProvider()),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
@@ -32,6 +32,8 @@ class AppMainProvider extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChatProvider()),
         ChangeNotifierProvider(create: (context) => VieclesProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => DriversProvider()),
+        ChangeNotifierProvider(create: (context) => PriceProvider()),
       ],
       child: child!,
     );

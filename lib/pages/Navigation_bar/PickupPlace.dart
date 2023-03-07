@@ -5,15 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import '../../others/TextPage2.dart';
+import '../../models/viecelModel/viecleModel.dart';
+import '../create_order/location_user_1.dart';
 import '../../others/variables.dart';
-import '../Home_and_location/Home_package_active.dart';
+import '../create_order/Home_package_active.dart';
 import '../../widgets/Location_service.dart';
 import '../../widgets/SearchAPI.dart';
 
 
 class pickupPlace extends StatefulWidget {
-  const pickupPlace({Key? key}) : super(key: key);
+  String noteText;
+  List<String> TimeNum;
+  int PayloadText;
+  int Typetext;
+  String Trtext;
+  int vicleId;
+   pickupPlace(this.noteText,this.TimeNum,this.PayloadText,this.Typetext,this.Trtext ,this.vicleId);
 
   @override
   State<pickupPlace> createState() => _pickupPlaceState();
@@ -22,61 +29,6 @@ class pickupPlace extends StatefulWidget {
 class _pickupPlaceState extends State<pickupPlace> {
 
   final String key = 'AIzaSyA8R2ZGRtTqb3ZaPFIGY2nxfWospmbfBTY';
-  // Future<List<String>> GetAddressName(double lat,double Long) async{
-  //   final String url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$Long&key=$key';
-  //   try {
-  //     var response = await http.get(Uri.parse(url));
-  //
-  //     if (response.statusCode == 200) {
-  //       var json = convert.jsonDecode(response.body);
-  //       var status = json['status'];
-  //       print('Status is $status');
-  //       print('Sent $lat , $Long');
-  //       print('and Got $json');
-  //
-  //       if (status != 'ZERO_RESULTS') {
-  //         var placeId = json['results'][0]['formatted_address'];
-  //         var name = json['results'][0]['address_components'][3]['short_name'];
-  //         var address = json['plus_code']['compound_code'];
-  //         print(
-  //             '===================================================================');
-  //         print(name);
-  //         print(
-  //             '===================================================================');
-  //         SubOrigin = placeId;
-  //         //return [SubOrigin,SubOrigin];
-  //         return [name, address];
-  //       }
-  //       else {
-  //         var name = json['plus_code']['global_code'];
-  //         var address = json['plus_code']['compound_code'];
-  //         return [name, address];
-  //       }
-  //     } else if (response.statusCode == 404) {
-  //       var name = 'nothing';
-  //       var address = 'مشكل في الخادم';
-  //       return [name, address];
-  //     } else if (response.statusCode == 500) {
-  //       var name = 'nothing';
-  //       var address = 'مشكل في الخادم';
-  //       return [name, address];
-  //     } else {
-  //       var name = 'nothing';
-  //       var address = 'مشكل في الخادم';
-  //       return [name, address];
-  //     }
-  //   } catch (exception){
-  //
-  //     var name = 'nothing';
-  //     var address = 'مشكلة في الإتصال بالإنترنت';
-  //     return [name, address];
-  //   }
-  //
-  //
-  //
-  // }
-
-  //Suggestion function
   Future<List<place>> getUserSuggestions(String query) async {
 
 
@@ -88,12 +40,7 @@ class _pickupPlaceState extends State<pickupPlace> {
     if(response.statusCode == 200) {
       final Map<String, dynamic> all = json.decode(response.body);
 
-      // print(places['predictions'][0]['description']);
-
       final List places = all['predictions'];
-
-      //print(places[0]['description']);
-      //print(places[0]['structured_formatting']['main_text']);
 
       //addPlace(places[0]['description'],places[0]['structured_formatting']['main_text']);
 
@@ -113,7 +60,17 @@ class _pickupPlaceState extends State<pickupPlace> {
       throw Exception();
   }
 
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.Typetext);
+    print(widget.Trtext);
+    print(widget.TimeNum);
+    print(widget.PayloadText);
+    print(widget.noteText);
+    print(widget.vicleId);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,7 +192,8 @@ class _pickupPlaceState extends State<pickupPlace> {
 
     );
   }
-
+var place1;
+var place2;
   List<List<String>> places = [];
 
   Widget locationList(){
@@ -275,14 +233,15 @@ class _pickupPlaceState extends State<pickupPlace> {
           onTap: () async{
             //print(places.length);
             print('---------------------');
-
+                place1 =  places[i][0];
+                place2 =  places[i][1];
             //Get name And Subtitle address
             var results = await LocationService().getPlaceNameFullName(places[i][0]);
             print('---------------------');
-            print(results[2]);
-
+            print(results[0]);
+              print(OrPoint);
             Origine = [results[0],results[1]];
-            //  OrPoint;
+              OrPoint;
             //Get.to(package_place());
             //Go to the Second page
 
@@ -349,7 +308,11 @@ class _pickupPlaceState extends State<pickupPlace> {
       onTap: (){
         //Use Map search Instead
         Get.to(
-                ()=>MapSample2(),
+                ()=>LocationUser1(widget.noteText,
+                    widget.PayloadText,
+                    widget.TimeNum,
+                    widget.Trtext,
+                    widget.Typetext,widget.vicleId),
             transition: Transition.rightToLeft
         );
 

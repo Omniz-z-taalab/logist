@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:logist/core/utilities/dio_helper.dart';
 import 'package:logist/pages/MainHomePage.dart';
 import 'package:logist/pages/Order_Setup/ChooseExtentions.dart';
+import 'package:logist/pages/Payments/PaymentPage.dart';
 import 'others/Splash.dart';
 import 'core/dependencies/bloc_provider.dart';
 import 'core/local/cache_helper.dart';
@@ -15,8 +16,8 @@ void main() async {
   await CacheHelper.init();
   DioHelper.init();
 
-  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
 
-        home: const splash(),
+        home: const mainHomePage(),
         //  home:  logout(),
       ),
     );

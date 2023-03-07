@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logist/models/order_list.dart';
+import 'package:logist/pages/MainHomePage.dart';
 import '../../others/Dummy_Data_Orders.dart';
 import '../../others/variables.dart';
 import '../My_orders/OrderInfo.dart';
@@ -38,7 +39,7 @@ class _paymentSucessState extends State<paymentSucess> {
         ),
         onPressed: () {
           //Button destination
-          Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
+          Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const mainHomePage() ));
           // Get.to(
            // () => orderInfo(Orders,true),
            // transition: Transition.rightToLeft);

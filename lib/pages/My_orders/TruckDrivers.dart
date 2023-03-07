@@ -2,13 +2,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:logist/core/logic/drivers/driver_provider.dart';
+import 'package:provider/provider.dart';
+import '../../models/driver_model.dart';
+import '../../models/viecelModel/viecleModel.dart';
 import '../../others/variables.dart';
+import '../test_page.dart';
 import 'Resume.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class truckdrivers extends StatefulWidget {
-  const truckdrivers({Key? key}) : super(key: key);
+  var lat1;
+  var lat2;
+  var lng1;
+  var lng2;
+  String noteText;
+  int PayloadText;
+  List<String> TimeNum;
+  String Trtext;
+  int Typetext;
+  String placeuserpick1;
+  String placeuserdown1;
+  String placeuserpick2;
+  String placeuserdown2;
+  int vicleId;
+
+  truckdrivers(
+      this.lat1,
+      this.lat2,
+      this.lng1,
+      this.lng2,
+      this.noteText,
+      this.PayloadText,
+      this.TimeNum,
+      this.Trtext,
+      this.Typetext,
+      this.placeuserpick1,
+      this.placeuserdown1,
+      this.placeuserpick2,
+      this.placeuserdown2,
+      this.vicleId);
 
   @override
   State<truckdrivers> createState() => _truckdriversState();
@@ -26,117 +60,26 @@ class _truckdriversState extends State<truckdrivers> {
   String ratings = '4';
   String Reviews = '0';
 
-  var Names = [
-    'محمد أشرف',
-    'خالد نوري',
-    'محمد رمضان',
-    'فيصل علي',
-    'صالح يوسف',
-    'سيف الدين مفتاح',
-    'محمد احمد',
-    'محمد رمضان',
-    'فهد عبدالرحمن',
-    'مصطفى نجيب',
-    'حسني ديستان',
-    'هيثم  بن الحسين',
-    'محمد راشد',
-    'عبد المجيد سعيد',
-    'محمد صباح',
-    'أي إسم ينفع',
-    'فيصل علي',
-    'محمد راشد',
-  ];
-
-  var Pics = [
-    'assets/pics/user1.png',
-    'assets/pics/user2.png',
-    'assets/pics/user3.png',
-    'assets/pics/user5.png',
-    'assets/pics/user4.png',
-    'assets/pics/user6.png',
-    'assets/pics/user7.png',
-    'assets/pics/user8.png',
-    'assets/pics/user3.png',
-    'assets/pics/user5.png',
-    'assets/pics/user4.png',
-    'assets/pics/user6.png',
-    'assets/pics/user1.png',
-    'assets/pics/user2.png',
-    'assets/pics/user3.png',
-    'assets/pics/user8.png',
-    'assets/pics/user4.png',
-    'assets/pics/user6.png',
-  ];
-
-  var trName = [
-    'Honda Ridgeline',
-    'Toyota Tundra',
-    'Nissan Titan',
-    'Chevrolet Colorado',
-    'GMC Canyon',
-    'Toyota Tacoma',
-    'Ford F-Series Super Duty',
-    'Honda Ridgeline',
-    'Chevrolet Silverado',
-    'Chevrolet Silverado 1500',
-    'Toyota Tacoma',
-    'Ford Ranger',
-    'Ram 1500',
-    'Ford F-150',
-    'Nissan Titan XD',
-    'Ford F-150 Raptor',
-    'Ford Super Duty',
-    'Ram 2500 / 3500'
-  ];
-
-  var Rating = [
-    '4.6',
-    '2.0',
-    '3.5',
-    '4.5',
-    '4.0',
-    '3.1',
-    '1.0',
-    '4.8',
-    '4.8',
-    '4.3',
-    '5.0',
-    '4.0',
-    '4.5',
-    '4.5',
-    '4.6',
-    '4.8',
-    '4.3',
-    '5.0',
-    '4.0',
-    '4.5',
-  ];
-  var Review = [
-    '23',
-    '98',
-    '200',
-    '192',
-    '81',
-    '127',
-    '71',
-    '391',
-    '72',
-    '192',
-    '241',
-    '310',
-    '38',
-    '61',
-    '150',
-    '281',
-    '23'
-  ];
-  //Open Sliding bar
   void Open() {
     ApanelController.isPanelClosed ? ApanelController.open() : null;
   }
 
   @override
+  void initState() {
+    Provider.of<DriversProvider>(context, listen: false)
+        .getAllDrivers();
+    // TODO: implement initState
+    super.initState();
+    print(widget.lat1);
+    print(widget.lng1);
+    print(widget.PayloadText.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var drivers = context.watch<DriversProvider>().driver;
+  var driver =   Provider.of<DriversProvider>(context,listen: false).driverModel;
+
     return Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
@@ -171,91 +114,24 @@ class _truckdriversState extends State<truckdrivers> {
           const SizedBox(width: 20),
         ],
       ),
-      body: SlidingUpPanel(
-        controller: ApanelController,
-        maxHeight: 600,
-        minHeight: 0,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-        body: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Center(
-            child: Column(
-              children: [
-                Expanded(
-                    flex: 4,
-                    child: SizedBox(
-                      height: 300,
-                      child: _buildListView(),
-                    )),
-              ],
-            ),
-          ),
-        ),
-        panel: Container(
-          height: 600,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  SizedBox(height: 25),
-
-                  Container(
-                    width: 58,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Color(0xffEFEFEF),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-
-                  SizedBox(height: 56),
-
-                  //Driver Picture
-                  Profile_pic(),
-
-                  //Driver Name
-                  Text(
-                    Name,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-
-                  SizedBox(height: 10),
-
-                  //Truck name
-                  Text(
-                    Truck,
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w300,
-                        color: Color(0xff909090)),
-                  ),
-
-                  //Approvement('تم قبول الطلب','الحالة سليمة تمت الموافقة على طلبك من طرف السائق'),
-
-                  SizedBox(height: 10),
-
-                  rating(),
-
-                  //Truck Info
-                  truck('شاحنة TRILLA', ' 71007120', ' S A S / 816',
-                      'assets/pics/trALX.png'),
-                ],
-              ),
-              Positioned(
-                bottom: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                      width: MediaQuery.of(context).size.width - 50,
-                      child: Next('أختر السائق')),
-                ),
-              )
-            ],
-          ),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+                flex: 4,
+                child: SizedBox(
+                  height: 300,
+                  child: drivers == null
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : drivers.isEmpty
+                          ? const Center(
+                              child: Text('لايوجد سائقين حاليا'),
+                            )
+                          : _buildListView(drivers),
+                )),
+          ],
         ),
       ),
     );
@@ -553,126 +429,251 @@ class _truckdriversState extends State<truckdrivers> {
     );
   }
 
-  Widget Next(String par) => MaterialButton(
-        color: On,
-        minWidth: double.infinity,
-        height: 60,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100.0),
-        ),
-        child: Container(
-          child: Text(
-            par,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
+  // Widget Next(String par) => MaterialButton(
+  //       color: On,
+  //       minWidth: double.infinity,
+  //       height: 60,
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(100.0),
+  //       ),
+  //       child: Container(
+  //         child: Text(
+  //           par,
+  //           style: const TextStyle(
+  //             fontSize: 16,
+  //             color: Colors.white,
+  //             fontFamily: 'Montserrat',
+  //             fontWeight: FontWeight.w500,
+  //           ),
+  //         ),
+  //       ),
+  //       onPressed: () {
+  //         Get.to(() =>
+  //
+  //             ResumeScreen(
+  //                 widget.lat1,
+  //                 widget.lat2,
+  //                 widget.lng1,
+  //                 widget.lng2,
+  //                 widget.noteText,
+  //                 widget.PayloadText,
+  //                 widget.TimeNum,
+  //                 widget.Trtext,
+  //                 widget.Typetext,
+  //                 drivers![index].id!,
+  //                 widget.placeuserpick1,
+  //                 widget.placeuserdown1,
+  //                 widget.placeuserpick2,
+  //                 widget.placeuserdown2,widget.vicleId));
+  //         //Button destination
+  //       },
+  //     );
+
+  ListView _buildListView(List<DriversModel> drivers) {
+    return
+      ListView.builder(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: drivers.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+                child: Padding(
+              padding: const EdgeInsets.only(right: 8.0, left: 8, top: 8),
+              child: Container(
+                height: 70,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.black12,
+                    )),
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.circle,
+                    color: Colors.green,
+                  ),
+                  title: Text(
+                    drivers![index].fullName!,
+                    style:
+                        const TextStyle(fontSize: 14, fontFamily: 'ArabotoFat'),
+                    textDirection: TextDirection.rtl,
+                  ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        drivers![index].license!,
+                        style: const TextStyle(
+                            fontSize: 10,
+                            fontFamily: 'Araboto',
+                            color: Color(0xff909090)),
+                        textDirection: TextDirection.rtl,
+                      ),
+                      Text(
+                        drivers![index].plateNumber!,
+                        style: const TextStyle(
+                            fontSize: 10,
+                            fontFamily: 'Araboto',
+                            color: Color(0xff909090)),
+                        textDirection: TextDirection.rtl,
+                      ),
+                    ],
+                  ),
+                  trailing: CircleAvatar(
+                    backgroundImage: NetworkImage(drivers![index].lecensePhoto!),
+                  ),
+                  onTap: () {
+                    print(drivers![index].id!);
+                    Provider.of<DriversProvider>(context,listen: false).getDetailsDriver(id:drivers![index].id);
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext builder){
+                          return CupertinoPopupSurface(
+                            isSurfacePainted: false,
+                            child: Material(
+                              child:   drivers![index].id! == null ?
+                                    CircularProgressIndicator()
+                           :   panal(drivers![index].id!) )
+
+                                );},
+                    );
+
+                  },
+                ),
+              ),
+            )
+          );
+    });}
+
+  Widget panal( index) {
+    Provider.of<DriversProvider>(context,listen: false).getDetailsDriver(id:index);
+    var  driver =   Provider.of<DriversProvider>(context,listen: false).driverModel;
+    print(index);
+    print('youssef');
+    return   driver == null
+        ? CircularProgressIndicator()
+        :
+    Container(
+      height: 400,
+          child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(height: 10,),
+          Container(
+            width: 58,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Color(0xffEFEFEF),
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+
+          SizedBox(height: 50),
+
+          //Driver Picture
+          CircleAvatar(
+            backgroundImage: NetworkImage(driver.lecensePhoto!),
+          ),
+
+          //Driver Name
+          Text(
+            driver!.fullName!,
+            style: TextStyle(
+              fontSize: 24,
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.w500,
             ),
           ),
-        ),
-        onPressed: () {
-          driverData = [Name, Truck, Pic, ratings, Reviews];
-          print(driverData);
 
-          //Button destination
-          Get.to(() => resume(), transition: Transition.rightToLeft);
-        },
-      );
+          SizedBox(height: 10),
 
-  ListView _buildListView() {
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: Names.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: SizedBox(
-            width: 108,
-            child: Column(
-              children: [
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: Rating[index],
-                      style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black)),
-                  const TextSpan(
-                      text: '/5',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xffC2C2C2)))
-                ])),
-                Row(
-                  children: [
-                    RatingBar.builder(
-                      itemSize: 15,
-                      initialRating: double.parse(Rating[index]),
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      glowColor: const Color(0xffF3B304),
-                      unratedColor: const Color(0xffF2F2F2),
-                      itemCount: 5,
-                      itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
-                      itemBuilder: (context, _) => Row(
-                        children: const [
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                        ],
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
-                    const Text(
-                      ' (20)',
-                      style: TextStyle(fontSize: 10, color: Color(0xffC4C4C4)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          title: Text(
-            Names[index],
-            style: const TextStyle(fontSize: 14, fontFamily: 'ArabotoFat'),
-            textDirection: TextDirection.rtl,
-          ),
-          subtitle: const Text(
-            'سائق شاحنة كبيرة الحجم',
+          //Truck name
+          Text(
+            driver!.status!,
             style: TextStyle(
-                fontSize: 10, fontFamily: 'Araboto', color: Color(0xff909090)),
-            textDirection: TextDirection.rtl,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w300,
+                color: Color(0xff909090)),
           ),
-          trailing: CircleAvatar(
-            backgroundImage: AssetImage(Pics[index]),
-          ),
-          onTap: () {
-            print(index);
-            Open();
+        SizedBox(height: 10),
 
-            setState(() {
-              setDriverData(index);
-            });
+        Text(
+          driver!.license!,
+          style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w300,
+              color: Color(0xff909090)),
+        ),
+        SizedBox(height: 10),
 
-            //ApanelController.isPanelOpen ? ApanelController.close() : ApanelController.open();
-          },
-        );
-      },
-    );
-  }
+        Text(
+          driver!.phoneNumber!,
+          style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w300,
+              color: Color(0xff909090)),
+        ),
+          //Truck Info
 
-  Future<void> setDriverData(int choice) async {
-    Name = Names[choice];
-    Truck = trName[choice];
-    Pic = Pics[choice];
-    ratings = Rating[choice];
-    Reviews = Review[choice];
+          Positioned(
+            bottom: 10,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                  width: MediaQuery.of(context).size.width - 50,
+                  child:  MaterialButton(
+                    color: On,
+                    minWidth: double.infinity,
+                    height: 60,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    child: Container(
+                      child: Text(
+                        'اختر السائق',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      Get.to(() =>
+
+                          ResumeScreen(
+                              widget.lat1,
+                              widget.lat2,
+                              widget.lng1,
+                              widget.lng2,
+                              widget.noteText,
+                              widget.PayloadText,
+                              widget.TimeNum,
+                              widget.Trtext,
+                              widget.Typetext,
+                              driver.id!,
+                              widget.placeuserpick1,
+                              widget.placeuserdown1,
+                              widget.placeuserpick2,
+                              widget.placeuserdown2,widget.vicleId));
+                      //Button destination
+                    },
+                  ))
+            ),
+          )
+      ],
+    ),
+        ); // Open();
   }
 }
+
+
+
+// Future<void> setDriverData(int choice) async {
+//   Name = [choice];
+//   Truck = trName[choice];
+//   Pic = Pics[choice];
+//   ratings = Rating[choice];
+//   Reviews = Review[choice];
+// }

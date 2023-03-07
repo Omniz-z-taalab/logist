@@ -4,9 +4,9 @@ import 'dart:ui' as ui;
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
-import '../../others/TextPage2.dart';
+import '../create_order/location_user_1.dart';
 import '../../others/variables.dart';
-import 'Home_package_active.dart';
+import '../create_order/Home_package_active.dart';
 import '../../widgets/Location_service.dart';
 import '../../widgets/SearchAPI.dart';
 
@@ -258,6 +258,7 @@ class MapSampleState extends State<MapSample> {
 
                       async {
                         var place = await PlacesAutocomplete.show(
+
                             context: context,
                             apiKey: kGoogleApiKey!,
                             mode: Mode.overlay,
@@ -267,7 +268,6 @@ class MapSampleState extends State<MapSample> {
                             //google_map_webservice package
                             onError: (err){
                               print(err);
-                              print('3333322111111111111111');
                             }
                         );
 
@@ -406,10 +406,10 @@ class MapSampleState extends State<MapSample> {
       ),
       onTap: (){
         //Use Map search Instead
-        Get.to(
-                ()=>MapSample2(),
-            transition: Transition.rightToLeft
-        );
+        // Get.to(
+        //         ()=>LocationUser1(),
+        //     transition: Transition.rightToLeft
+        // );
 
 
       },

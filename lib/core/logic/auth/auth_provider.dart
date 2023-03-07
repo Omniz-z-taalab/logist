@@ -128,12 +128,7 @@ class AuthProvider extends ChangeNotifier {
               },
               );
 
-      print(response);
-      print(name);
-      print(phone);
-      print(email);
-      print(name);
-        print('322222');
+
       CacheHelper.putData(key: 'accessToken', value: response.data['accesToken']);
       isLoading = false;
       String? tokeeeeeeeen = CacheHelper.getData(key: 'accessToken');
@@ -179,46 +174,4 @@ class AuthProvider extends ChangeNotifier {
   }
 
   //registerDriver
-  Future<bool> registerDriver({DriverModel? driverModel}) async {
-    isLoading = true;
-    notifyListeners();
-
-    try {
-      var response = await DioHelper
-          .postData(url:'${AppApiPaths.base}/api/v1/auth/driverRegester',
-              data: {
-                "FullName": "test driver",
-                "phonenumber": "+201098032881",
-                "adrress": "26st el-mostshfa shubra",
-                "email": "drivder@test.com",
-                "nationality": "Egypt",
-                "identity_card": "12345678901",
-                "license": "first class",
-                "vehicle_register_number": "0123456",
-                "plate_number": "ارج 1234",
-                "identity_card_photo_front":
-                    "https://storage.googleapis.com/storage_buket_1/id.png",
-                "identity_card_photo_back":
-                    "https://storage.googleapis.com/storage_buket_1/id.png",
-                "lecense_photo":
-                    "https://storage.googleapis.com/storage_buket_1/id.png",
-                "vehicle_type_id": 1,
-                "TrailerIds": 2,
-                "TrailerTypeIds": 3
-              },
-              );
-      print(response);
-
-      CacheHelper.putData(key: 'accessToken', value: response.data['accesToken']);
-
-      isLoading = false;
-      notifyListeners();
-      return isVerify;
-    } catch (error) {
-      showToast(error.toString(), true, false);
-      isLoading = false;
-      // notifyListeners();
-      return isVerify;
-    }
-  }
 }

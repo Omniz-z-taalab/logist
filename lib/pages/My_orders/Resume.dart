@@ -2,7 +2,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:logist/core/logic/price_payment/price_payment.dart';
 import 'package:logist/others/variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logist/pages/My_orders/Details.dart';
@@ -10,16 +12,56 @@ import 'package:logist/pages/My_orders/OrderInfo.dart';
 import 'package:logist/pages/My_orders/payloading.dart';
 import 'package:logist/pages/Payments/PaymentSucess.dart';
 import 'package:logist/pages/Payments/PaymentMethods.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/viecelModel/viecleModel.dart';
 
-class resume extends StatefulWidget {
-  const resume({Key? key}) : super(key: key);
+class ResumeScreen extends StatefulWidget {
+  var lat1;
+  var lat2;
+  var lng1;
+  var lng2;
+  String noteText;
+  int PayloadText;
+  List<String> TimeNum;
+  String Trtext;
+  int Typetext;
+  int id;
+  String placeuserpick1;
+  String placeuserdown1;
+  String placeuserpick2;
+  String placeuserdown2;
+  int vicleId;
+
+  ResumeScreen(
+      this.lat1,
+      this.lat2,
+      this.lng1,
+      this.lng2,
+      this.noteText,
+      this.PayloadText,
+      this.TimeNum,
+      this.Trtext,
+      this.Typetext,
+      this.id,
+      this.placeuserpick1,
+      this.placeuserdown1,
+      this.placeuserpick2,
+      this.placeuserdown2,this.vicleId);
 
   @override
-  State<resume> createState() => _resumeState();
+  State<ResumeScreen> createState() => _ResumeScreenState();
 }
 
-class _resumeState extends State<resume> {
+class _ResumeScreenState extends State<ResumeScreen> {
+  @override
+  initState() {
+    super.initState();
+    context
+        .read<PriceProvider>()
+        .getPrice(widget.lat1, widget.lng1, widget.lat2, widget.lng2);
+    print(widget.noteText);
+  }
 
   //Enable While Debugging
 
@@ -27,12 +69,11 @@ class _resumeState extends State<resume> {
   // List<String> Destination = ['',''];
   // String distance = '13.6';
 
-
   @override
   Widget build(BuildContext context) {
+    var price = context.read<PriceProvider>().price;
     return Scaffold(
       backgroundColor: Obackground,
-
       appBar: AppBar(
         backgroundColor: Obackground,
         centerTitle: true,
@@ -65,9 +106,7 @@ class _resumeState extends State<resume> {
           const SizedBox(width: 20),
         ],
       ),
-
-      body:
-      SizedBox(
+      body: context.read<PriceProvider>().price ==null ? Center(child: CircularProgressIndicator(),):  SizedBox(
         height: double.infinity,
         child: Stack(
           children: [
@@ -75,8 +114,8 @@ class _resumeState extends State<resume> {
               bottom: 28,
               child: Column(
                 children: [
-
                   //Thine line
+
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 1,
@@ -85,39 +124,35 @@ class _resumeState extends State<resume> {
 
                   //Final Price
                   SizedBox(
-                    width: MediaQuery.of(context).size.width-50,
+                    width: MediaQuery.of(context).size.width - 50,
                     height: 100,
                     child: Center(
                       child: ListTile(
-
                         leading: Container(
                           alignment: Alignment.centerLeft,
                           width: 150,
                           child: RichText(
-                              text: const TextSpan(children: [
-                                TextSpan(
-                                    text: '261.96',
-                                    style: TextStyle(
-                                        fontFamily: 'visbydemibold',
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xff191F28))),
-                                TextSpan(
-                                    text: ' SAR',
-                                    style: TextStyle(
-                                        fontFamily: 'visbylight',
-                                        fontSize: 18,
-                                        color: Color(0xff191F28)))
-                              ])),
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: price.toString(),
+                                style: const TextStyle(
+                                    fontFamily: 'visbydemibold',
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff191F28))),
+                            TextSpan(
+                                text: ' SAR',
+                                style: TextStyle(
+                                    fontFamily: 'visbylight',
+                                    fontSize: 18,
+                                    color: Color(0xff191F28)))
+                          ])),
                         ),
-
                         title: const Text(
                           'السعر النهائي',
                           style: TextStyle(fontSize: 13, fontFamily: 'Araboto'),
                           textDirection: TextDirection.rtl,
                         ),
-
-
                       ),
                     ),
                   ),
@@ -131,55 +166,149 @@ class _resumeState extends State<resume> {
 
                   //Driver Name
                   SizedBox(
-                    width: MediaQuery.of(context).size.width-50,
+                    width: MediaQuery.of(context).size.width - 50,
                     height: 60,
                     child: Next('ادفع الآن'),
                   ),
                 ],
               ),
             ),
-
             SizedBox(
-              height: MediaQuery.of(context).size.height-258,
+              height: MediaQuery.of(context).size.height - 258,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 25,right: 25,top: 25),
+                  padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width-50,
+                    width: MediaQuery.of(context).size.width - 50,
                     child: Column(
                       children: [
                         //Depart
-                        ListView("Origine[0]","Origine[1]",'','','depart'),
-                        Container(height: 1,color: const Color(0xffF2F1F4)),
+
+                        ListView(
+                            title: widget.placeuserpick1,
+                            subtitle: widget.placeuserdown1,
+                            image: Icons.add_home_work_sharp),
+
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
+                        ListView(
+                            title: widget.placeuserpick2,
+                            subtitle: widget.placeuserdown2,
+                            image: Icons.maps_home_work),
 
                         //Arrive
-                        ListView("Destination[0]","Destination[1]",'','','arriving'),
-                        Container(height: 1,color: const Color(0xffF2F1F4)),
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: 63,
+                          child: ListTile(
+                              leading: Container(
+                                alignment: Alignment.centerLeft,
+                                width: 65,
+                              ),
+                              title: Text(
+                                widget.PayloadText == 0
+                                    ? 'حمولة أدوية'
+                                    : widget.PayloadText == 1
+                                        ? 'حمولة اطعمة'
+                                        : widget.PayloadText == 2
+                                            ? 'حمولة حديد'
+                                            : widget.PayloadText == 3
+                                                ? 'حمولة بضائع'
+                                                : widget.PayloadText == 4
+                                                    ? 'حمولة مواشي'
+                                                    : 'حمولة اخري     ,',
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Araboto',
+                                    fontWeight: FontWeight.bold),
+                                textDirection: TextDirection.rtl,
+                              ),
+                              trailing: CircleAvatar(
+                                  child: widget.PayloadText == 0 & 1 & 2
+                                      ? Icon(
+                                          widget.PayloadText == 0
+                                              ? Icons.medical_services
+                                              : widget.PayloadText == 1
+                                                  ? Icons.emoji_food_beverage
+                                                  : Icons.build_circle_outlined,
+                                          size: 20,
+                                          color: Colors.white,
+                                        )
+                                      : widget.PayloadText == 3
+                                          ? Image.asset(
+                                              'assets/pics/package.png')
+                                          : widget.PayloadText == 4
+                                              ? Image.asset(
+                                                  'assets/pics/package.png')
+                                              : Icon(Icons
+                                                  .shopping_bag_outlined))),
+                        ),
+                        // ListView(title: widget.Typetext == 0 ? 'حمولة أدوية': widget.Typetext ==1 ?'حمولة اطعمة' : widget.Typetext ==2 ? 'حمولة حديد' :  widget.Typetext ==3? 'حمولة بضائع' : widget.Typetext ==4? 'حمولة مواشي': 'حمولة اخري'),
 
                         //Distance
-                        ListView('مسافة نقل الشحنة','',distance.replaceAll('km', ''),'KM','distance'),
-                        Container(height: 1,color: const Color(0xffF2F1F4)),
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
+                        ListView(
+                            title: widget.Trtext,
+                            subtitle: widget.placeuserdown1,
+                            image: Icons.car_repair),
 
                         //Truck name
-                        ListView('شاحنة ALX','','','','trALX'),
-                        Container(height: 1,color: const Color(0xffF2F1F4)),
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
 
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: 80,
+                          child: ListTile(
+                              leading: Container(
+                                alignment: Alignment.centerLeft,
+                                width: 65,
+                              ),
+                              title: Text(
+                                widget.TimeNum[0].toString(),
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Araboto',
+                                    fontWeight: FontWeight.bold),
+                                textDirection: TextDirection.rtl,
+                              ),
+                              trailing: CircleAvatar(
+                                child: Icon(
+                                  Icons.calendar_month,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                                backgroundColor: Color(0xFF191F28),
+                              )),
+                        ),
                         //Truck Shape
-                        ListView(trShape[0],'','','',trShape[1]),
-                        Container(height: 1,color: const Color(0xffF2F1F4)),
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: 63,
+                          child: ListTile(
+                              leading: Container(
+                                alignment: Alignment.centerLeft,
+                                width: 65,
+                              ),
+                              title: Text(
+                                widget.noteText,
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Araboto',
+                                    fontWeight: FontWeight.bold),
+                                textDirection: TextDirection.rtl,
+                              ),
+                              trailing: CircleAvatar(
+                                child: Icon(
+                                  Icons.edit_note,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                                backgroundColor: Color(0xFF191F28),
+                              )),
+                        ),
 
                         //Truck Type
-                        ListView(trType[0],'','','',trType[1]),
-                        Container(height: 1,color: const Color(0xffF2F1F4)),
-
-                        //load Type
-                        ListView(loadType[0],'','','',loadType[1]),
-                        Container(height: 1,color: const Color(0xffF2F1F4)),
-
-                        //Date and Time
-                        ListView('اليوم','',time[1],time[2],'time'),
-                        //Container(height: 1,color: const Color(0xffF2F1F4)),
-
                       ],
                     ),
                   ),
@@ -189,83 +318,78 @@ class _resumeState extends State<resume> {
           ],
         ),
       ),
-
     );
   }
 
-  ListView(var title,var subtitle,var numb,var unit,var image)  {
-
+  ListView({var title, var subtitle, var numb, var unit, var image}) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width-50,
+      width: MediaQuery.of(context).size.width - 50,
       height: 63,
       child: ListTile(
-
-        leading: Container(
-          alignment: Alignment.centerLeft,
-          width: 65,
-          child: RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: '$numb ',
-                    style: const TextStyle(
-                        fontFamily: 'visbydemibold',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xff191F28))),
-                TextSpan(
-                    text: unit,
-                    style: const TextStyle(
-                        fontFamily: 'visbylight',
-                        fontSize: 12,
-                        color: Color(0xff191F28)))
-              ])),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 15, fontFamily: 'Araboto',fontWeight: FontWeight.w500),
-          textDirection: TextDirection.rtl,
-        ),
-        subtitle: subtitle == '' ? null : Text(
-          subtitle,
-          style: const TextStyle(
-              fontSize: 10, fontFamily: 'Araboto', color: Color(0xff909090)),
-          textDirection: TextDirection.rtl,
-        ),
-          trailing: Image.asset('assets/pics/$image.png',width: 33,)
-      ),
+          leading: Container(
+            alignment: Alignment.centerLeft,
+            width: 65,
+          ),
+          title: Text(
+            title,
+            style: const TextStyle(
+                fontSize: 15,
+                fontFamily: 'Araboto',
+                fontWeight: FontWeight.bold),
+            textDirection: TextDirection.rtl,
+          ),
+          subtitle: subtitle == ''
+              ? null
+              : Text(
+                  subtitle,
+                  style: const TextStyle(
+                      fontSize: 10,
+                      fontFamily: 'Araboto',
+                      color: Color(0xff909090)),
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.start,
+                ),
+          trailing: CircleAvatar(
+            child: Icon(
+              image,
+              size: 20,
+              color: Colors.white,
+            ),
+            backgroundColor: Color(0xFF191F28),
+          )),
     );
   }
 
   Widget Next(String par) => MaterialButton(
-    color: On,
-    minWidth: double.infinity,
-    height: 60,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(100.0),
-    ),
-    child: Container(
-      child: Text(
-        par,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-          fontFamily: 'Montserrat',
-          fontWeight: FontWeight.w500,
+        color: On,
+        minWidth: double.infinity,
+        height: 60,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100.0),
         ),
-      ),
-    ),
-    onPressed: () {
-      //Button destination
-      Get.to(
-          () => paymentMethods(),
-          transition: Transition.rightToLeft
+        child: Container(
+          child: Text(
+            par,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        onPressed: () {
+          //Button destination
 
+          Provider.of<PriceProvider>(context, listen: false).createOrder(
+              widget.vicleId,
+              widget.TimeNum[0],
+              widget!.lat1,
+              widget.lng1,
+              widget.lat2,
+              widget.lng2,
+              widget.id);
+            Get.to(() => paymentMethods(), transition: Transition.rightToLeft);
+          }
       );
-
-      ;
-
-    },
-  );
-
-
 }

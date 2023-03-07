@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logist/models/viecelModel/viecleModel.dart';
 
 import '../../utilities/dio_helper.dart';
 
@@ -39,7 +40,7 @@ class VieclesProvider extends ChangeNotifier {
     }
   }
 
-  List<Viecle> viecles = [];
+  List<viecleModel> viecles = [];
   //get viecle
   Future<void> getViecle() async {
     isGetViecle = true;
@@ -50,8 +51,8 @@ class VieclesProvider extends ChangeNotifier {
 
         url: '${AppApiPaths.base}/api/v1/viecles/',
       );
-      // viecles=(response.data as List<dynamic>).map((e){Viecle.fromJson(e)}).toList();
-      print(response.data);
+      response.data.forEach((user) => viecles!.add(viecleModel.fromJson(user)));
+      // print(viecles![0].sPic);
       // showToast(response['msg'], true, true);
 
       isGetViecle = false;

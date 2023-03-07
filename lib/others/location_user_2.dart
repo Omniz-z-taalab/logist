@@ -11,20 +11,47 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+
 // import 'package:location/location.dart';
+import '../models/viecelModel/viecleModel.dart';
 import 'PickupPlace2.dart';
 import 'variables.dart';
 import '../widgets/Location_service.dart';
 
-class MapSample3 extends StatefulWidget {
+class LocationUser2 extends StatefulWidget {
+  var Lat;
+  var Lng;
+  String noteText;
+  int PayloadText;
+  List<String> TimeNum;
+  String Trtext;
+  int Typetext;
+  String placeuserpick1;
+  String placeuserdown1;
+  int vicleId;
+
+  LocationUser2(
+      this.Lat,
+      this.Lng,
+      this.noteText,
+      this.PayloadText,
+      this.TimeNum,
+      this.Trtext,
+      this.Typetext,
+      this.placeuserpick1,
+      this.placeuserdown1,
+      this.vicleId);
+
   @override
-  State<MapSample3> createState() => MapSample3State();
+  State<LocationUser2> createState() => LocationUser2State();
 }
 
 late GoogleMapController googleMapController;
 
-class MapSample3State extends State<MapSample3> {
+class LocationUser2State extends State<LocationUser2> {
   final String key = 'AIzaSyA8R2ZGRtTqb3ZaPFIGY2nxfWospmbfBTY';
+  var Lat;
+  var Lng;
 
   Future<List<String>> GetAddressName(double lat, double Long) async {
     final String url =
@@ -35,7 +62,9 @@ class MapSample3State extends State<MapSample3> {
       print('Sent $lat , $Long');
       print('Received $json');
       var status = json['status'];
-
+      Lat = lat;
+      Lng = Long;
+      print('111111111$Lat,2222222222$Lng');
       if (status != 'ZERO_RESULTS') {
         var placeId = json['results'][0]['formatted_address'];
         var name = json['results'][0]['address_components'][2]['short_name'];
@@ -64,6 +93,7 @@ class MapSample3State extends State<MapSample3> {
   Completer<GoogleMapController> _controller = Completer();
   TextEditingController _originController = TextEditingController();
   TextEditingController _destinationController = TextEditingController();
+
   // late LocationData currentLocation;
 
   //Marker Variables
@@ -120,49 +150,22 @@ class MapSample3State extends State<MapSample3> {
   bool DestSelected = false;
   double BarHeight = 250.0; //Bar height
 
-  // void getCurrentLocation() async {
-  // //  Location location = Location();
-  //
-  //   var _serviceEnabled =    await isGPSEnabled();
-  //   //await location.serviceEnabled();
-  //
-  //   if (_serviceEnabled) {
-  //     _serviceEnabled = await location.requestPermission();
-  //     if (_serviceEnabled) {
-  //       final currentLocation = await location.getLocation();
-  //       print(currentLocation.time);
-  //       if (currentLocation != null) {
-  //         final GoogleMapController controller = await _controller.future;
-  //         print(
-  //             '${currentLocation.longitude} AND ${currentLocation.latitude} Are So important');
-  //         mylat = currentLocation.latitude;
-  //         mylng = currentLocation.longitude;
-  //         //Setting marker on mao
-  //         _setMarker(
-  //             LatLng(currentLocation.latitude!, currentLocation.longitude!));
-  //
-  //         //Changing Camera Position
-  //         controller.animateCamera(CameraUpdate.newCameraPosition(
-  //             CameraPosition(
-  //                 target: LatLng(
-  //                     currentLocation.latitude!, currentLocation.longitude!),
-  //                 zoom: 15.5)));
-  //       } else {
-  //         print('Location Data is null');
-  //       }
-  //     }
-  //   }
-  // }
-
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(mylat!, mylng!),
     zoom: 15.4746,
   );
+  var latitude;
+
+  var langtude;
 
   @override
   void initState() {
     super.initState();
     setMark();
+    print('4444455555555555555');
+    latitude = widget.Lat;
+    langtude = widget.Lng;
+    print('latttttt$latitude,lnggggggg$langtude');
     //getCurrentLocation();
 
     // _setMarker(LatLng(32.294047, -6.709170));
@@ -231,6 +234,8 @@ class MapSample3State extends State<MapSample3> {
 
   int _polygonsIdCounter = 1;
   int _polylineIdCounter = 1;
+  var placeuserpick2;
+  var placeuserdown2;
 
   static final CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
@@ -239,36 +244,50 @@ class MapSample3State extends State<MapSample3> {
       zoom: 19.151926040649414);
 
   Widget Next(String par) => MaterialButton(
-    disabledColor: Color(0xff42484F).withOpacity(0.90),
-    color: On,
-    minWidth: double.infinity,
-    height: 60,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(100.0),
-    ),
-    child: Container(
-      child: Text(
-        par,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-          fontFamily: 'Montserrat',
-          fontWeight: FontWeight.w500,
+        disabledColor: Color(0xff42484F).withOpacity(0.90),
+        color: On,
+        minWidth: double.infinity,
+        height: 60,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100.0),
         ),
-      ),
-    ),
-    onPressed: () {
-      //Button destination
-      // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
-      print(par);
-      Get.to(
-              ()=> package_place2(),
-          transition: Transition.rightToLeft
+        child: Container(
+          child: Text(
+            par,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        onPressed: () {
+          //Button destination
+          // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
+          print(par);
+          print('wwwwww');
+          Get.to(
+              () => package_place2(
+                  Lat,
+                  Lng,
+                  latitude,
+                  langtude,
+                  widget.noteText,
+                  widget.PayloadText,
+                  widget.TimeNum,
+                  widget.Trtext,
+                  widget.Typetext,
+                  widget.placeuserpick1,
+                  widget.placeuserdown1,
+                  placeuserpick2,
+                  placeuserdown2,
+                  widget.vicleId
+              ),
+              transition: Transition.rightToLeft);
+          print('Went to Map2');
+        },
       );
-      print('Went to Map2');
-
-    },
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -318,6 +337,11 @@ class MapSample3State extends State<MapSample3> {
                     neterror = true;
                   });
                 }
+                placeuserpick2 = Titles[0];
+                placeuserdown2 = Titles[1];
+                print(placeuserpick2);
+                print(placeuserdown2);
+                print('yaaaaaaayaaaaaaa raaaaab');
               },
               polylines: _polylines,
               markers: _markers,
@@ -442,10 +466,13 @@ class MapSample3State extends State<MapSample3> {
 
                     //Next Button
                     Container(
-                      child: !DestSelected ?  Container(height: 0,width: 0,):Next('أختر المكان') ,
-
-
-              )
+                      child: !DestSelected
+                          ? Container(
+                              height: 0,
+                              width: 0,
+                            )
+                          : Next('أختر المكان'),
+                    )
                   ],
                 ),
               ),

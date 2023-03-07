@@ -3,14 +3,17 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/logic/messages/chat_provider.dart';
-import '../../../others/variables.dart';
-import '../../Order_Setup/messages.dart';
+import 'package:logist/models/chat/inbox_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../core/logic/layout/profile/profile_provider.dart';
+import '../../../core/logic/messages/chat_provider.dart';
+import '../../../models/user_model.dart';
+import '../../../others/variables.dart';
+import '../../Order_Setup/messages.dart';
+
 
 class conversationsList extends StatefulWidget {
   const conversationsList({Key? key}) : super(key: key);
@@ -25,12 +28,13 @@ class _conversationsListState extends State<conversationsList> {
   void Open() {
     ApanelController.isPanelClosed ? ApanelController.open() : null;
   }
-
+UserModel? usermodel;
   @override
   void initState() {
     super.initState();
-    context.read<ProfileProvider>().getUser();
-    context.read<ChatProvider>().getInbox();
+    context.read<ProfileProvider>().userModel;
+    usermodel = context.read<ProfileProvider>().userModel;
+    context.read<ChatProvider>().getInbox(userId: usermodel!.id);
 
     // done();
   }
@@ -44,6 +48,7 @@ class _conversationsListState extends State<conversationsList> {
   // }
 
   Widget build(BuildContext context) {
+    var response = context.watch<ChatProvider>().inboxMessage ;
     return Scaffold(
         backgroundColor: Color(0xffFAFBFB),
         appBar: AppBar(
@@ -88,10 +93,12 @@ class _conversationsListState extends State<conversationsList> {
                     child: SizedBox(
                       height: 300,
                       child: context.watch<ChatProvider>().isGetInbox == 0
-
-                          ? const Center(child: Text('لاتوجد رسائل',style: TextStyle(color: Colors.black,fontSize: 20),),)
-                          : context.watch<ChatProvider>().isGetInbox
-                        ?_buildListView(): _buildShimmerListView()
+                          ? const Center(child: Text('لا توجد رسائل',style: TextStyle(color: Colors.black),))
+                          : context.watch<ChatProvider>().isGetInbox == true
+                          ? _buildShimmerListView()
+                          :ListView.builder(
+                        itemBuilder: (context,index) =>_buildListView(response![index]),
+                        itemCount: response!.length),
                     )),
               ],
             ),
@@ -100,39 +107,43 @@ class _conversationsListState extends State<conversationsList> {
   }
   //Profile picture
 
-  ListView _buildListView() {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: context.watch<ChatProvider>().inboxMessage.length,
-      itemBuilder: (context, index) {
-        return Padding(
+  Widget _buildListView(ChatListResponse response) {
+    return Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: ListTile(
             tileColor: Colors.white,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             leading: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                response!.unseenNumber == 0 ? Container(
                   height: 12,
                   width: 12,
                   decoration:const  BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color(0xff1877F2),
+                    color: Colors.white,
                   ),
+                )
+                    : Container(
+                  height: 18,
+                  width: 18,
+                  decoration:const  BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.red,
+                  ),
+                  child:  Center(child: Text('${response!.unseenNumber!}',style: TextStyle(color: Colors.white),)),
                 ),
               ],
             ),
             // : null,
             title: Text(
-              context.read<ChatProvider>().inboxMessage[index].name!,
+              response!.name!,
               style: const TextStyle(fontSize: 14, fontFamily: 'ArabotoFat'),
               textDirection: TextDirection.rtl,
             ),
             subtitle: Text(
-              context.read<ChatProvider>().inboxMessage[index].lastMessage ??
-                  "",
+              response!.lastMessage!,
               style: const TextStyle(
                   fontSize: 10,
                   fontFamily: 'Araboto',
@@ -140,23 +151,19 @@ class _conversationsListState extends State<conversationsList> {
               textDirection: TextDirection.rtl,
             ),
             trailing: CircleAvatar(
-              backgroundImage: NetworkImage(context
-                  .read<ChatProvider>()
-                  .inboxMessage[index]
-                  .profileImage!),
+              backgroundImage: NetworkImage(response!.profileImage!),
             ),
             onTap: () {
               Get.to(
-                  () => conversation(
-                        inbox: context.read<ChatProvider>().inboxMessage[index],
-                      ),
+                      () => conversation(
+                    inbox: response,
+                  ),
                   transition: Transition.rightToLeft);
               //ApanelController.isPanelOpen ? ApanelController.close() : ApanelController.open();
             },
           ),
         );
-      },
-    );
+
   }
 
   ListView _buildShimmerListView() {

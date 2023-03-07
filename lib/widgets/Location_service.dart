@@ -63,7 +63,7 @@ class LocationService {
 
     OrPoint = Orlat.toString() + ',' + Orlng.toString();
 
-    return [name, FullName];
+    return [name, FullName,OrPoint];
   }
 
   Future<Map<String, dynamic>> getDirections(

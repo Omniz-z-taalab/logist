@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as itl;
+import 'package:provider/provider.dart';
+import '../../core/logic/viecles/viecles_provider.dart';
+import '../../models/viecelModel/viecleModel.dart';
+import '../../models/viecle_model.dart';
 import '../../others/variables.dart';
 import 'package:flutter/cupertino.dart';
 import '../My_orders/ChooseDriver.dart';
 import '../My_orders/Details.dart';
+import '../Navigation_bar/PickupPlace.dart';
 import '../Payments/PaymentSucess.dart';
 import '../../widgets/PanelWidget.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -12,13 +17,29 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class chooseExtentions extends StatefulWidget {
-  const chooseExtentions({Key? key}) : super(key: key);
+  // var latU1;
+  // var lngU1;
+  // var latU2;
+  // var lngU2;
+  //  chooseExtentions(this.latU1,this.lngU1,this.latU2,this.lngU2);
 
   @override
   State<chooseExtentions> createState() => _chooseExtentionsState();
 }
 
 class _chooseExtentionsState extends State<chooseExtentions> {
+  List<viecleModel>? viecle;
+
+  @override
+  void initState() {
+    Provider.of<VieclesProvider>(context, listen: false)
+        .getViecle(); // TODO: implement initState
+    viecle = context.read<VieclesProvider>().viecles;
+    super.initState();
+    // latU1 = widget.latU1;
+  }
+      String? vicle;
+      int? vicleId;
   double HeadOpacity = 0;
 
   final formKey = GlobalKey<FormState>();
@@ -89,7 +110,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   String ParaType = '';
   final panelController = PanelController();
   bool isfull = false;
-
+int? VecleId;
   String TitleNote(String note, {int limit = 30}) {
     return note.length >= limit ? note.substring(0, limit) + '...' : note;
   }
@@ -97,11 +118,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   //Truck Shape Functions
   String Tricon(int choice) {
     if (choice == 0) {
-      return 'trALX';
+      return viecle![0].sPic!;
     } else if (choice == 1) {
-      return 'trOPEN';
+      return viecle![1].sPic!;
     } else if (choice == 2) {
-      return 'Bigtr';
+      return viecle![2].sPic!;
     } else {
       return 'IconTruck';
     }
@@ -114,17 +135,18 @@ class _chooseExtentionsState extends State<chooseExtentions> {
       setState(() {
         num = 1;
       });
-      return 'شاحنه مغلقة';
+
+      return viecle![0].sName!;
     } else if (choice == 1) {
       setState(() {
         num = 2;
       });
-      return 'شاحنه مفتوحة من جانب ';
+      return viecle![1].sName!;
     } else if (choice == 2) {
       setState(() {
         num = 3;
       });
-      return 'شاحنه شبك';
+      return viecle![2].sName!;
     } else {
       return 'شكل الشاحنة';
     }
@@ -197,7 +219,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
     if (choice == 10) {
       return 'التوقيت';
     } else {
-      return true;
+      return '';
     }
   }
 
@@ -421,13 +443,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                 height: 24,
                 width: 24,
                 alignment: Alignment.center,
-                child: selected
-                    ? Image.asset(
-                        'assets/pics/SmallLeftArrow.png',
-                        width: 12,
-                        height: 12,
-                      )
-                    : null),
+                child: Container()),
             Expanded(
                 child: Text(
               title,
@@ -438,11 +454,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                   fontWeight: FontWeight.w300,
                   color: Color(0xff191F28)),
             )),
-            Padding(
-              padding: const EdgeInsets.only(right: 9, left: 16),
-              child:
-                  Image.asset('assets/pics/$Icon.png', width: 24, height: 24),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(right: 9, left: 16),
+            //   child:
+            //       Image.asset( 'assets/pics/$Icon.png', width: 24, height: 24),
+            // ),
           ],
         ),
       );
@@ -472,12 +488,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                         style: const TextStyle(
                             fontSize: 14, fontFamily: 'visbydemibold'),
                       )),
-            selected ?
-            Container()
-
-            : Text('/${Fhour(day)}.${Fhour(month)}.$year',
-                style: const TextStyle(
-                    fontSize: 14, fontFamily: 'visbydemibold')),
+            selected
+                ? Container()
+                : Text('/${Fhour(day)}.${Fhour(month)}.$year',
+                    style: const TextStyle(
+                        fontSize: 14, fontFamily: 'visbydemibold')),
             Expanded(
                 child: Text(
               title.toString(),
@@ -519,7 +534,18 @@ class _chooseExtentionsState extends State<chooseExtentions> {
           ),
           onPressed: () {
             //Button destination
+            vicle = Trtext(_trShape);
+            if(vicle! == 'v-one'){
+              vicleId = 1;
+            }else if(vicle! == 'v-tow'){
+              vicleId = 3;
+            }else{
+              vicleId = 4;
 
+            }
+            print(vicle);
+            print(vicleId.toString());
+            print('[][][[][][[]][[][][][][]][');
             setState(() {
               if (ParaType == 'time') {
                 _time = 1;
@@ -578,7 +604,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                 _trType != 10 &&
                 _trShape != 10) {
               Get.to(
-                () => const chooseDriver(),
+                () => pickupPlace(TheNote, time, _payload, _trType, vicle!,vicleId!),
                 transition: Transition.rightToLeft,
               );
             }
@@ -595,11 +621,13 @@ class _chooseExtentionsState extends State<chooseExtentions> {
               padding: const EdgeInsets.only(
                 left: 33,
                 right: 33,
+                  top:10,
+                  bottom: 20
               ),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 9, bottom: 26),
+                    padding: const EdgeInsets.only(top: 10,bottom: 9),
                     child: Container(
                       width: 58,
                       height: 4,
@@ -610,15 +638,13 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                     ),
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           //ListTile
                           InkWell(
                             child: AnimatedContainer(
-                              height: 91,
+                              height: 80,
                               alignment: Alignment.centerLeft,
                               duration: const Duration(milliseconds: 250),
                               decoration: BoxDecoration(
@@ -645,8 +671,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                               CrossAxisAlignment.end,
                                           children: [
                                             //Title
-                                            const Text(
-                                              'شاحنه مغلقة',
+                                            Text(
+                                              viecle![0].sName! ?? '',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontFamily: 'Montserrat',
@@ -659,8 +685,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                             const SizedBox(height: 5),
 
                                             //SubText
-                                            const Text(
-                                              '10 دقائق للوصول إلى الشحنة',
+                                            Text(
+                                              viecle![0].sDesc! ?? '',
                                               textDirection: TextDirection.rtl,
                                               style: TextStyle(
                                                 fontSize: 10,
@@ -686,8 +712,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                           alignment: Alignment.center,
 
                                           //Image
-                                          child: Image.asset(
-                                            'assets/pics/trALX.png',
+                                          child: Image.network(
+                                            viecle![0].sPic!,
                                             width: 40,
                                             height: 40,
                                           ),
@@ -702,6 +728,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                               ),
                             ),
                             onTap: () {
+                              vicle = Trtext(_trShape);
+                              print(vicle);
                               setState(() {
                                 _trShape = 0;
                               });
@@ -711,7 +739,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                           //ListTile
                           InkWell(
                             child: AnimatedContainer(
-                              height: 91,
+                              height: 80,
                               alignment: Alignment.centerLeft,
                               duration: const Duration(milliseconds: 250),
                               decoration: BoxDecoration(
@@ -738,8 +766,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                               CrossAxisAlignment.end,
                                           children: [
                                             //Title
-                                            const Text(
-                                              'شاحنه مفتوحة من جانب',
+                                            Text(
+                                              viecle![1].sName! ?? '',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontFamily: 'Montserrat',
@@ -752,8 +780,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                             const SizedBox(height: 5),
 
                                             //SubText
-                                            const Text(
-                                              'غالبا ما تستخدم لنقل (المعادن)',
+                                            Text(
+                                              viecle![1].sDesc! ?? '',
                                               textDirection: TextDirection.rtl,
                                               style: TextStyle(
                                                 fontSize: 10,
@@ -779,8 +807,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                           alignment: Alignment.center,
 
                                           //Image
-                                          child: Image.asset(
-                                            'assets/pics/trOPEN.png',
+                                          child: Image.network(
+                                            viecle![1].sPic!,
                                             width: 40,
                                             height: 40,
                                           ),
@@ -789,7 +817,9 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                     ],
                                   ),
                                   Container(
-                                      width: MediaQuery.of(context).size.width -
+                                      width: MediaQuery.of(context)
+                                          .size
+                                          .width -
                                           67)
                                 ],
                               ),
@@ -804,7 +834,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                           //ListTile
                           InkWell(
                             child: AnimatedContainer(
-                              height: 91,
+                              height: 80,
                               duration: const Duration(milliseconds: 250),
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
@@ -831,8 +861,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                               CrossAxisAlignment.end,
                                           children: [
                                             //Title
-                                            const Text(
-                                              'شاحنه شبك',
+                                            Text(
+                                              viecle![2].sName! ?? '',
                                               style: TextStyle(
                                                 fontSize: 14,
                                                 fontFamily: 'Montserrat',
@@ -845,8 +875,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                             const SizedBox(height: 5),
 
                                             //SubText
-                                            const Text(
-                                              'غالبا ما تستخدم لنقل (الدواجن)',
+                                            Text(
+                                              viecle![2].sDesc! ?? '',
                                               textDirection: TextDirection.rtl,
                                               style: TextStyle(
                                                 fontSize: 10,
@@ -872,8 +902,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                           alignment: Alignment.center,
 
                                           //Image
-                                          child: Image.asset(
-                                            'assets/pics/Bigtr.png',
+                                          child: Image.network(
+                                            viecle![2].sPic!,
                                             width: 40,
                                             height: 40,
                                           ),
@@ -894,7 +924,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                             },
                           ),
 
-                          const SizedBox(height: 36),
+                          // const SizedBox(height: 36),
                         ],
                       ),
                       Next('متابعة')
@@ -917,9 +947,9 @@ class _chooseExtentionsState extends State<chooseExtentions> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 9, bottom: 26),
+                    padding: const EdgeInsets.only(top: 9, bottom: 6),
                     child: Container(
-                      width: 58,
+                      width: 50,
                       height: 4,
                       decoration: BoxDecoration(
                         color: Colors.grey,
@@ -1138,7 +1168,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                   },
                                 ),
 
-                                const SizedBox(height: 36),
+                                const SizedBox(height: 20),
                               ],
                             ),
                             Next('متابعة')
@@ -1222,7 +1252,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.all(
-                                                      14.0),
+                                                      7.0),
                                                   child: Container(
                                                     width: 55,
                                                     height: 49,
@@ -1260,7 +1290,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                         });
                                       },
                                     ),
-                                    const SizedBox(height: 36),
+                                    const SizedBox(height: 3),
                                   ],
                                 ),
                                 Next('متابعة')
@@ -1268,8 +1298,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                             )
                           : num == 3
                               ? Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                             
                                   children: [
                                     Column(
                                       mainAxisAlignment:
@@ -1378,12 +1407,12 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                                     ),
                                                   ],
                                                 ),
-                                                Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            67)
+                                                // Container(
+                                                //     width:
+                                                //         MediaQuery.of(context)
+                                                //                 .size
+                                                //                 .width -
+                                                //             67)
                                               ],
                                             ),
                                           ),
@@ -1626,7 +1655,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                             });
                                           },
                                         ),
-                                        const SizedBox(height: 36),
+                                        const SizedBox(height: 3),
                                       ],
                                     ),
                                     Next('متابعة')
@@ -3778,9 +3807,9 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                         child: Options(Trtext(_trShape), Tricon(_trShape),
                             Trarrow(_trShape)),
                         onTap: () {
+                          vicle = Trtext(_trShape);
                           setState(() {
-                            MaxHe = 450;
-
+                            MaxHe = 400;
                             panelController.open();
                             ParaType = "trShape";
                           });

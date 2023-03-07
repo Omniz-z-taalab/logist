@@ -23,6 +23,7 @@ class Message {
       this.callsDuration});
 
   Message.fromJson(Map<String, dynamic> json) {
+    print('rrrrrrrrrrrrr');
     id = json['id'];
     sendTime = json['sendTime'];
     readTime = json['readTime'];
@@ -33,6 +34,7 @@ class Message {
     deleteId = json['Delete_id'];
     hashId = json['Hash_id'];
     callsDuration = json['CallsDuration'];
+    print('rrrrrrrrrrrrrrrrrr');
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +49,31 @@ class Message {
     data['Delete_id'] = this.deleteId;
     data['Hash_id'] = this.hashId;
     data['CallsDuration'] = this.callsDuration;
+    return data;
+  }
+}
+class SendMassegeModel {
+  bool? success;
+  String? contentText;
+  int? senderId;
+  int? receiverId;
+
+  SendMassegeModel(
+      {this.success, this.contentText, this.senderId, this.receiverId});
+
+  SendMassegeModel.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    contentText = json['contentText'];
+    senderId = json['SenderId'];
+    receiverId = json['receiverId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    data['contentText'] = this.contentText;
+    data['SenderId'] = this.senderId;
+    data['receiverId'] = this.receiverId;
     return data;
   }
 }
