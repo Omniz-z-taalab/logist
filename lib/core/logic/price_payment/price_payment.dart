@@ -35,8 +35,8 @@ class PriceProvider extends ChangeNotifier {
       });
       print('eeeeeeee');
       print(response.data);
-      isGetViecle = false;
     price = response.data['price'];
+      isGetViecle = false;
       notifyListeners();
       print(price);
     } catch (e) {
@@ -92,9 +92,7 @@ class PriceProvider extends ChangeNotifier {
       print(response.data);
       orderId = response.data['id'];
       print(orderId);
-      if(response.statusCode  == 200){
-            res ==false;
-      }
+            res =false;
       print('la la la la');
     }catch(e){
     print(e);
@@ -112,10 +110,7 @@ class PriceProvider extends ChangeNotifier {
       print(orderId);
         print(response.data);
         print('wwqwqwqw');
-        if(response.statusCode == 200){
           responsee = false;
-
-        }
 notifyListeners();
     }catch(e){
     print(e);

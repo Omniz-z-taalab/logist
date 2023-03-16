@@ -17,12 +17,12 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class chooseExtentions extends StatefulWidget {
-  var id;
+  Viecle data;
   // var latU1;
   // var lngU1;
   // var latU2;
   // var lngU2;
-  chooseExtentions(this.id);
+  chooseExtentions(this.data);
 
   @override
   State<chooseExtentions> createState() => _chooseExtentionsState();
@@ -37,8 +37,8 @@ int? trilerId;
         .getViecle(); // TODO: implement initState
     viecle = context.read<VieclesProvider>().viecles;
     super.initState();
-    trilerId = widget.id;
-    print(widget.id);
+    trilerId = widget.data.id;
+    print(widget.data.id);
     // latU1 = widget.latU1;
   }
       String? vicle;
@@ -3768,13 +3768,13 @@ int? VecleId;
                       //Truck Image
                       Container(
                           alignment: Alignment.center,
-                          child: Image.asset('assets/pics/ALXLarg.png',
+                          child: Image.network(widget!.data!.sPic!,
                               height:
                                   MediaQuery.of(context).size.height * 0.25)),
 
                       //Truck name
-                      const Text(
-                        ' شاحنة ALX',
+                       Text(
+                        widget!.data!.sName!,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: 22,
@@ -3789,8 +3789,8 @@ int? VecleId;
                         child: Container(
                             width:
                                 MediaQuery.of(context).size.width - (70 + 33),
-                            child: const Text(
-                              'تمتاز بتوازن وثبات عالي الجودة تستخدم ALX شاحنة في نقل المعادن والأثاث بالإضافة للمواد الغذائية أثناء عملية النقل وبمدة زمنية قصيرة',
+                            child:  Text(
+                              widget!.data!.sDesc!,
                               style: TextStyle(
                                   fontSize: 13,
                                   fontFamily: 'Montserrat',

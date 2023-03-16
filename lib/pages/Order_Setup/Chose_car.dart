@@ -23,8 +23,7 @@ class _ChoseTrailerState extends State<ChoseTrailer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<VieclesProvider>(context, listen: false)
-        .getTrailers();
+    Provider.of<VieclesProvider>(context, listen: false).getTrailers();
   }
 
   @override
@@ -85,14 +84,13 @@ int? id ;
   Widget TrailerList(Viecle viecle) {
     return InkWell(
       onTap: (){
-
         print(viecle!.sName);
         setState(() {
           id = viecle!.id;
 
         });
         Get.to(
-              () => chooseExtentions(id!),
+              () => chooseExtentions(viecle),
           transition: Transition.rightToLeft,
         );
       },
@@ -132,36 +130,36 @@ int? id ;
       ),
     );
   }
-  Widget Next(String par) => MaterialButton(
-    color: botton == true ? On : Color(0xff42484F),
-    minWidth: double.infinity,
-    height: 60,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(100.0),
-    ),
-    child: Container(
-      child: Text(
-        par,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-          fontFamily: 'Montserrat',
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    ),
-    onPressed: () {
-      //Button destination
-
-      print(MediaQuery.of(context).size.height);
-      print(MediaQuery.of(context).size.width);
-
-        Get.to(
-              () => chooseExtentions(id!),
-          transition: Transition.rightToLeft,
-        );
-    },
-  );
+  // Widget Next(String par) => MaterialButton(
+  //   color: botton == true ? On : Color(0xff42484F),
+  //   minWidth: double.infinity,
+  //   height: 60,
+  //   shape: RoundedRectangleBorder(
+  //     borderRadius: BorderRadius.circular(100.0),
+  //   ),
+  //   child: Container(
+  //     child: Text(
+  //       par,
+  //       style: const TextStyle(
+  //         fontSize: 16,
+  //         color: Colors.white,
+  //         fontFamily: 'Montserrat',
+  //         fontWeight: FontWeight.w500,
+  //       ),
+  //     ),
+  //   ),
+  //   onPressed: () {
+  //     //Button destination
+  //
+  //     print(MediaQuery.of(context).size.height);
+  //     print(MediaQuery.of(context).size.width);
+  //
+  //       Get.to(
+  //             () => chooseExtentions(!),
+  //         transition: Transition.rightToLeft,
+  //       );
+  //   },
+  // );
 
 
 }

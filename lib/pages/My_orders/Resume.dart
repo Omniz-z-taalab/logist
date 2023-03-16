@@ -88,9 +88,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
   //         width: 20, height: 20, child: CircularProgressIndicator());}
   initState() {
     super.initState();
-    context
-        .read<PriceProvider>()
-        .getPrice(widget.lat1, widget.lng1, widget.lat2, widget.lng2);
+    Provider.of<PriceProvider>(context,listen: false).getPrice(widget.lat1, widget.lng1, widget.lat2, widget.lng2);
     print(widget.noteText);
     // myIconButton();
   }
@@ -102,8 +100,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var price = context.read<PriceProvider>().price;
-    return    context.read<PriceProvider>().price == null ?Center(child: CircularProgressIndicator(),):  Scaffold(
+    var price = context.watch<PriceProvider>().price;
+    return    context.read<PriceProvider> ().isGetViecle == true ?Center(child: CircularProgressIndicator(),):  Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
         backgroundColor: Obackground,

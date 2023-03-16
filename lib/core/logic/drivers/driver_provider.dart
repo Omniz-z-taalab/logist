@@ -27,9 +27,10 @@ List<DriversModel> driver = [];
       isAddViecle = false;
     }
   }
-
+bool load = false;
  DriverModel? driverModel ;
   Future<DriverModel?>getDetailsDriver({int? id}) async {
+    load = true;
     try {
       print('my id isssssss $id');
       var response =
@@ -38,6 +39,7 @@ List<DriversModel> driver = [];
       print('ya allah');
       print(response.data);
       driverModel = DriverModel.fromJson(response.data);
+      load = true;
       print(driverModel!.fullName);
        notifyListeners();
       print('wwwww');
