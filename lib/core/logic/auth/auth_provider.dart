@@ -35,14 +35,11 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> existsUser({String? phoneNumber}) async {
     isLoading = true;
     notifyListeners();
-      print(phoneNumber);
-      print('11111111111111');
       try {
       Response response = await DioHelper.postData(
          url: '/api/v1/auth/CheckIfUserExists',
           data:  {"phonenumber": phoneNumber},
       );
-      print('33333333333');
       print(response);
       isExist = response.data['already'];
 
@@ -65,7 +62,8 @@ class AuthProvider extends ChangeNotifier {
       var response = await DioHelper.postData(
 
         url:'/api/v1/auth/VerifyNumber',
-          data: {"phonenumber": phoneNumber, "key": key},
+          data: {"phonenumber": phoneNumber, "key": key,
+            "REQUEST_ID":"d5877657cdd442d7a34e259203480b3f"},
       );
       print(response);
       isVerify = response.data['Verified'];
@@ -80,6 +78,7 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
       return isVerify;
     } catch (error) {
+      print(error);
       isLoading = false;
       // notifyListeners();
       return isVerify;
@@ -148,10 +147,11 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> loginUser({String? phoneNumber, key}) async {
     isLoading = true;
     notifyListeners();
-
+      print('userrrrr');
     try {
       var response = await DioHelper.postData(url:'${AppApiPaths.base}/api/v1/auth/',
-          data: {"phonenumber": phoneNumber, "key": key});
+          data: {"phonenumber": phoneNumber, "key": key,
+          "REQUEST_ID":"d5877657cdd442d7a34e259203480b3f"});
       print(response);
       print('true');
       // isVerify = response['Verified'];

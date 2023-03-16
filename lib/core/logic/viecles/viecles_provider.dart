@@ -90,16 +90,18 @@ class VieclesProvider extends ChangeNotifier {
   //get Trailers
   Future<void> getTrailers() async {
     isGetTrailer = true;
+    trailers = [];
     notifyListeners();
-
+    print('ddddd');
     try {
       Response response = await DioHelper.getData(
        url:'${AppApiPaths.base}/api/v1/viecles/Trailers',
       );
-      // viecles=(response.data as List<dynamic>).map((e){Viecle.fromJson(e)}).toList();
+       response.data.forEach((e)=> trailers.add!(Viecle.fromJson(e)));
       print(response.data);
       // showToast(response['msg'], true, true);
-
+    print(trailers![0].sName);
+    print('43434343');
       isGetTrailer = false;
       notifyListeners();
     } catch (error) {

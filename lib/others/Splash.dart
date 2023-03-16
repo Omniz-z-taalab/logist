@@ -19,7 +19,6 @@ class _splashState extends State<splash> {
   @override
   void initState() {
     super.initState();
-    // print('Waiting 2 seconds');
     startapp();
   }
 

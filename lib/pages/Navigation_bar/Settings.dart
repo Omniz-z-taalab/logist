@@ -234,15 +234,15 @@ class _settingsState extends State<settings> {
   void initState() {
     super.initState();
     context.read<ProfileProvider>().getUser();
-    // print(context.read<ProfileProvider>().userModel!.fullName);
+    print(context.read<ProfileProvider>().userModel!.fullName);
     print('rrrrrrr');
-    // timer =
-    //     Timer.periodic(Duration(seconds: 1), (Timer t) => refreshSettings());
+    timer =
+        Timer.periodic(Duration(seconds: 1), (Timer t) => refreshSettings());
   }
 
   @override
   void dispose() {
-    // timer?.cancel();
+     timer?.cancel();
     super.dispose();
   }
 
@@ -275,7 +275,7 @@ class _settingsState extends State<settings> {
           const SizedBox(width: 20),
         ],
       ),
-      body: !context.watch<ProfileProvider>().isLoading
+      body: !context.watch<ProfileProvider>().isLoading == true
           ? SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -336,17 +336,17 @@ class _settingsState extends State<settings> {
                                         'card',
                                         'M',
                                         context),
-                                    SizedBox(
-                                        height: 0.4,
-                                        child: Container(
-                                          color: Sbackground,
-                                        )),
-                                    tapOptions(
-                                        'اللغة',
-                                        'assets/pics/language.png',
-                                        'lang',
-                                        'M',
-                                        context),
+                                    // SizedBox(
+                                    //     height: 0.4,
+                                    //     child: Container(
+                                    //       color: Sbackground,
+                                    //     )),
+                                    // tapOptions(
+                                    //     'اللغة',
+                                    //     'assets/pics/language.png',
+                                    //     'lang',
+                                    //     'M',
+                                    //     context),
                                     SizedBox(
                                         height: 0.4,
                                         child: Container(

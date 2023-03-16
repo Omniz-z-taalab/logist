@@ -17,11 +17,12 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class chooseExtentions extends StatefulWidget {
+  var id;
   // var latU1;
   // var lngU1;
   // var latU2;
   // var lngU2;
-  //  chooseExtentions(this.latU1,this.lngU1,this.latU2,this.lngU2);
+  chooseExtentions(this.id);
 
   @override
   State<chooseExtentions> createState() => _chooseExtentionsState();
@@ -29,13 +30,15 @@ class chooseExtentions extends StatefulWidget {
 
 class _chooseExtentionsState extends State<chooseExtentions> {
   List<viecleModel>? viecle;
-
+int? trilerId;
   @override
   void initState() {
     Provider.of<VieclesProvider>(context, listen: false)
         .getViecle(); // TODO: implement initState
     viecle = context.read<VieclesProvider>().viecles;
     super.initState();
+    trilerId = widget.id;
+    print(widget.id);
     // latU1 = widget.latU1;
   }
       String? vicle;
@@ -604,7 +607,7 @@ int? VecleId;
                 _trType != 10 &&
                 _trShape != 10) {
               Get.to(
-                () => pickupPlace(TheNote, time, _payload, _trType, vicle!,vicleId!),
+                () => pickupPlace(TheNote, time, _payload, _trType, vicle!,vicleId!,trilerId!),
                 transition: Transition.rightToLeft,
               );
             }
@@ -727,6 +730,8 @@ int? VecleId;
                                 ],
                               ),
                             ),
+
+
                             onTap: () {
                               vicle = Trtext(_trShape);
                               print(vicle);

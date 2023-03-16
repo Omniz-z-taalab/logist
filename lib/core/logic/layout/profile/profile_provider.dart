@@ -40,7 +40,10 @@ class ProfileProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (error) {
+
       isLoading = false;
+      showToast("حدث خطآ حاول مره اخري", true, false);
+
       // notifyListeners();
       // return isExist!;
     }
@@ -48,17 +51,20 @@ class ProfileProvider extends ChangeNotifier {
 
   Future<void> getUser() async {
     isLoading = true;
-    notifyListeners();
+    // notifyListeners();
+    print('555555555555555');
     try {
-      var response = await DioHelper.getData(
-        url: '/api/v1/user/',
+      var response = await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/user/',
       );
 
       userModel = UserModel.fromJson(response.data);
       isLoading = false;
+
+      print(userModel!.id);
         name = userModel!.fullName;
       notifyListeners();
     } catch (error) {
+      print(error);
       isLoading = false;
       // notifyListeners();
       // return isExist!;

@@ -228,7 +228,7 @@ class _chooseCardState extends State<chooseCard> {
                       child: const Text('ادفع الآن',style: TextStyle(fontSize: 14,fontFamily: 'Montserrat',fontWeight: FontWeight.w500,
                           color: Colors.white),),
                       onPressed: (){
-                        if(age != 0)
+
                           context.read<PriceProvider>().payOrder();
                         context.read<PriceProvider>().responsee == false
                           ?

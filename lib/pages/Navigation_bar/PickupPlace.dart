@@ -20,7 +20,8 @@ class pickupPlace extends StatefulWidget {
   int Typetext;
   String Trtext;
   int vicleId;
-   pickupPlace(this.noteText,this.TimeNum,this.PayloadText,this.Typetext,this.Trtext ,this.vicleId);
+ int  trilerId;
+   pickupPlace(this.noteText,this.TimeNum,this.PayloadText,this.Typetext,this.Trtext ,this.vicleId,this.trilerId);
 
   @override
   State<pickupPlace> createState() => _pickupPlaceState();
@@ -312,7 +313,7 @@ var place2;
                     widget.PayloadText,
                     widget.TimeNum,
                     widget.Trtext,
-                    widget.Typetext,widget.vicleId),
+                    widget.Typetext,widget.vicleId,widget.trilerId),
             transition: Transition.rightToLeft
         );
 

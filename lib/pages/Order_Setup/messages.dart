@@ -209,8 +209,8 @@ class _conversationState extends State<conversation> {
                               .read<ChatProvider>()
                               .sentMesages(
                                   contentMessage: ContentMessage(
-                                      // senderId: widget.inbox!.senderId!,
-                                      // receiverId: widget.inbox!.receiverId,
+                                      senderId: widget.inbox!.senderId!,
+                                       receiverId: widget.inbox!.receiverId,
                                       contentText: textEditingController.text))
                               .then((value) {
                             textEditingController.clear();

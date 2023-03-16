@@ -443,8 +443,9 @@ class DioHelper{
     data,
 
   }) async{
-    String? token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImF2YXRhciI6Imh0dHBzOi8vc3RvcmFnZS5nb29nbGVhcGlzLmNvbS9zdG9yYWdlX2J1a2V0XzEvbWFsZS1wcm9maWxlLWltYWdlLXBsYWNlaG9sZGVyLnBuZyIsImZ1bGxfbmFtZSI6Ikh1c3NlaW4gUmVkYSIsInBob25lX251bWJlciI6IisyMDEyODYxMDAwODgiLCJnZW5kZXIiOiJOL0EiLCJiaXJ0aF9kYXRlIjoiMjAyMy0wMS0wOVQyMjowMDowMC4wMDBaIiwiYWRycmVzcyI6IjI2c3QgZWwtbW9zdHNoZmEgc2h1YnJhIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwidXNlcl9sb2NhdGlvbiI6MjYsImNyZWF0ZWRfZGF0ZSI6IjIwMjMtMDEtMDlUMjI6MDA6MDAuMDAwWiIsImlhdCI6MTY3MzQ4MTIxOH0.-sXg7-yaPWbiln5juI9J7n8XWYu-USzm6BBuXw6JPm0';
-    return await dio!.get(url,queryParameters: query,options: Options(headers:{"Authorization":"Bearer $token"},));
+String? token =  CacheHelper.getData(key: 'accessToken');
+print('token is$token');
+return await dio!.get(url,queryParameters: query,options: Options(headers:{"Authorization":"Bearer $token"},));
 
   }
   static Future<Response> postData({
@@ -453,9 +454,8 @@ class DioHelper{
     // String? token,
 
   }) async{
-    print('ee4444');
-     String? token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImF2YXRhciI6Imh0dHBzOi8vc3RvcmFnZS5nb29nbGVhcGlzLmNvbS9zdG9yYWdlX2J1a2V0XzEvbWFsZS1wcm9maWxlLWltYWdlLXBsYWNlaG9sZGVyLnBuZyIsImZ1bGxfbmFtZSI6Ikh1c3NlaW4gUmVkYSIsInBob25lX251bWJlciI6IisyMDEyODYxMDAwODgiLCJnZW5kZXIiOiJOL0EiLCJiaXJ0aF9kYXRlIjoiMjAyMy0wMS0wOVQyMjowMDowMC4wMDBaIiwiYWRycmVzcyI6IjI2c3QgZWwtbW9zdHNoZmEgc2h1YnJhIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwidXNlcl9sb2NhdGlvbiI6MjYsImNyZWF0ZWRfZGF0ZSI6IjIwMjMtMDEtMDlUMjI6MDA6MDAuMDAwWiIsImlhdCI6MTY3MzQ4MTIxOH0.-sXg7-yaPWbiln5juI9J7n8XWYu-USzm6BBuXw6JPm0';
-    return await dio!.post(url, data:data,options:  Options(headers:{"Authorization":"Bearer $token"},)
+     String? token = CacheHelper.getData(key: 'accessToken');
+     return await dio!.post(url, data:data,options:  Options(headers:{"Authorization":"Bearer $token"},)
     );
 
   }

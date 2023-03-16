@@ -1,6 +1,8 @@
 // ignore: file_names
 // ignore_for_file: file_names
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -32,6 +34,7 @@ class ResumeScreen extends StatefulWidget {
   String placeuserpick2;
   String placeuserdown2;
   int vicleId;
+  int trilerId;
 
   ResumeScreen(
       this.lat1,
@@ -47,7 +50,8 @@ class ResumeScreen extends StatefulWidget {
       this.placeuserpick1,
       this.placeuserdown1,
       this.placeuserpick2,
-      this.placeuserdown2,this.vicleId);
+      this.placeuserdown2,this.vicleId,
+      this.trilerId);
 
   @override
   State<ResumeScreen> createState() => _ResumeScreenState();
@@ -55,14 +59,41 @@ class ResumeScreen extends StatefulWidget {
 
 class _ResumeScreenState extends State<ResumeScreen> {
   @override
+  var showArrow = false;
+
+  var showLoading = false;
+  // Widget myIconButton() {
+  //   if (!showLoading)
+  //     return showArrow
+  //         ? IconButton(
+  //         icon: Icon(Icons.clear, color: Colors.white),
+  //         onPressed: () {
+  //           setState(() {
+  //             showArrow = !showArrow;
+  //             showLoading = !showLoading;
+  //           });
+  //           Future.delayed(Duration(seconds: 3), () {
+  //             if (mounted)
+  //               setState(() {
+  //                 showLoading = !showLoading;
+  //               });
+  //           });
+  //         })
+  //         : IconButton(
+  //       icon: Icon(Icons.arrow_right),
+  //       onPressed: () {},
+  //     );
+  //   else
+  //     return SizedBox(
+  //         width: 20, height: 20, child: CircularProgressIndicator());}
   initState() {
     super.initState();
     context
         .read<PriceProvider>()
         .getPrice(widget.lat1, widget.lng1, widget.lat2, widget.lng2);
     print(widget.noteText);
+    // myIconButton();
   }
-
   //Enable While Debugging
 
   // List<String> Origine = ['',''];
@@ -72,7 +103,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
   @override
   Widget build(BuildContext context) {
     var price = context.read<PriceProvider>().price;
-    return Scaffold(
+    return    context.read<PriceProvider>().price == null ?Center(child: CircularProgressIndicator(),):  Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
         backgroundColor: Obackground,
@@ -380,7 +411,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
         ),
         onPressed: () {
           //Button destination
-
+            print(widget.vicleId);
+            print('widget.vicleId');
           Provider.of<PriceProvider>(context, listen: false).createOrder(
               widget.vicleId,
               widget.TimeNum[0],
@@ -388,7 +420,9 @@ class _ResumeScreenState extends State<ResumeScreen> {
               widget.lng1,
               widget.lat2,
               widget.lng2,
-              widget.id);
+              widget.id,
+              widget.trilerId,
+          );
             Get.to(() => paymentMethods(), transition: Transition.rightToLeft);
           }
       );

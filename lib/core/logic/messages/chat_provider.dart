@@ -8,7 +8,7 @@ import '../../utilities/api_path.dart';
 import '../../utilities/dio_helper.dart';
 
 class ChatProvider extends ChangeNotifier {
-  bool isGetInbox = false;
+  late bool isGetInbox ;
   bool isGetConversation = false;
   bool isSentMessage = false;
   bool isReadMessage = false;
@@ -20,12 +20,11 @@ class ChatProvider extends ChangeNotifier {
     inboxMessage = [];
     try {
       var response = await DioHelper.getData(
-        url: '${AppApiPaths.base}/api/v1/messenger/inbox?user_id=2');
-
+        url: '${AppApiPaths.base}/api/v1/messenger/inbox?user_id=$userId');
        response.data.forEach((user) => inboxMessage!.add(ChatListResponse.fromJson(user)));
-       print(inboxMessage![0].unseenNumber);
-       print(inboxMessage!.length);
-       print('wwwwwwwwwww');
+       print(userId);
+       print(inboxMessage);
+      print('wwwwwwwwwww');
       isGetInbox = false;
       notifyListeners();
     } catch (error) {
@@ -40,11 +39,15 @@ class ChatProvider extends ChangeNotifier {
     isGetConversation = true;
     // notifyListeners();
     messages = [];
+    print(senderId);
+    print(recieveId);
+    print('[[[[[[[[[[[[[');
     try {
       var response = await DioHelper.getData(
         url: '${AppApiPaths
-            .base}/api/v1/messenger/Conversation?SenderId=80&receiverId=1',
+            .base}/api/v1/messenger/Conversation?SenderId=$senderId&receiverId=$recieveId',
       );
+      print('3432423432432432432');
       print(response.data);
      response.data.forEach((user) => messages!.add(Message.fromJson(user)));
 
@@ -57,12 +60,13 @@ class ChatProvider extends ChangeNotifier {
     }
   }
   SendMassegeModel? sendMassegeModel;
-  Future<void> sentMesages({ContentMessage? contentMessage}) async {
-      messages = [];
+  Future<void> sentMesages({ContentMessage? contentMessage,}) async {
     isSentMessage = true;
     notifyListeners();
     print('11111111111');
     print(contentMessage!.contentText);
+    print(contentMessage!.receiverId);
+    print(contentMessage!.senderId);
 
     try {
       var response = await DioHelper.postData(
@@ -72,12 +76,13 @@ class ChatProvider extends ChangeNotifier {
             "SenderId": contentMessage!.senderId,
             "receiverId": contentMessage!.receiverId
           },);
+      print('==============');
 
-          print('222222222222');
+      print(contentMessage!.receiverId);
+            print('==============');
           print(response.data);
     sendMassegeModel =  SendMassegeModel.fromJson(response.data);
       print(sendMassegeModel!.contentText);
-      print('332222222');
       isSentMessage = false;
       notifyListeners();
     } catch (error) {
@@ -93,9 +98,8 @@ class ChatProvider extends ChangeNotifier {
     try {
       var response = await DioHelper.postData(
           url: '${AppApiPaths.base}/api/v1/messenger/Read_message',
-          data: {"Hash_id": "80-2-2023-02-21 18:12:07"});
+          data: {"Hash_id": hash});
       print(response);
-
       isSentMessage = false;
       notifyListeners();
     } catch (error) {

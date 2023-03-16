@@ -27,6 +27,7 @@ class truckdrivers extends StatefulWidget {
   String placeuserpick2;
   String placeuserdown2;
   int vicleId;
+  int trilerId;
 
   truckdrivers(
       this.lat1,
@@ -42,7 +43,8 @@ class truckdrivers extends StatefulWidget {
       this.placeuserdown1,
       this.placeuserpick2,
       this.placeuserdown2,
-      this.vicleId);
+      this.vicleId,
+      this.trilerId);
 
   @override
   State<truckdrivers> createState() => _truckdriversState();
@@ -78,7 +80,6 @@ class _truckdriversState extends State<truckdrivers> {
   @override
   Widget build(BuildContext context) {
     var drivers = context.watch<DriversProvider>().driver;
-  var driver =   Provider.of<DriversProvider>(context,listen: false).driverModel;
 
     return Scaffold(
       backgroundColor: Obackground,
@@ -429,47 +430,9 @@ class _truckdriversState extends State<truckdrivers> {
     );
   }
 
-  // Widget Next(String par) => MaterialButton(
-  //       color: On,
-  //       minWidth: double.infinity,
-  //       height: 60,
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(100.0),
-  //       ),
-  //       child: Container(
-  //         child: Text(
-  //           par,
-  //           style: const TextStyle(
-  //             fontSize: 16,
-  //             color: Colors.white,
-  //             fontFamily: 'Montserrat',
-  //             fontWeight: FontWeight.w500,
-  //           ),
-  //         ),
-  //       ),
-  //       onPressed: () {
-  //         Get.to(() =>
-  //
-  //             ResumeScreen(
-  //                 widget.lat1,
-  //                 widget.lat2,
-  //                 widget.lng1,
-  //                 widget.lng2,
-  //                 widget.noteText,
-  //                 widget.PayloadText,
-  //                 widget.TimeNum,
-  //                 widget.Trtext,
-  //                 widget.Typetext,
-  //                 drivers![index].id!,
-  //                 widget.placeuserpick1,
-  //                 widget.placeuserdown1,
-  //                 widget.placeuserpick2,
-  //                 widget.placeuserdown2,widget.vicleId));
-  //         //Button destination
-  //       },
-  //     );
 
   ListView _buildListView(List<DriversModel> drivers) {
+
     return
       ListView.builder(
         physics: BouncingScrollPhysics(),
@@ -477,6 +440,10 @@ class _truckdriversState extends State<truckdrivers> {
         itemCount: drivers.length,
         itemBuilder: (context, index) {
           return InkWell(
+            onTap: (){
+              Provider.of<DriversProvider>(context,listen: false).getDetailsDriver(id:drivers![index].id);
+
+            },
                 child: Padding(
               padding: const EdgeInsets.only(right: 8.0, left: 8, top: 8),
               child: Container(
@@ -523,16 +490,14 @@ class _truckdriversState extends State<truckdrivers> {
                   ),
                   onTap: () {
                     print(drivers![index].id!);
-                    Provider.of<DriversProvider>(context,listen: false).getDetailsDriver(id:drivers![index].id);
                     showCupertinoModalPopup(
                         context: context,
                         builder: (BuildContext builder){
                           return CupertinoPopupSurface(
                             isSurfacePainted: false,
                             child: Material(
-                              child:   drivers![index].id! == null ?
-                                    CircularProgressIndicator()
-                           :   panal(drivers![index].id!) )
+                              child:
+                             panal(drivers![index].id!) )
 
                                 );},
                     );
@@ -639,9 +604,12 @@ class _truckdriversState extends State<truckdrivers> {
                         ),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      print(widget.trilerId);
+                        print('32232323');
+                        print(widget.vicleId);
+                      await Future.delayed(const Duration(seconds: 4));
                       Get.to(() =>
-
                           ResumeScreen(
                               widget.lat1,
                               widget.lat2,
@@ -656,7 +624,8 @@ class _truckdriversState extends State<truckdrivers> {
                               widget.placeuserpick1,
                               widget.placeuserdown1,
                               widget.placeuserpick2,
-                              widget.placeuserdown2,widget.vicleId));
+                              widget.placeuserdown2,widget.vicleId,
+                          widget.trilerId));
                       //Button destination
                     },
                   ))

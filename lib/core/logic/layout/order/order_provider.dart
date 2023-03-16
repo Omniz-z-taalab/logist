@@ -8,72 +8,53 @@ import '../../../utilities/dio_helper.dart';
 class OrderProvider extends ChangeNotifier {
   bool isLoading = false;
   bool isGetLoading = false;
+  bool all = false;
+  bool compelet = false;
+  bool cancele = false;
+  bool accept = false;
   //get orders
-  List<Orders> orders = [];
-  Future<bool> getOrders() async {
-    orders=[];
-    isGetLoading = true;
-    notifyListeners();
-
-    try {
-      var response = await DioHelper.getData(url:
-        '${AppApiPaths.base}/api/v1/employee/orders',
-      );
-
-          response .data.forEach((e) => orders.add(Orders.fromJson(e)));
-            print('sssssssssss');
-      isGetLoading = false;
-      notifyListeners();
-      return isLoading;
-    } catch (error) {
-      isGetLoading = false;
-      // notifyListeners();
-      return isGetLoading;
-    }
-  }
+  List<AllOrders> allorders = [];
+  List<AllOrders> comporders = [];
+  List<AllOrders> acceptorder = [];
+  List<AllOrders> cancelorder = [];
+  OrderDitModel? orderDitModel;
+  // Future<bool> getOrders() async {
+  //   orders=[];
+  //   isGetLoading = true;
+  //   notifyListeners();
+  //
+  //   try {
+  //     var response = await DioHelper.getData(url:
+  //       '${AppApiPaths.base}/api/v1/employee/orders',
+  //     );
+  //         response .data.forEach((e) => orders.add(AllOrders.fromJson(e)));
+  //           print('sssssssssss');
+  //     isGetLoading = false;
+  //     notifyListeners();
+  //     return isLoading;
+  //   } catch (error) {
+  //     isGetLoading = false;
+  //     // notifyListeners();
+  //     return isGetLoading;
+  //   }
+  // }
 
   //create order//
-  Future<bool> createOrder({OrderModel? orderModel}) async {
-    isLoading = true;
-    notifyListeners();
-
-    try {
-      var response =
-          await DioHelper.postData(url: '${AppApiPaths.base}/api/v1/order', data: {
-        "Driver_ID": 5,
-        "Date_of_Order": "2023-01-13",
-        "Distination": {"lant": 30.0817441, "long": 31.2365508},
-        "location": {"lant": 30.0817441, "long": 31.2365508},
-        "viecle_Id": 1,
-        "trailer_id": 1,
-        "Current_Location": {"lant": 30.0678471, "long": 31.2265421},
-        "Order_Type": "Single",
-        "Order_Start_Time": "2023-01-15"
-      });
-
-      isLoading = false;
-      notifyListeners();
-      return isLoading;
-    } catch (error) {
-      isLoading = false;
-      // notifyListeners();
-      return isLoading;
-    }
-  }
-
   //accept order
-  Future<bool> acceptOrders({int? orderId}) async {
+  Future<bool> acceptOrders() async {
     isLoading = true;
+    accept = true;
+    print('omniaZayed');
     notifyListeners();
-
     try {
       var response = await DioHelper
-          .postData(url:'${AppApiPaths.base}/api/v1/order/AcceptOrder',
-          data: {
-        "id": 6
-      });
-
+          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Accepted');
       isLoading = false;
+      response.data.forEach((order)=> acceptorder.add(AllOrders.fromJson(order)));
+      print('tttttttttttttttttt');
+      accept == false;
+      print('tttttttttttttttttt');
+      print(response.data);
       notifyListeners();
       return isLoading;
     } catch (error) {
@@ -82,18 +63,23 @@ class OrderProvider extends ChangeNotifier {
       return isLoading;
     }
   }
-
   //cancel order
-  Future<bool> cancelOrders({int? orderId}) async {
+  Future<bool> cancelOrders() async {
     isLoading = true;
+    cancele = true;
+    print('Youssef');
+    print('Youssef');
+
     notifyListeners();
 
     try {
-      var response = await DioHelper
-          .postData(url:'${AppApiPaths.base}/api/v1/order/CancelOrder', data: {
-        "id": 6
-      });
+      var response = await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Canceled');
+      print('vvvvvvvvvvvvvvv');
+      response.data.forEach((order)=> cancelorder.add(AllOrders.fromJson(order)));
+      cancele == false;
+      print('1``````````````1');
 
+      print(response.data);
       isLoading = false;
       notifyListeners();
       return isLoading;
@@ -103,22 +89,74 @@ class OrderProvider extends ChangeNotifier {
       return isLoading;
     }
   }
-
   //complete order
-  Future<bool> completeOrders({int? orderId}) async {
+  Future<bool> completeOrders() async {
     isLoading = true;
+    compelet == true;
+    notifyListeners();
+    print('yaaaaaaahowwwwwwww');
+
+
+    try {
+      var response = await DioHelper
+          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Delivered',);
+      isLoading = false;
+      response.data.forEach((order)=> comporders.add(AllOrders.fromJson(order)));
+      print('rrrrrrrrrrrrrrrr');
+      compelet == false;
+      print(response.data);
+      print('434444');
+      notifyListeners();
+      return isLoading;
+    } catch (error) {
+      isLoading = false;
+      // notifyListeners();
+      return isLoading;
+    }
+  }
+  Future<bool> orderDetails(int? id) async {
     notifyListeners();
 
     try {
       var response = await DioHelper
-          .postData(url:'${AppApiPaths.base}/api/v1/order/CompleteOrder', data: {
-        "id": 6
-      });
-
-      isLoading = false;
+          .getData(url:'${AppApiPaths.base}/api/v1/employee/orders/$id',);
+      print(response.data);
+      print('taalaaaaaaaaaaab');
+      orderDitModel =   OrderDitModel.fromJson(response.data);
+      print('434444');
+      print(orderDitModel!.driverName);
+      print(response.data);
       notifyListeners();
       return isLoading;
     } catch (error) {
+      isLoading = false;
+      print(error);
+      // notifyListeners();
+      return isLoading;
+    }
+  }
+  Future<bool> allOrder() async {
+    isLoading = true;
+    allorders = [];
+    all = true;
+    notifyListeners();
+    try {
+      var response = await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders');
+          print('object');
+          print(response.data);
+      response.data.forEach((order)=> allorders.add(AllOrders.fromJson(order)));
+      isLoading = false;
+      print(allorders);
+      print('[[[[ewewew]]]]]]');
+      acceptOrders();
+      completeOrders();
+      cancelOrders();
+      all == false;
+      print('object');
+      notifyListeners();
+      return isLoading;
+    } catch (error) {
+      print(error);
       isLoading = false;
       // notifyListeners();
       return isLoading;

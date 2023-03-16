@@ -23,6 +23,7 @@ class package_place2 extends StatefulWidget {
   String placeuserpick2;
   String placeuserdown2;
   int vicleId;
+  int trilerId;
 
   package_place2(
       this.lat1,
@@ -38,7 +39,8 @@ class package_place2 extends StatefulWidget {
       this.placeuserdown1,
       this.placeuserpick2,
       this.placeuserdown2,
-      this.vicleId);
+      this.vicleId,
+      this.trilerId);
 
   @override
   State<package_place2> createState() => _package_place2State();
@@ -108,7 +110,8 @@ class _package_place2State extends State<package_place2> {
                   widget.placeuserdown1,
                   widget.placeuserpick2,
                   widget.placeuserdown2,
-                  widget.vicleId),
+                  widget.vicleId,
+                  widget.trilerId),
               transition: Transition.rightToLeft);
           print('Went to Map2');
         },

@@ -27,9 +27,10 @@ class LocationUser1 extends StatefulWidget {
   String Trtext;
   int Typetext;
   int vicleId;
+  int trilerId;
   // String place1;
   // String place2;
-  LocationUser1(this.noteText,this.PayloadText,this.TimeNum,this.Trtext ,this.Typetext,this.vicleId);
+  LocationUser1(this.noteText,this.PayloadText,this.TimeNum,this.Trtext ,this.Typetext,this.vicleId,this.trilerId);
 
   @override
   State<LocationUser1> createState() => LocationUser1State();
@@ -330,7 +331,7 @@ var placeUserpick2;
       print(par);
       print('wwwwwwwww');
       Get.to(
-          ()=> package_place(Lat,Lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,placeUserpick1,placeUserpick2, widget. vicleId
+          ()=> package_place(Lat,Lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,placeUserpick1,placeUserpick2, widget. vicleId,widget.trilerId
           ),
           transition: Transition.rightToLeft
       );

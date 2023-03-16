@@ -29,6 +29,7 @@ class chooseDriver extends StatefulWidget {
   String placeuserpick2;
   String placeuserdown2;
   int vicleId;
+  int trilerId;
 
   chooseDriver(
       this.lat1,
@@ -44,7 +45,8 @@ class chooseDriver extends StatefulWidget {
       this.placeuserdown1,
       this.placeuserpick2,
       this.placeuserdown2,
-      this.vicleId);
+      this.vicleId,
+      this.trilerId);
 
   @override
   State<chooseDriver> createState() => _chooseDriverState();
@@ -107,7 +109,8 @@ class _chooseDriverState extends State<chooseDriver> {
                     widget.placeuserpick1,
                     widget.placeuserdown1,
                     widget.placeuserpick2,
-                    widget.placeuserdown2, widget.vicleId),
+                    widget.placeuserdown2, widget.vicleId,
+                widget.trilerId),
                 transition: Transition.rightToLeft);
           }
           else if (Type == 'auto') {

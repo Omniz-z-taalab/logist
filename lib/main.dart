@@ -17,7 +17,7 @@ void main() async {
   DioHelper.init();
 
    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
 
-        home: const mainHomePage(),
+        home: const splash(),
         //  home:  logout(),
       ),
     );

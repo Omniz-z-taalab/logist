@@ -29,6 +29,7 @@ class LocationUser2 extends StatefulWidget {
   String placeuserpick1;
   String placeuserdown1;
   int vicleId;
+  int trilerId;
 
   LocationUser2(
       this.Lat,
@@ -40,7 +41,8 @@ class LocationUser2 extends StatefulWidget {
       this.Typetext,
       this.placeuserpick1,
       this.placeuserdown1,
-      this.vicleId);
+      this.vicleId,
+      this.trilerId);
 
   @override
   State<LocationUser2> createState() => LocationUser2State();
@@ -282,7 +284,8 @@ class LocationUser2State extends State<LocationUser2> {
                   widget.placeuserdown1,
                   placeuserpick2,
                   placeuserdown2,
-                  widget.vicleId
+                  widget.vicleId,
+                  widget.trilerId,
               ),
               transition: Transition.rightToLeft);
           print('Went to Map2');

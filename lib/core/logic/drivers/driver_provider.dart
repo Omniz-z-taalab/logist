@@ -20,7 +20,6 @@ List<DriversModel> driver = [];
       print('wwwww');
 
       isAddViecle = true;
-      getDetailsDriver();
       notifyListeners();
       print('wwwww');
     } catch (error) {
@@ -32,9 +31,11 @@ List<DriversModel> driver = [];
  DriverModel? driverModel ;
   Future<DriverModel?>getDetailsDriver({int? id}) async {
     try {
+      print('my id isssssss $id');
       var response =
-      await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/drivers//$id',
+      await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/drivers/$id',
       );
+      print('ya allah');
       print(response.data);
       driverModel = DriverModel.fromJson(response.data);
       print(driverModel!.fullName);

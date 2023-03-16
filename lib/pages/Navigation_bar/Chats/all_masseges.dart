@@ -16,7 +16,8 @@ import '../../Order_Setup/messages.dart';
 
 
 class conversationsList extends StatefulWidget {
-  const conversationsList({Key? key}) : super(key: key);
+  int? id;
+   conversationsList(this.id) ;
 
   @override
   State<conversationsList> createState() => _conversationsListState();
@@ -28,24 +29,23 @@ class _conversationsListState extends State<conversationsList> {
   void Open() {
     ApanelController.isPanelClosed ? ApanelController.open() : null;
   }
-UserModel? usermodel;
+var  usermodel;
   @override
   void initState() {
     super.initState();
-    context.read<ProfileProvider>().userModel;
-    usermodel = context.read<ProfileProvider>().userModel;
-    context.read<ChatProvider>().getInbox(userId: usermodel!.id);
-
-    // done();
+    print(widget.id);
+    context.read<ChatProvider>().getInbox(userId: widget.id);
+    done();
   }
 
-  // void done() async {
-  //   await Future.delayed(const Duration(seconds: 2), () {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   });
-  // }
+  void done() async {
+    print(widget!.id);
+    await Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        // isLoading = false;
+      });
+    });
+  }
 
   Widget build(BuildContext context) {
     var response = context.watch<ChatProvider>().inboxMessage ;
@@ -92,9 +92,9 @@ UserModel? usermodel;
                     flex: 4,
                     child: SizedBox(
                       height: 300,
-                      child: context.watch<ChatProvider>().isGetInbox == 0
+                      child: context.watch<ChatProvider>().inboxMessage == 0
                           ? const Center(child: Text('لا توجد رسائل',style: TextStyle(color: Colors.black),))
-                          : context.watch<ChatProvider>().isGetInbox == true
+                          : context.watch<ChatProvider>().isGetInbox ==true
                           ? _buildShimmerListView()
                           :ListView.builder(
                         itemBuilder: (context,index) =>_buildListView(response![index]),

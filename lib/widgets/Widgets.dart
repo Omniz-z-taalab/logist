@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logist/core/logic/layout/order/order_provider.dart';
+import 'package:provider/provider.dart';
 import '../Classes/Order_Class.dart';
 import '../models/order_model.dart';
 import '../pages/My_orders/OrderInfo.dart';
@@ -22,22 +24,8 @@ Widget SimplePic(String name, double width, double height){
 
 //Orders List Widgets
 
-ListView DeliveredOrdersList(List<Orders> List,var context,{bool trial = false,int limit = 3}) {
 
-  return ListView.builder(
-    physics: const BouncingScrollPhysics(),
-    shrinkWrap: true,
-    itemCount: trial && List.length > limit ? limit  : List.length,
-    itemBuilder: (context, index) {
-      return 'Delivered' == List[index].orderType || 'Canceled'  == List[index].orderType ?  Padding(
-          padding: const EdgeInsets.only(bottom: 15),
-          child: _OrdersListnow(context,List[index])
-      ) : Container();
-    },
-  );
-}
-
-Widget _OrdersListView(BuildContext context,Orders order)  {
+Widget _OrdersListNow(BuildContext context,AllOrders order)  {
 
   // Return Status Color Type Depending on the State
   Color SayColor(Status){
@@ -129,51 +117,23 @@ Widget _OrdersListView(BuildContext context,Orders order)  {
     child: ListTile(
 
       //Status Icon
-      leading: Padding(
-        padding: const EdgeInsets.only(top:8.0),
-        child: Container(
-          alignment: Alignment.center,
-          width: 50,
-          height: 23,
-          decoration: BoxDecoration(
-            //    color: Color(0xffF9F1FD),
-            color: Colors.black12,
-            borderRadius: BorderRadius.circular(13),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 15,
-                width: 15,
-                decoration: BoxDecoration(
-                  //todo: set its own Parameter
-                    color: SayColor("Delivered"),
-                    shape: BoxShape.circle
-                ),
-              ),
-              // Text(
-              //     ConvertStatus(status),
-              //     textAlign: TextAlign.left,
-              //     style:  TextStyle(
-              //       fontFamily: 'Madani',
-              //       fontSize: 10,
-              //       fontWeight: FontWeight.w300,
-              //       //todo: set its own Parameter
-              //       color: SayColor(status),
-
-              //     )
-              // ),
-            ],
-          ),
-        ),
-      ),
 
       //Truck Name
-      title: Text(
-        order.driverName!,
-        style: const TextStyle(fontSize: 15, fontFamily: 'Madani',fontWeight: FontWeight.w500),
-        textDirection: TextDirection.rtl,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            order.driverName!,
+            style: const TextStyle(fontSize: 15, fontFamily: 'Madani',fontWeight: FontWeight.w500),
+            textDirection: TextDirection.rtl,
+          ),
+          SizedBox(width: 10,),
+          CircleAvatar(
+            backgroundColor: Colors.black26,
+            child: Icon(Icons.car_crash_outlined,color: Color(0xff191F28),),
+          ),
+
+        ],
       ),
 
       //Status
@@ -191,7 +151,7 @@ Widget _OrdersListView(BuildContext context,Orders order)  {
       onTap: () async{
         // if(order.Status == 'Accepted' || order.Status == 'Waiting') {
           Get.to(
-                  () => orderInfo(order,false),
+                  () => orderInfo(order.id!),
               transition: Transition.rightToLeft
           );
         // } else if(order.Status == 'Delivered' || order.Status == 'Canceled'){
@@ -205,9 +165,8 @@ Widget _OrdersListView(BuildContext context,Orders order)  {
     ),
   );
 }
-Widget _OrdersListViewDone(BuildContext context,Orders order)  {
+Widget _OrdersListViewDone(BuildContext context,AllOrders order)  {
 
-  // Return Status Color Type Depending on the State
   Color SayColor(Status){
 
     if(Status == 'Delivered') {
@@ -311,6 +270,19 @@ Widget _OrdersListViewDone(BuildContext context,Orders order)  {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Text(
+                  'مكتمله',
+                  textAlign: TextAlign.left,
+                  style:  TextStyle(
+                    fontFamily: 'Madani',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                    //todo: set its own Parameter
+                    color: SayColor('Delivered'),
+
+                  )
+              ),
+
               Container(
                 height: 15,
                 width: 15,
@@ -320,18 +292,6 @@ Widget _OrdersListViewDone(BuildContext context,Orders order)  {
                     shape: BoxShape.circle
                 ),
               ),
-              // Text(
-              //     ConvertStatus(status),
-              //     textAlign: TextAlign.left,
-              //     style:  TextStyle(
-              //       fontFamily: 'Madani',
-              //       fontSize: 10,
-              //       fontWeight: FontWeight.w300,
-              //       //todo: set its own Parameter
-              //       color: SayColor(status),
-
-              //     )
-              // ),
             ],
           ),
         ),
@@ -359,7 +319,7 @@ Widget _OrdersListViewDone(BuildContext context,Orders order)  {
       onTap: () async{
         // if(order.Status == 'Accepted' || order.Status == 'Waiting') {
         Get.to(
-                () => orderInfo(order,false),
+                () => orderInfo(order.id!),
             transition: Transition.rightToLeft
         );
         // } else if(order.Status == 'Delivered' || order.Status == 'Canceled'){
@@ -373,8 +333,7 @@ Widget _OrdersListViewDone(BuildContext context,Orders order)  {
     ),
   );
 }
-Widget _OrdersListnow(BuildContext context,Orders order)  {
-
+Widget _OrdersListView(BuildContext context,AllOrders order)  {
   // Return Status Color Type Depending on the State
   Color SayColor(Status){
 
@@ -423,27 +382,28 @@ Widget _OrdersListnow(BuildContext context,Orders order)  {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Text(
+                  'تتبع',
+                  textAlign: TextAlign.left,
+                  style:  TextStyle(
+                    fontFamily: 'Madani',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                    //todo: set its own Parameter
+                    color: SayColor('Accepted'),
+
+                  )
+              ),
               Container(
                 height: 15,
                 width: 15,
                 decoration: BoxDecoration(
                   //todo: set its own Parameter
-                    color: SayColor("Delivered"),
+                    color: SayColor("Accepted"),
                     shape: BoxShape.circle
                 ),
               ),
-              // Text(
-              //     'مكتمله',
-              //     textAlign: TextAlign.left,
-              //     style:  TextStyle(
-              //       fontFamily: 'Madani',
-              //       fontSize: 10,
-              //       fontWeight: FontWeight.w300,
-              //       //todo: set its own Parameter
-              //       color: SayColor('Delivered'),
-              //
-              //     )
-              // ),
+
             ],
           ),
         ),
@@ -471,7 +431,7 @@ Widget _OrdersListnow(BuildContext context,Orders order)  {
       onTap: () async{
         // if(order.Status == 'Accepted' || order.Status == 'Waiting') {
         Get.to(
-                () => orderInfo(order,false),
+                () => orderInfo(order.id!),
             transition: Transition.rightToLeft
         );
         // } else if(order.Status == 'Delivered' || order.Status == 'Canceled'){
@@ -486,7 +446,23 @@ Widget _OrdersListnow(BuildContext context,Orders order)  {
   );
 }
 
-ListView OrdersList(List<Orders> List,var context,{bool trial = false,int limit = 3}) {
+ListView OrdersList(List<AllOrders> List,var context,{bool trial = false,int limit = 3}) {
+
+  return ListView.builder(
+    physics: const BouncingScrollPhysics(),
+    shrinkWrap: true,
+    itemCount: trial && List.length > limit ? limit  : List.length,
+    itemBuilder: (context, index) {
+      return 'Pending' != List[index].orderType ? Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: _OrdersListView(context,List[index])
+      )
+          :Container()
+      ;
+    },
+  );
+}
+ListView OrdersListNow(List<AllOrders> List,var context,{bool trial = false,int limit = 3}) {
 
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
@@ -495,7 +471,7 @@ ListView OrdersList(List<Orders> List,var context,{bool trial = false,int limit 
     itemBuilder: (context, index) {
       return 'Delivered' != List[index].orderType ? 'Canceled'  != List[index].orderType ? Padding(
           padding: const EdgeInsets.only(bottom: 15),
-          child: _OrdersListViewDone(context,List[index])
+          child: _OrdersListNow(context,List[index])
       )
           :
       Container()
@@ -505,8 +481,7 @@ ListView OrdersList(List<Orders> List,var context,{bool trial = false,int limit 
     },
   );
 }
-ListView OrdersListDone(List<Orders> List,var context,{bool trial = false,int limit = 3}) {
-
+ListView DeliveredOrdersList(List<AllOrders> List,var context,{bool trial = false,int limit = 3}) {
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
     shrinkWrap: true,
@@ -514,7 +489,7 @@ ListView OrdersListDone(List<Orders> List,var context,{bool trial = false,int li
     itemBuilder: (context, index) {
       return 'Delivered' != List[index].orderType ? 'Canceled'  != List[index].orderType ? Padding(
           padding: const EdgeInsets.only(bottom: 15),
-          child: _OrdersListnow(context,List[index])
+          child: _OrdersListViewDone(context,List[index])
       )
           :
       Container()

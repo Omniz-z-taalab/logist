@@ -17,8 +17,9 @@ class package_place extends StatefulWidget {
   String placeuserpick1;
   String placeuserdown1;
   int vicleId;
+  int trilerId;
 
-  package_place(this.lat,this.lng,this.noteText,this.PayloadText,this.TimeNum,this.Trtext,this.Typetext,this.placeuserpick1,this.placeuserdown1,this.vicleId);
+  package_place(this.lat,this.lng,this.noteText,this.PayloadText,this.TimeNum,this.Trtext,this.Typetext,this.placeuserpick1,this.placeuserdown1,this.vicleId,this.trilerId);
 
   @override
   State<package_place> createState() => _package_placeState();
@@ -67,7 +68,7 @@ var lng;
           // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
           print(par);
           Get.to(
-              () => LocationUser2(lat,lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,widget.placeuserpick1,widget.placeuserdown1, widget.vicleId
+              () => LocationUser2(lat,lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,widget.placeuserpick1,widget.placeuserdown1, widget.vicleId,widget.trilerId
               ),
               transition: Transition.rightToLeft
           );

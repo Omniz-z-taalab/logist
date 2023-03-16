@@ -2,19 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:logist/core/logic/layout/order/order_provider.dart';
+import 'package:logist/others/Dummy_Data_Orders.dart';
+import 'package:provider/provider.dart';
 import '../../Classes/Order_Class.dart';
 import '../../others/variables.dart';
 import '../Order_Setup/OrderMap.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-
 import '../../models/order_list.dart';
 import 'Details.dart';
 
-
+class DateUtil {
+  static const DATE_FORMAT = 'dd/MM/yyyy';
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
+  }
+}
 class orderInfo extends StatefulWidget {
-  orderInfo(this.order,this.inSetup,{Key? key}) : super(key: key);
-  bool inSetup; //check if user came from Order Setup or order history
-   final Orders order;
+  final int id;
+  orderInfo(this.id) ;
 
   @override
   State<orderInfo> createState() => _orderInfoState();
@@ -23,14 +31,22 @@ class orderInfo extends StatefulWidget {
 class _orderInfoState extends State<orderInfo> {
 
   // Orders order;
+var  driver;
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<OrderProvider>().orderDetails(widget.id);
 
-
+    print(widget.id);
+  }
   // _orderInfoState(this.order);
 
   @override
   Widget build(BuildContext context) {
+  var  driver = context.watch<OrderProvider>().orderDitModel;
 
-    return Scaffold(
+        return Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
         backgroundColor: Obackground,
@@ -77,11 +93,10 @@ class _orderInfoState extends State<orderInfo> {
 
                   Column(
                     children: [
-                      Profile_pic(widget.order.driverName!),
-
+                       // Profile_pic(driver!),
                       //Driver Name
                       Text(
-                         widget.order.driverName!,
+                       driver!.driverName! ,
                         style:const  TextStyle(
                           fontSize: 24,
                           fontFamily: 'Montserrat',
@@ -93,7 +108,7 @@ class _orderInfoState extends State<orderInfo> {
 
                       //Truck name
                       Text(
-                          widget.order.orderStartTime!,
+                        DateUtil().formattedDate(DateTime.parse(driver!.orderStartTime)),
                         style:  const TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w300,
@@ -129,7 +144,7 @@ class _orderInfoState extends State<orderInfo> {
               ),
 
               //Continue Order
-              widget.inSetup ?
+              // widget.inSetup ?
               Positioned(
                 bottom: 0,
                 child: Column(
@@ -140,7 +155,6 @@ class _orderInfoState extends State<orderInfo> {
                       height: MediaQuery.of(context).size.height * 0.075,
                       minWidth: MediaQuery.of(context).size.width - 50,
                       color: const Color(0xff191F28),
-
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(37.5),
                         side: BorderSide(color: Theme.of(context).primaryColor),
@@ -167,8 +181,7 @@ class _orderInfoState extends State<orderInfo> {
                   ],
                 ),
               )
-                  :
-              Container(),
+                  // : Container(),
 
             ],
           ),
@@ -210,28 +223,30 @@ class _orderInfoState extends State<orderInfo> {
   }
 
   Widget CancelOrder(){
-    if(widget.inSetup)
+    var driver = context.watch<OrderProvider>().orderDitModel;
+
+    // if(widget.inSetup)
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           //Order Button
-          MaterialButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(31)),
-              color: Color(0xff191F28),
-
-              child: Text(
-                'إلغاء الطلب',
-                style: TextStyle(
-                    fontSize: 11,
-                    fontFamily: 'Araboto',
-                    color: Colors.white
-                ),
-              ),
-              onPressed: (){
-
-              }
-          ),
+          // MaterialButton(
+          //     shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(31)),
+          //     color: Color(0xff191F28),
+          //
+          //     child: Text(
+          //       'إلغاء الطلب',
+          //       style: TextStyle(
+          //           fontSize: 11,
+          //           fontFamily: 'Araboto',
+          //           color: Colors.white
+          //       ),
+          //     ),
+          //     onPressed: (){
+          //
+          //     }
+          // ),
 
           //Order Status
           Container(
@@ -280,7 +295,8 @@ class _orderInfoState extends State<orderInfo> {
                     ),
                   ),
                   Text(
-                    'مقبولة',
+                    driver!.accepted == 1 ?
+                    'مقبولة': driver!.canceled == 1 ?  'مرفوضه' : "لم تبداء",
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 10,
@@ -292,7 +308,6 @@ class _orderInfoState extends State<orderInfo> {
           ),
         ],
       );
-    else
       return Container();
   }
 
@@ -320,13 +335,13 @@ class _orderInfoState extends State<orderInfo> {
         title: Text(
           title,
           style: const TextStyle(fontSize: 16, fontFamily: 'Araboto',fontWeight: FontWeight.w500,color: Color(0xff191F28)),
-          textDirection: TextDirection.rtl,
+textAlign: TextAlign.end,
         ),
         subtitle: Text(
           subtitle,
           style: const TextStyle(
               fontSize: 10, fontFamily: 'Araboto', color: Color(0xff969696)),
-          textDirection: TextDirection.rtl,
+          textAlign: TextAlign.end,
         ),
         trailing:StatusIcon,
         ),
@@ -513,7 +528,7 @@ class _orderInfoState extends State<orderInfo> {
                       itemSize: 24,
                       initialRating: double.parse(rating.Base),
                       ignoreGestures: true,
-                      textDirection: TextDirection.rtl,
+                      // textDirection: TextDirection.rtl,
                       itemBuilder: (context, _) => Icon(Icons.star,color: Color(0xffF3B304)),
                       onRatingUpdate: (rating){
 
@@ -542,7 +557,7 @@ class _orderInfoState extends State<orderInfo> {
         title: Text(
           title,
           style: const TextStyle(fontSize: 14, fontFamily: 'Araboto',fontWeight: FontWeight.w500,color: Color(0xff191F28)),
-          textDirection: TextDirection.rtl,
+          textAlign: TextAlign.end,
         ),
 
         subtitle:Row(

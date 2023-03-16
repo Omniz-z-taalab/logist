@@ -46,8 +46,24 @@ class PriceProvider extends ChangeNotifier {
     bool? res ;
     bool? responsee ;
   int? orderId;
-  Future<void> createOrder(int driverId, String? date, double lat1, double lang1, double lat2, double lang2,int vicleId,  )async{
+  Future<void> createOrder(int vicleId, String? date, double lat1, double lang1, double lat2, double lang2,int driverId, int trilerId )async{
     res == true;
+    print(driverId);
+    print(date);
+    print(lat1);
+    print(lang1);
+    print(vicleId);
+    print(lat2);
+    print(lang2);
+    print(lat2);
+    print(lat2);
+    print(vicleId);
+    print(vicleId);
+    print('trilerId)');
+    print(trilerId);
+
+    print(vicleId);
+    print(vicleId);
 
     try{
       Response response =await DioHelper.postData(url: '${AppApiPaths.base}/api/v1/order',
@@ -62,14 +78,14 @@ class PriceProvider extends ChangeNotifier {
           "lant": lat2,
           "long": lang2
           },
-          "viecle_Id": 1,
-          "trailer_id": 1,
+          "viecle_Id": 3,
+          "trailer_id": trilerId,
           "Current_Location": {
           "lant": 29.951755714712075,
           "long": 30.934096798504832
           },
           "Order_Type": "Single",
-          "Order_Start_Time": "2023-02-22"
+          "Order_Start_Time": date
       });
       print('sddddddddd');
 
@@ -86,8 +102,10 @@ class PriceProvider extends ChangeNotifier {
   }
 
   Future<void> payOrder() async{
-    responsee == true;
+    responsee = true;
     print(orderId);
+    print(orderId);
+    print('bbbbbbbbbbbb');
     try {
       Response response = await DioHelper.postData(url: '${AppApiPaths.base}/api/v1/order/pay'
           ,data:{ 'id': orderId });
@@ -95,7 +113,7 @@ class PriceProvider extends ChangeNotifier {
         print(response.data);
         print('wwqwqwqw');
         if(response.statusCode == 200){
-          responsee == false;
+          responsee = false;
 
         }
 notifyListeners();

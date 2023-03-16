@@ -31,24 +31,26 @@ class _OrdersState extends State<Orders> {
   bool isLoading;
 
   // //Finish loading
-  // void done() async{
-  //   await Future.delayed(const Duration(seconds: 1), (){
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   });
-  // }
+  void done() async{
 
-  // void initState(){
-  //   super.initState();
-  //   done();
-  // }
+    await Future.delayed(const Duration(seconds: 1), (){
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
-
+      done();
     super.initState();
-    context.read<OrderProvider>().getOrders();
+    context.read<OrderProvider>().allOrder();
+    context.read<OrderProvider>().acceptOrders();
+    context.read<OrderProvider>().completeOrders();
+    context.read<OrderProvider>().cancelOrders();
+
   }
 
   @override
@@ -183,32 +185,38 @@ class _OrdersState extends State<Orders> {
                 },
                 controller: controller,
                 children: [
+                  //delivered
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: context.read<OrderProvider>().isGetLoading
+                    child: context.watch<OrderProvider>().compelet ==true
                         ? ShimmerData()
-                        : context.read<OrderProvider>().orders.isNotEmpty
-                            ? DeliveredOrdersList(
-                                context.read<OrderProvider>().orders, context)
-                            : const Center(child: Text("لايوجد طلبات")),
+                        : context.watch<OrderProvider>().comporders ==[]
+                            ?const Center(child: Text("لايوجد طلبات"))
+                        : DeliveredOrdersList(
+                                context.watch<OrderProvider>().comporders, context)
+
                   ),
+                  //all orders
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: context.read<OrderProvider>().isGetLoading
+                    child: context.watch<OrderProvider>().accept == false
                         ? ShimmerData()
-                        : context.read<OrderProvider>().orders.isNotEmpty
-                            ? OrdersList(
-                                context.read<OrderProvider>().orders, context)
-                            : const Center(child: Text("لايوجد طلبات")),
+                        : context.watch<OrderProvider>().acceptorder == []
+                            ?const Center(child: Text("لايوجد طلبات")):
+                    OrdersList(
+                                context.watch<OrderProvider>().acceptorder, context)
+
                   ),
+                  //now
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: context.read<OrderProvider>().isGetLoading
+                    child: context.watch<OrderProvider>().all == false
                         ? ShimmerData()
-                        : context.read<OrderProvider>().orders.isNotEmpty
-                            ? OrdersListDone(
-                                context.read<OrderProvider>().orders, context)
-                            : const Center(child: Text("لايوجد طلبات")),
+                        : context.watch<OrderProvider>().allorders == []
+                            ? const Center(child: Text("لايوجد طلبات"))
+                        : OrdersListNow(
+                                context.watch<OrderProvider>().allorders, context)
+
                   ),
                 ],
               ),
@@ -266,7 +274,7 @@ class _OrdersState extends State<Orders> {
                   Container(
                     height: 11,
                     width: 11,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         //color: Color(0xffF8F8F8),
                         color: Color(0xffa1a8a8),
                         shape: BoxShape.circle),

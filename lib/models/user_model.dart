@@ -1,14 +1,14 @@
 class UserModel {
-  int? id;
-  String? avatar;
-  String? fullName;
-  String? phoneNumber;
-  String? gender;
-  String? birthDate;
-  String? adrress;
-  String? email;
-  int? userLocation;
-  String? createdDate;
+  dynamic? id;
+  dynamic? avatar;
+  dynamic? fullName;
+  dynamic? phoneNumber;
+  dynamic? gender;
+  dynamic? birthDate;
+  dynamic? adrress;
+  dynamic? email;
+  dynamic? userLocation;
+  dynamic? createdDate;
 
   UserModel(
       {this.id,
@@ -27,10 +27,13 @@ class UserModel {
     avatar = json['avatar'];
     fullName = json['full_name'];
     phoneNumber = json['phone_number'];
+
     gender = json['gender'];
     birthDate = json['birth_date'];
+
     adrress = json['adrress'];
     email = json['email'];
+
     userLocation = json['user_location'];
     createdDate = json['created_date'];
   }

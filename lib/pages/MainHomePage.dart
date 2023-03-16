@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../core/logic/layout/profile/profile_provider.dart';
+import '../models/user_model.dart';
 import '../others/variables.dart';
 import 'Home_and_location/Home_Page.dart';
 import 'Navigation_bar/Chats/all_masseges.dart';
@@ -11,6 +12,7 @@ import 'Menu_and_settings/Profile.dart';
 import 'Navigation_bar/Settings.dart';
 import 'Navigation_bar/order_bar.dart';
 import 'Order_Setup/ChooseExtentions.dart';
+import 'Order_Setup/Chose_car.dart';
 
 class mainHomePage extends StatefulWidget {
   const mainHomePage({Key? key}) : super(key: key);
@@ -61,10 +63,16 @@ class _mainHomePageState extends State<mainHomePage> {
 @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+      context.read<ProfileProvider>().getUser();
+      // print(context.read<ProfileProvider>().userModel!.fullName);
+
+      // print(  context.read<ProfileProvider>().getUser());
+  super.initState();
   }
   @override
   Widget build(BuildContext context) {
+   var userModel = context.watch<ProfileProvider>().userModel;
+   // print(userModel!.id!);
     return Scaffold(
       body: Stack(
         children: [
@@ -234,8 +242,8 @@ class _mainHomePageState extends State<mainHomePage> {
                                   ),
                                   onTap: () async {
                                     Change();
-                                     Get.to( chooseExtentions());
-                                    // Get.to(const chooseExtentions());
+                                     Get.to( ChoseTrailer());
+                                     // Get.to(const chooseExtentions());
                                   },
                                 ),
                                 const SizedBox(height: 7),
@@ -366,7 +374,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                     ),
                                   ),
                                   onTap: () async {
-                                    Change();
+                                      Get.to(ChoseTrailer());
                                     //Get.to(pickupPlace());
                                   },
                                 ),
@@ -498,8 +506,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                     ),
                                   ),
                                   onTap: () async {
-                                    Change();
-                                    //Get.to(pickupPlace());
+                                    Get.to(ChoseTrailer());
                                   },
                                 ),
                                 const SizedBox(height: 7),
@@ -555,7 +562,7 @@ class _mainHomePageState extends State<mainHomePage> {
                           if (index == 0) {
                             Get.to(const settings());
                           } else if (index == 3) {
-                            Get.to(const conversationsList());
+                            Get.to( conversationsList(userModel!.id));
                           } else if (index == 1) {
                             // SetDummyData();
                             Get.to(
@@ -655,35 +662,35 @@ class _mainHomePageState extends State<mainHomePage> {
           ),
 
           //Notification Button
-          Align(
-              alignment: const Alignment(-0.9, -0.90),
-              child: InkWell(
-                child: Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.4),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Image.asset(
-                    'assets/pics/Bell.png',
-                    scale: 2,
-                  ),
-                ),
-                onTap: () {
-                  //print(AppUserID);
-                  //Get.to(() =>notification());
-                  Get.to(() => const notification());
-                },
-              )),
+          // Align(
+          //     alignment: const Alignment(-0.9, -0.90),
+          //     child: InkWell(
+          //       child: Container(
+          //         width: 52,
+          //         height: 52,
+          //         decoration: BoxDecoration(
+          //           color: Colors.white,
+          //           shape: BoxShape.circle,
+          //           boxShadow: [
+          //             BoxShadow(
+          //               color: Colors.grey.withOpacity(0.4),
+          //               spreadRadius: 1,
+          //               blurRadius: 1,
+          //               // changes position of shadow
+          //             ),
+          //           ],
+          //         ),
+          //         child: Image.asset(
+          //           'assets/pics/Bell.png',
+          //           scale: 2,
+          //         ),
+          //       ),
+          //       onTap: () {
+          //         //print(AppUserID);
+          //         //Get.to(() =>notification());
+          //         Get.to(() => const notification());
+          //       },
+          //     )),
         ],
       ),
     );
