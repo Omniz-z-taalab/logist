@@ -88,9 +88,7 @@ class MapSampleState extends State<MapSample> {
     await Geolocator.getCurrentPosition();
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    print(position.latitude);
-    print('eeeeeeeeeeeeee=======================');
-    print(position.longitude);
+
     lat = position.latitude;
     lng = position.longitude;
     return position;
@@ -373,14 +371,14 @@ class MapSampleState extends State<MapSample> {
     _setMarker(LatLng(lat, lng));
   }
 
-  Future<void> plaseId(String? placeId) async{
-    GoogleMapsPlaces place = GoogleMapsPlaces(
-      apiKey: kGoogleApiKey,
-      apiHeaders: await GoogleApiHeaders().getHeaders(),
-    );
-    PlacesDetailsResponse detailsResponse= await place.getDetailsByPlaceId(placeId!);
-    controller.animateCamera(LatLng(detailsResponse.result.geometry!.location!.lat, detailsResponse.result.geometry!.location!.lng));
-  }
+  // Future<void> plaseId(String? placeId) async{
+  //   GoogleMapsPlaces place = GoogleMapsPlaces(
+  //     apiKey: kGoogleApiKey,
+  //     apiHeaders: await GoogleApiHeaders().getHeaders(),
+  //   );
+  //   PlacesDetailsResponse detailsResponse= await place.getDetailsByPlaceId(placeId!);
+  //   controller.animateCamera(LatLng(detailsResponse.result.geometry!.location!.lat, detailsResponse.result.geometry!.location!.lng));
+  // }
   Widget pickupMapButton(){
     return InkWell(
       child: Padding(
@@ -450,8 +448,6 @@ class MapSampleState extends State<MapSample> {
             ),
           ),
           onTap: () async{
-            print(places.length);
-            print('--------------------');
 
             //Get name And Subtitle address
             var results = await LocationService().getPlaceV2(places[i][i]);

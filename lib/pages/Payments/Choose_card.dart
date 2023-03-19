@@ -9,7 +9,8 @@ import '../My_orders/payloading.dart';
 import 'PaymentPage.dart';
 
 class chooseCard extends StatefulWidget {
-  const chooseCard({Key? key}) : super(key: key);
+   dynamic price;
+    chooseCard(this.price) ;
 
   @override
   State<chooseCard> createState() => _chooseCardState();
@@ -199,10 +200,10 @@ class _chooseCardState extends State<chooseCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RichText(
-                          text: const TextSpan(
+                          text:  TextSpan(
                               style: TextStyle(fontFamily: 'visbydemibold',fontSize: 24,color: Color(0xff191F28)),
                               children: <TextSpan>[
-                                TextSpan(text: '261.96'),
+                                TextSpan(text: widget!.price!.toString()),
                                 TextSpan(text: 'SAR',style: TextStyle(fontFamily: 'visbylight',fontSize: 18,color: Color(0xff191F28)) )
                               ]
                           )

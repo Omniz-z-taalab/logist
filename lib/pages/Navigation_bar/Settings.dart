@@ -214,7 +214,7 @@ class _settingsState extends State<settings> {
                   ),
               transition: Transition.rightToLeft);
         } else if (Dest == 'card') {
-          Get.to(const paymentMethods());
+          // Get.to( paymentMethods());
         } else if (Dest == 'plans') {
           Navigator.of(type).pushNamed('/plans');
         } else if (Dest == 'lang') {

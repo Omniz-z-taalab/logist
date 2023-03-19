@@ -4,6 +4,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:logist/core/logic/price_payment/price_payment.dart';
@@ -101,7 +102,12 @@ class _ResumeScreenState extends State<ResumeScreen> {
   @override
   Widget build(BuildContext context) {
     var price = context.watch<PriceProvider>().price;
-    return    context.read<PriceProvider> ().isGetViecle == true ?Center(child: CircularProgressIndicator(),):  Scaffold(
+    return    context.read<PriceProvider> ().price == null ? const Center(
+      child: SpinKitRing(
+        size: 100,
+        color: Color(0xff191F28),
+      ),
+    ):  Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
         backgroundColor: Obackground,
@@ -421,7 +427,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
               widget.id,
               widget.trilerId,
           );
-            Get.to(() => paymentMethods(), transition: Transition.rightToLeft);
+            Get.to(() => paymentMethods(context.watch<PriceProvider>().price), transition: Transition.rightToLeft);
           }
       );
 }

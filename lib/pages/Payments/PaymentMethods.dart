@@ -6,7 +6,8 @@ import '../My_orders/payloading.dart';
 import 'Choose_card.dart';
 
 class paymentMethods extends StatefulWidget {
-  const paymentMethods({Key? key}) : super(key: key);
+  dynamic price;
+    paymentMethods(this.price) ;
 
   @override
   State<paymentMethods> createState() => _paymentMethodsState();
@@ -64,7 +65,7 @@ class _paymentMethodsState extends State<paymentMethods> {
                     child: Image.asset('assets/pics/paymentCard.png'),
                   onTap: (){
                       Get.to(
-                          () => chooseCard(),
+                          () => chooseCard(widget.price),
                         transition: Transition.rightToLeft,
                       );
                   },

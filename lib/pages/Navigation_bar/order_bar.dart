@@ -190,7 +190,7 @@ class _OrdersState extends State<Orders> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: context.watch<OrderProvider>().compelet ==true
                         ? ShimmerData()
-                        : context.watch<OrderProvider>().comporders ==[]
+                        : context.watch<OrderProvider>().comporders.isEmpty
                             ?const Center(child: Text("لايوجد طلبات"))
                         : DeliveredOrdersList(
                                 context.watch<OrderProvider>().comporders, context)
@@ -201,7 +201,7 @@ class _OrdersState extends State<Orders> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: context.watch<OrderProvider>().accept == false
                         ? ShimmerData()
-                        : context.watch<OrderProvider>().acceptorder == []
+                        : context.watch<OrderProvider>().acceptorder.isEmpty
                             ?const Center(child: Text("لايوجد طلبات")):
                     OrdersList(
                                 context.watch<OrderProvider>().acceptorder, context)
@@ -212,7 +212,7 @@ class _OrdersState extends State<Orders> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: context.watch<OrderProvider>().all == false
                         ? ShimmerData()
-                        : context.watch<OrderProvider>().allorders == []
+                        : context.watch<OrderProvider>().allorders.isEmpty
                             ? const Center(child: Text("لايوجد طلبات"))
                         : OrdersListNow(
                                 context.watch<OrderProvider>().allorders, context)

@@ -44,6 +44,7 @@ class VieclesProvider extends ChangeNotifier {
   //get viecle
   Future<void> getViecle() async {
     isGetViecle = true;
+    viecles =[];
     notifyListeners();
 
     try {

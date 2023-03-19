@@ -49,6 +49,7 @@ var  usermodel;
 
   Widget build(BuildContext context) {
     var response = context.watch<ChatProvider>().inboxMessage ;
+    print(response![0].name);
     return Scaffold(
         backgroundColor: Color(0xffFAFBFB),
         appBar: AppBar(
@@ -154,6 +155,7 @@ var  usermodel;
               backgroundImage: NetworkImage(response!.profileImage!),
             ),
             onTap: () {
+
               Get.to(
                       () => conversation(
                     inbox: response,

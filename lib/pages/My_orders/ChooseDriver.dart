@@ -6,12 +6,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:logist/Classes/Driver_classes.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/pages/My_orders/Resume.dart';
 import 'package:logist/pages/My_orders/TruckDrivers.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../core/logic/drivers/driver_provider.dart';
 import '../../models/viecelModel/viecleModel.dart';
 
 class chooseDriver extends StatefulWidget {
@@ -68,6 +71,8 @@ class _chooseDriverState extends State<chooseDriver> {
     print(widget.Typetext);
     print('eeeeeeeeee');
     print(widget.PayloadText);
+    Provider.of<DriversProvider>(context, listen: false)
+        .getAllDrivers();
   }
 
   //Choose Button
@@ -114,6 +119,7 @@ class _chooseDriverState extends State<chooseDriver> {
                 transition: Transition.rightToLeft);
           }
           else if (Type == 'auto') {
+
              // Get.to(orderMap());
             setState(() {
               Clicked = true;
@@ -145,12 +151,15 @@ class _chooseDriverState extends State<chooseDriver> {
 
   @override
   Widget build(BuildContext context) {
+    var drivers = context.watch<DriversProvider>().driver;
+
     return Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
         backgroundColor: Obackground,
         centerTitle: true,
         elevation: 0,
+        leading: Text('اختار السائق'),
         actions: [
           SizedBox(
             height: 52,
@@ -163,6 +172,7 @@ class _chooseDriverState extends State<chooseDriver> {
                 icon: const Icon(CupertinoIcons.chevron_forward),
                 iconSize: 25,
                 onPressed: () {
+                  Navigator.of(context);
                   print('Down');
                 },
               ),
@@ -171,7 +181,9 @@ class _chooseDriverState extends State<chooseDriver> {
           const SizedBox(width: 20),
         ],
       ),
-      body: SlidingUpPanel(
+      body: context.watch<DriversProvider>().driver.isEmpty ?
+      Center(child: CircularProgressIndicator())
+          : SlidingUpPanel(
         controller: ApanelController,
         maxHeight: 600,
         minHeight: 0,
@@ -213,7 +225,7 @@ class _chooseDriverState extends State<chooseDriver> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - 258,
+                  height: MediaQuery.of(context).size.height - 330,
                   //  heightheight: double.infinity,
                   child: Padding(
                     padding:
@@ -224,62 +236,56 @@ class _chooseDriverState extends State<chooseDriver> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 140,
-                                      width: 140,
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xffF8F8F8),
-                                          //   color: Colors.black12,
-                                          shape: BoxShape.circle),
-                                      child: Center(
-                                        child: Clicked
-                                            ? CircularProgressIndicator(
-                                                //color: Color(0xffE1E1E1),
-                                                color: Colors.black26,
-                                              )
-                                            : Icon(
-                                                Icons.search,
-                                                size: 90,
-                                                color: Color(0xffE1E1E1),
-                                              ),
+                            Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 120,
+                                    width: 120,
+                                    decoration: const BoxDecoration(
+                                        color: Color(0xffF8F8F8),
+                                        //   color: Colors.black12,
+                                        shape: BoxShape.circle),
+                                    child: Center(
+                                      child: Clicked
+                                          ? CircularProgressIndicator(
+                                              //color: Color(0xffE1E1E1),
+                                              color: Colors.black26,
+                                            )
+                                          : Icon(
+                                              Icons.search,
+                                              size: 90,
+                                              color: Color(0xffE1E1E1),
+                                            ),
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      'في إنتظار البحث عن سائق...',
+                                      textDirection: TextDirection.rtl,
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontFamily: 'STC',
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xffC5C5C5),
                                       ),
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: Text(
-                                        'في إنتضار البحث عن سائق...',
-                                        textDirection: TextDirection.rtl,
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontFamily: 'STC',
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xffC5C5C5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                width: 235,
-                                child: Text(
-                                  'هل تود أن يتم اختيار السائق تلقائيا؟',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 25,
-                                      height: 1.5),
-                                ),
+                            SizedBox(
+                              width: 235,
+                              child: Text(
+                                'هل تود أن يتم اختيار السائق تلقائيا؟',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 25,
+                                    height: 1.5),
                               ),
                             ),
                           ],
@@ -312,11 +318,30 @@ class _chooseDriverState extends State<chooseDriver> {
                   SizedBox(height: 56),
 
                   //Driver Picture
-                  Profile_pic(),
+          Container(
+            child: Column(
+              children: [
+                //Image position
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: const Color(0xffECF4FD),
+                  ),
+                  width: 113,
+                  height: 113,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.network(drivers![0].identityCardPhotoBack!)),
+                ),
 
+                //to add space
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
                   //Driver Name
                   Text(
-                    Name,
+                    drivers![0].fullName!,
                     style: TextStyle(
                       fontSize: 24,
                       fontFamily: 'Montserrat',
@@ -328,7 +353,7 @@ class _chooseDriverState extends State<chooseDriver> {
 
                   //Truck name
                   Text(
-                    Truck,
+                    drivers![0].numberOfShipments!.toString(),
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w300,
@@ -342,7 +367,7 @@ class _chooseDriverState extends State<chooseDriver> {
                   rating(),
 
                   //Truck Info
-                  truck('شاحنة TRILLA', ' 71007120', ' S A S / 816',
+                  truck(drivers![0].status.toString(), drivers![0].vehicleRegisterNumber.toString(), drivers![0].plateNumber.toString(),
                       'assets/pics/trALX.png'),
                 ],
               ),
@@ -352,7 +377,7 @@ class _chooseDriverState extends State<chooseDriver> {
                   padding: const EdgeInsets.all(20.0),
                   child: Container(
                       width: MediaQuery.of(context).size.width - 50,
-                      child: Next('أختر السائق')),
+                      child: Next('أختر السائق',drivers[0].id!)),
                 ),
               )
             ],
@@ -671,7 +696,7 @@ class _chooseDriverState extends State<chooseDriver> {
     );
   }
 
-  Widget Next(String par) => MaterialButton(
+  Widget Next(String par,int driverId) => MaterialButton(
         color: On,
         minWidth: double.infinity,
         height: 60,
@@ -692,7 +717,21 @@ class _chooseDriverState extends State<chooseDriver> {
         onPressed: () {
           driverData = [Name, Truck, Pic, ratings, Reviews];
           //Button destination
-          // Get.to(() => ResumeScreen(), transition: Transition.rightToLeft);
+           Get.to(() => ResumeScreen(                         widget.lat1,
+               widget.lat2,
+               widget.lng1,
+               widget.lng2,
+               widget.noteText,
+               widget.PayloadText,
+               widget.TimeNum,
+               widget.Trtext,
+               widget.Typetext,
+               driverId,
+               widget.placeuserpick1,
+               widget.placeuserdown1,
+               widget.placeuserpick2,
+               widget.placeuserdown2,widget.vicleId,
+               widget.trilerId), transition: Transition.rightToLeft);
         },
       );
 }
