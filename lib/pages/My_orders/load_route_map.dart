@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logist/models/order_list.dart';
 import '../../Classes/Order_Class.dart';
 import 'order_map_v2.dart';
 import '../../widgets/Location_service.dart';
@@ -7,7 +8,7 @@ import 'package:lottie/lottie.dart';
 
 class LoadingRoute extends StatefulWidget {
   LoadingRoute({Key? key,required this.order}) : super(key: key);
-  Order order;
+  AllOrders order;
 
   @override
   State<LoadingRoute> createState() => _LoadingRouteState(order);
@@ -16,7 +17,7 @@ class LoadingRoute extends StatefulWidget {
 class _LoadingRouteState extends State<LoadingRoute> {
 
 
-  Order order;
+  AllOrders order;
 
   String OrPoint = "";
   String DesPoint = "";

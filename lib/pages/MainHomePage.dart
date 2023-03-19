@@ -581,10 +581,7 @@ class _mainHomePageState extends State<mainHomePage> {
                         items: [
                           BottomNavigationBarItem(
                             label: 'Profile',
-                            icon: Image.asset(
-                              'assets/pics/BottomIcons/profile.png',
-                              height: 24,
-                              width: 24,
+                            icon:const Icon(Icons.person_2_outlined,
                             ),
                             activeIcon: Image.asset(
                               'assets/pics/BottomIcons/profile_outlined.png',

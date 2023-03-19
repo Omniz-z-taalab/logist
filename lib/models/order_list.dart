@@ -139,6 +139,7 @@ class OrderDitModel {
   dynamic? orderComplited;
   dynamic? orderStartTime;
   dynamic? orderEndTime;
+  dynamic? started;
   dynamic? driverName;
   dynamic? distinationLat;
   dynamic? distinationLong;
@@ -166,6 +167,7 @@ class OrderDitModel {
         this.orderComplited,
         this.orderStartTime,
         this.orderEndTime,
+        this.started,
         this.driverName,
         this.distinationLat,
         this.distinationLong,
@@ -178,10 +180,8 @@ class OrderDitModel {
     id = json['id'];
     driverID = json['Driver_ID'];
     userId = json['user_id'];
-
     dateOfOrder = json['Date_of_Order'];
     distination = json['Distination'];
-
     location = json['location'];
     paymentDone = json['payment_done'];
     totalDistance = json['total_distance'];
@@ -195,6 +195,7 @@ class OrderDitModel {
     orderComplited = json['Order_Complited'];
     orderStartTime = json['Order_Start_Time'];
     orderEndTime = json['Order_End_Time'];
+    started = json['Started'];
     driverName = json['Driver Name'];
     distinationLat = json['Distination_lat'];
     distinationLong = json['Distination_long'];
@@ -202,7 +203,6 @@ class OrderDitModel {
     locationLong = json['location_long'];
     currentLocationLat = json['Current_Location.lat'];
     currentLocationLong = json['Current_Location_long'];
-    print('...................');
   }
 
   Map<String, dynamic> toJson() {
@@ -225,6 +225,7 @@ class OrderDitModel {
     data['Order_Complited'] = this.orderComplited;
     data['Order_Start_Time'] = this.orderStartTime;
     data['Order_End_Time'] = this.orderEndTime;
+    data['Started'] = this.started;
     data['Driver Name'] = this.driverName;
     data['Distination_lat'] = this.distinationLat;
     data['Distination_long'] = this.distinationLong;

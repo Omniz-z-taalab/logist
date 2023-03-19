@@ -49,7 +49,7 @@ class _OrdersState extends State<Orders> {
     context.read<OrderProvider>().allOrder();
     context.read<OrderProvider>().acceptOrders();
     context.read<OrderProvider>().completeOrders();
-    context.read<OrderProvider>().cancelOrders();
+    // context.read<OrderProvider>().cancelOrders();
 
   }
 
@@ -188,31 +188,31 @@ class _OrdersState extends State<Orders> {
                   //delivered
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: context.watch<OrderProvider>().compelet ==true
+                    child: context.watch<OrderProvider>().comporders == null
                         ? ShimmerData()
-                        : context.watch<OrderProvider>().comporders ==[]
+                        : context.watch<OrderProvider>().comporders.isEmpty
                             ?const Center(child: Text("لايوجد طلبات"))
                         : DeliveredOrdersList(
                                 context.watch<OrderProvider>().comporders, context)
 
                   ),
-                  //all orders
+                  //now
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: context.watch<OrderProvider>().accept == false
                         ? ShimmerData()
-                        : context.watch<OrderProvider>().acceptorder == []
+                        : context.watch<OrderProvider>().acceptorder.isEmpty
                             ?const Center(child: Text("لايوجد طلبات")):
                     OrdersList(
                                 context.watch<OrderProvider>().acceptorder, context)
 
                   ),
-                  //now
+                  //all orders
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: context.watch<OrderProvider>().all == false
                         ? ShimmerData()
-                        : context.watch<OrderProvider>().allorders == []
+                        : context.watch<OrderProvider>().allorders.isEmpty
                             ? const Center(child: Text("لايوجد طلبات"))
                         : OrdersListNow(
                                 context.watch<OrderProvider>().allorders, context)

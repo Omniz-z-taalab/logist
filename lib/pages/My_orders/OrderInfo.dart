@@ -5,8 +5,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:logist/core/logic/layout/order/order_provider.dart';
 import 'package:logist/others/Dummy_Data_Orders.dart';
+import 'package:logist/pages/Order_Setup/messages.dart';
 import 'package:provider/provider.dart';
 import '../../Classes/Order_Class.dart';
+import '../../core/logic/messages/chat_provider.dart';
+import '../../core/utilities/dio_helper.dart';
+import '../../models/chat/inbox_model.dart';
 import '../../others/variables.dart';
 import '../Order_Setup/OrderMap.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -41,12 +45,14 @@ var  driver;
     print(widget.id);
   }
   // _orderInfoState(this.order);
-
+    ChatListResponse? list;
   @override
   Widget build(BuildContext context) {
   var  driver = context.watch<OrderProvider>().orderDitModel;
 
-        return Scaffold(
+  // var response = context.watch<ChatProvider>().inboxMessage ;
+  // list = response![driver!.userId];
+        return  Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
         backgroundColor: Obackground,
@@ -81,7 +87,7 @@ var  driver;
         ],
       ),
 
-      body: Padding(
+      body:context.watch<OrderProvider>().orderDitModel == null ? Center(child: CircularProgressIndicator(),): Padding(
         padding: const EdgeInsets.only(left: 25,right: 25,top: 25),
         child: Container(
           height: double.infinity,
@@ -108,7 +114,7 @@ var  driver;
 
                       //Truck name
                       Text(
-                        DateUtil().formattedDate(DateTime.parse(driver!.orderStartTime)),
+                        DateUtil().formattedDate(DateTime.parse(driver!.orderStartTime!)),
                         style:  const TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w300,
@@ -138,8 +144,31 @@ var  driver;
 
                   //Order Status
                   CancelOrder(),
-
-
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'حالة الطلب',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 14,
+                              color: Color(0xff191F28)
+                          ),
+                        ),
+                        Text(
+                          'لم يتم نقل الشحنة إلى الآن',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontFamily: 'Montserrat',
+                            color: Color(0xff969696),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                SizedBox(height: 20,),
                 ],
               ),
 
@@ -149,7 +178,42 @@ var  driver;
                 bottom: 0,
                 child: Column(
                   children: [
+                    MaterialButton(
+                        height: MediaQuery.of(context).size.height * 0.075,
 
+                        minWidth: MediaQuery.of(context).size.width - 50,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(31)),
+                        color: Colors.green,
+
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              'محادثه مع السائق ',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  fontFamily: 'Araboto',
+                                  color: Colors.white
+                              ),
+                            ),
+                            Icon(Icons.chat,color: Colors.white,),
+
+                          ],
+                        ),
+                        onPressed: (){
+
+                           driver!.driverName;
+                           driver!.userId;
+                          driver!.driverID;
+                          driver!.driverID;
+                           context.read<ChatProvider>().getInbox(userId: driver!.userId);
+                            print('user id is ${driver!.userId}driver');
+                            print('user id is ${list}driver');
+                          Get.to(() => conversation());
+                        }
+                    ),
+SizedBox(height: 20,),
                     MaterialButton(
 
                       height: MediaQuery.of(context).size.height * 0.075,
@@ -230,49 +294,33 @@ var  driver;
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           //Order Button
-          // MaterialButton(
-          //     shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(31)),
-          //     color: Color(0xff191F28),
-          //
-          //     child: Text(
-          //       'إلغاء الطلب',
-          //       style: TextStyle(
-          //           fontSize: 11,
-          //           fontFamily: 'Araboto',
-          //           color: Colors.white
-          //       ),
-          //     ),
-          //     onPressed: (){
-          //
-          //     }
-          // ),
+          MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(31)),
+              color: Color(0xff191F28),
+
+              child: Text(
+                'إلغاء الطلب',
+                style: TextStyle(
+                    fontSize: 11,
+                    fontFamily: 'Araboto',
+                    color: Colors.white
+                ),
+              ),
+              onPressed: (){
+                if(  driver!.accepted == 1 ){
+                  context.read<OrderProvider>().cancelOrders(driver!.id);
+                  showToast('تم ',true,true);
+                  print(' 3423423432432432');
+
+                }else{
+                  showToast('غير مقبول',true,false);
+                }
+
+              }
+          ),
 
           //Order Status
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'حالة الطلب',
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 14,
-                      color: Color(0xff191F28)
-                  ),
-                ),
-                Text(
-                  'لم يتم نقل الشحنة إلى الآن',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontFamily: 'Montserrat',
-                    color: Color(0xff969696),
-                  ),
-                ),
-              ],
-            ),
-          ),
 
           //Accepted / refused
           Container(

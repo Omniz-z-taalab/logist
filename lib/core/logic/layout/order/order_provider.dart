@@ -45,10 +45,11 @@ class OrderProvider extends ChangeNotifier {
     isLoading = true;
     accept = true;
     print('omniaZayed');
+    acceptorder =[];
     notifyListeners();
     try {
       var response = await DioHelper
-          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Accepted');
+          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Started');
       isLoading = false;
       response.data.forEach((order)=> acceptorder.add(AllOrders.fromJson(order)));
       print('tttttttttttttttttt');
@@ -64,42 +65,39 @@ class OrderProvider extends ChangeNotifier {
     }
   }
   //cancel order
-  Future<bool> cancelOrders() async {
-    isLoading = true;
-    cancele = true;
-    print('Youssef');
-    print('Youssef');
+  Future<void> cancelOrders(int id) async {
 
+    print('Youssef');
+    print('Youssef');
+    print(id);
+    cancelorder = [];
     notifyListeners();
-
     try {
-      var response = await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Canceled');
-      print('vvvvvvvvvvvvvvv');
-      response.data.forEach((order)=> cancelorder.add(AllOrders.fromJson(order)));
-      cancele == false;
-      print('1``````````````1');
+      var response = await DioHelper.postData(url:'${AppApiPaths.base}/api/v1/order/CancelOrder',data: {
+        "id":id
+      });
 
       print(response.data);
+      print('eeeeeeee');
       isLoading = false;
       notifyListeners();
-      return isLoading;
+      // return isLoading;
     } catch (error) {
       isLoading = false;
       // notifyListeners();
-      return isLoading;
+      print(error);
+    //  return isLoading;
     }
   }
   //complete order
   Future<bool> completeOrders() async {
     isLoading = true;
+    comporders = [];
     compelet == true;
     notifyListeners();
-    print('yaaaaaaahowwwwwwww');
-
-
     try {
       var response = await DioHelper
-          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Delivered',);
+          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders',);
       isLoading = false;
       response.data.forEach((order)=> comporders.add(AllOrders.fromJson(order)));
       print('rrrrrrrrrrrrrrrr');
@@ -111,6 +109,7 @@ class OrderProvider extends ChangeNotifier {
     } catch (error) {
       isLoading = false;
       // notifyListeners();
+      print(error);
       return isLoading;
     }
   }
@@ -150,7 +149,6 @@ class OrderProvider extends ChangeNotifier {
       print('[[[[ewewew]]]]]]');
       acceptOrders();
       completeOrders();
-      cancelOrders();
       all == false;
       print('object');
       notifyListeners();

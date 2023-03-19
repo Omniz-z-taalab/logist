@@ -10,8 +10,8 @@ import '../pages/Order_Setup/ChooseExtentions.dart';
 
 class package_place2 extends StatefulWidget {
   var lat1;
-  var lat2;
   var lng1;
+  var lat2;
   var lng2;
   String noteText;
   int PayloadText;
@@ -24,11 +24,13 @@ class package_place2 extends StatefulWidget {
   String placeuserdown2;
   int vicleId;
   int trilerId;
-
+  //I/flutter (14415): latttttt24.7721495,lnggggggg46.6975932
+//  I/flutter (14415): latt124.79367045270101lng146.677787117660046
+//I/flutter (14415): latt224.7721495lng246.6975932
   package_place2(
       this.lat1,
-      this.lat2,
       this.lng1,
+      this.lat2,
       this.lng2,
       this.noteText,
       this.PayloadText,

@@ -47,62 +47,6 @@ Widget _OrdersListNow(BuildContext context,AllOrders order)  {
     }
   }
 
-  // Generate  Description based on status
-  // String SayDesc(Status){
-
-  //   if(Status == 'Delivered')
-  //     return 'تم إيصال الشحنة بنجاح';
-
-  //   else if(Status == 'Pending')
-  //     return 'جاري توصيل الشحنة';
-
-  //   else if(Status == 'Canceled')
-  //     return 'تم إلغاء الطلب';
-
-  //   else if(Status == 'Accepted')
-  //     return 'تم قبول الطلب / لم تتحرك الشحنة';
-
-  //   else if(Status == 'Waiting')
-  //     return 'في إنتضار قبول الطلب';
-
-  //   else
-  //     return '';
-  // }
-
-  // //Generat truck asset based on it's name
-  // String SayImage(title){
-  //   if(title == 'شاحنة ALX')
-  //     return 'ALX';
-
-  //   else if(title == 'شاحنة HALA AA19')
-  //     return 'AA19';
-
-  //   else if(title == 'شاحنة BIG MONSTER')
-  //     return 'BIG';
-  //   else
-  //     return 'BIG';
-  // }
-
-  // //Convert Status from english (backend) to arabic
-  // String ConvertStatus(Status){
-
-  //   if(Status == 'Delivered')
-  //     return 'مكتملة';
-
-  //   else if(Status == 'Pending')
-  //     return 'تتبع';
-
-  //   else if(Status == 'Canceled')
-  //     return 'مرفوضة';
-
-  //   else if(Status == 'Accepted')
-  //     return 'مقبولة';
-  //   else if(Status == 'Waiting')
-  //     return 'إنتضار';
-
-  //   else
-  //     return '';
-  // }
 
   return Container(
     alignment: Alignment.center,
@@ -115,13 +59,83 @@ Widget _OrdersListNow(BuildContext context,AllOrders order)  {
     height: 95,
 
     child: ListTile(
+      leading: Padding(
+        padding: const EdgeInsets.only(top:8.0),
+        child: Container(
+          alignment: Alignment.center,
+          width: 50,
+          height: 23,
+          decoration: BoxDecoration(
+            //    color: Color(0xffF9F1FD),
+            color: Colors.black12,
+            borderRadius: BorderRadius.circular(13),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                  order!.status,
+                  textAlign: TextAlign.left,
+                  style:  TextStyle(
+                    fontFamily: 'Madani',
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
+                    //todo: set its own Parameter
+                    color:order!.status ==  'Delivered' ? SayColor('Delivered'): order!.status == 'Accepted' ? SayColor('Accepted'): order!.status == 'Canceled'? SayColor('Canceled' ) : order!.status == 'Pending' ? SayColor('Pending'): SayColor('Started'),
+
+                  )
+              ),
+
+              // Container(
+              //   height: 15,
+              //   width: 15,
+              //   decoration: BoxDecoration(
+              //     //todo: set its own Parameter
+              //       color: SayColor("Delivered"),
+              //       shape: BoxShape.circle
+              //   ),
+              // ),
+            ],
+          ),
+        ),
+      ),
 
       //Status Icon
+      // leading: Padding(
+      //   padding: const EdgeInsets.only(top:8.0),
+      //   child: Container(
+      //     alignment: Alignment.center,
+      //     width: 50,
+      //     height: 23,
+      //     decoration: BoxDecoration(
+      //       //    color: Color(0xffF9F1FD),
+      //       color: Colors.black12,
+      //       borderRadius: BorderRadius.circular(13),
+      //     ),
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //       children: [
+      //         Container(
+      //           height: 15,
+      //           width: 15,
+      //           decoration: BoxDecoration(
+      //             //todo: set its own Parameter
+      //               color: SayColor("Accepted"),
+      //               shape: BoxShape.circle
+      //           ),
+      //
+      //         ),
+      //
+      //       ],
+      //     ),
+      //   ),
+      // ),
 
       //Truck Name
       title: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+
           Text(
             order.driverName!,
             style: const TextStyle(fontSize: 15, fontFamily: 'Madani',fontWeight: FontWeight.w500),
@@ -137,19 +151,12 @@ Widget _OrdersListNow(BuildContext context,AllOrders order)  {
       ),
 
       //Status
-      // subtitle: Text(
-      //   SayDesc(status),
-      //   style: const TextStyle(
-      //       fontSize: 10, fontFamily: 'Madani', color: Color(0xff909090)),
-      //   textDirection: TextDirection.rtl,
-      // ),
 
       //Truck Icon
       // trailing: SimplePic(SayImage(title), 45, 56),
 
 
       onTap: () async{
-        // if(order.Status == 'Accepted' || order.Status == 'Waiting') {
           Get.to(
                   () => orderInfo(order.id!),
               transition: Transition.rightToLeft
@@ -186,62 +193,6 @@ Widget _OrdersListViewDone(BuildContext context,AllOrders order)  {
     }
   }
 
-  // Generate  Description based on status
-  // String SayDesc(Status){
-
-  //   if(Status == 'Delivered')
-  //     return 'تم إيصال الشحنة بنجاح';
-
-  //   else if(Status == 'Pending')
-  //     return 'جاري توصيل الشحنة';
-
-  //   else if(Status == 'Canceled')
-  //     return 'تم إلغاء الطلب';
-
-  //   else if(Status == 'Accepted')
-  //     return 'تم قبول الطلب / لم تتحرك الشحنة';
-
-  //   else if(Status == 'Waiting')
-  //     return 'في إنتضار قبول الطلب';
-
-  //   else
-  //     return '';
-  // }
-
-  // //Generat truck asset based on it's name
-  // String SayImage(title){
-  //   if(title == 'شاحنة ALX')
-  //     return 'ALX';
-
-  //   else if(title == 'شاحنة HALA AA19')
-  //     return 'AA19';
-
-  //   else if(title == 'شاحنة BIG MONSTER')
-  //     return 'BIG';
-  //   else
-  //     return 'BIG';
-  // }
-
-  // //Convert Status from english (backend) to arabic
-  // String ConvertStatus(Status){
-
-  //   if(Status == 'Delivered')
-  //     return 'مكتملة';
-
-  //   else if(Status == 'Pending')
-  //     return 'تتبع';
-
-  //   else if(Status == 'Canceled')
-  //     return 'مرفوضة';
-
-  //   else if(Status == 'Accepted')
-  //     return 'مقبولة';
-  //   else if(Status == 'Waiting')
-  //     return 'إنتضار';
-
-  //   else
-  //     return '';
-  // }
 
   return Container(
     alignment: Alignment.center,
@@ -252,85 +203,106 @@ Widget _OrdersListViewDone(BuildContext context,AllOrders order)  {
     ),
     width: MediaQuery.of(context).size.width-50,
     height: 95,
+            child:
+                ListTile(
+                  //Status Icon
+                    leading: Padding(
+                      padding: const EdgeInsets.only(top:8.0),
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 50,
+                        height: 23,
+                        decoration: BoxDecoration(
+                          //    color: Color(0xffF9F1FD),
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(13),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            order!.status ==  'Delivered' ?
+                            Text(
+                                 'منتهيه' ,
+                                textAlign: TextAlign.left,
+                                style:  TextStyle(
+                                  fontFamily: 'Madani',
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w300,
+                                  //todo: set its own Parameter
+                                  color: SayColor('Delivered'),
 
-    child: ListTile(
+                                )
+                            ):Text
+                              (
+                                'مرفوضه' ,
+                                textAlign: TextAlign.left,
+                                style:  TextStyle(
+                                  fontFamily: 'Madani',
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w300,
+                                  //todo: set its own Parameter
+                                  color: SayColor('Canceled'),
 
-      //Status Icon
-      leading: Padding(
-        padding: const EdgeInsets.only(top:8.0),
-        child: Container(
-          alignment: Alignment.center,
-          width: 50,
-          height: 23,
-          decoration: BoxDecoration(
-            //    color: Color(0xffF9F1FD),
-            color: Colors.black12,
-            borderRadius: BorderRadius.circular(13),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                  'مكتمله',
-                  textAlign: TextAlign.left,
-                  style:  TextStyle(
-                    fontFamily: 'Madani',
-                    fontSize: 10,
-                    fontWeight: FontWeight.w300,
-                    //todo: set its own Parameter
-                    color: SayColor('Delivered'),
+                                )
+                            ),
 
-                  )
-              ),
+                         order!.status == 'Canceled' ?  Container(
+                              height: 12,
+                              width: 12,
+                              decoration: BoxDecoration(
+                                //todo: set its own Parameter
+                                  color: SayColor("Canceled"),
+                                  shape: BoxShape.circle
+                              ),
+                            ):
+                         Container(
+                              height: 12,
+                              width: 12,
+                              decoration: BoxDecoration(
+                                //todo: set its own Parameter
+                                  color: SayColor("Delivered"),
+                                  shape: BoxShape.circle
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
 
-              Container(
-                height: 15,
-                width: 15,
-                decoration: BoxDecoration(
-                  //todo: set its own Parameter
-                    color: SayColor("Delivered"),
-                    shape: BoxShape.circle
+                    //Truck Name
+                    title: Text(
+                      order.driverName!,
+                      style: const TextStyle(fontSize: 15, fontFamily: 'Madani',fontWeight: FontWeight.w500),
+                      textDirection: TextDirection.rtl,
+                    ),
+
+                    //Status
+                    // subtitle: Text(
+                    //   SayDesc(status),
+                    //   style: const TextStyle(
+                    //       fontSize: 10, fontFamily: 'Madani', color: Color(0xff909090)),
+                    //   textDirection: TextDirection.rtl,
+                    // ),
+
+                    //Truck Icon
+                    // trailing: SimplePic(SayImage(title), 45, 56),
+
+
+                    // onTap: () async{
+                    //   // if(order.Status == 'Accepted' || order.Status == 'Waiting') {
+                    //   Get.to(
+                    //           () => orderInfo(order.id!),
+                    //       transition: Transition.rightToLeft
+                    //   );
+                    //   // } else if(order.Status == 'Delivered' || order.Status == 'Canceled'){
+                    //   //   Get.to(
+                    //   //           () => LoadingRoute(order: order),
+                    //   //       transition: Transition.rightToLeft
+                    //   //   );
+                    //   // }
+                    // }
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
 
-      //Truck Name
-      title: Text(
-        order.driverName!,
-        style: const TextStyle(fontSize: 15, fontFamily: 'Madani',fontWeight: FontWeight.w500),
-        textDirection: TextDirection.rtl,
-      ),
-
-      //Status
-      // subtitle: Text(
-      //   SayDesc(status),
-      //   style: const TextStyle(
-      //       fontSize: 10, fontFamily: 'Madani', color: Color(0xff909090)),
-      //   textDirection: TextDirection.rtl,
-      // ),
-
-      //Truck Icon
-      // trailing: SimplePic(SayImage(title), 45, 56),
-
-
-      onTap: () async{
-        // if(order.Status == 'Accepted' || order.Status == 'Waiting') {
-        Get.to(
-                () => orderInfo(order.id!),
-            transition: Transition.rightToLeft
-        );
-        // } else if(order.Status == 'Delivered' || order.Status == 'Canceled'){
-        //   Get.to(
-        //           () => LoadingRoute(order: order),
-        //       transition: Transition.rightToLeft
-        //   );
-        // }
-
-      },
-    ),
   );
 }
 Widget _OrdersListView(BuildContext context,AllOrders order)  {
@@ -383,31 +355,33 @@ Widget _OrdersListView(BuildContext context,AllOrders order)  {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                  'تتبع',
+
+                  order!.status,
                   textAlign: TextAlign.left,
                   style:  TextStyle(
                     fontFamily: 'Madani',
                     fontSize: 10,
                     fontWeight: FontWeight.w300,
                     //todo: set its own Parameter
-                    color: SayColor('Accepted'),
+                    color:order!.status ==  'Delivered' ? SayColor('Delivered'): order!.status == 'Accepted' ? SayColor('Accepted'): order!.status == 'Canceled'? SayColor('Canceled' ) : order!.status == 'Pending' ? SayColor('Pending'): SayColor('Started'),
 
                   )
               ),
+
               Container(
                 height: 15,
                 width: 15,
                 decoration: BoxDecoration(
                   //todo: set its own Parameter
-                    color: SayColor("Accepted"),
+                    color: SayColor("Delivered"),
                     shape: BoxShape.circle
                 ),
               ),
-
             ],
           ),
         ),
       ),
+
 
       //Truck Name
       title: Text(
@@ -417,8 +391,7 @@ Widget _OrdersListView(BuildContext context,AllOrders order)  {
       ),
 
       //Status
-      // subtitle: Text(
-      //   SayDesc(status),
+      // subtitle: Text(order!.status,
       //   style: const TextStyle(
       //       fontSize: 10, fontFamily: 'Madani', color: Color(0xff909090)),
       //   textDirection: TextDirection.rtl,
@@ -429,17 +402,17 @@ Widget _OrdersListView(BuildContext context,AllOrders order)  {
 
 
       onTap: () async{
-        // if(order.Status == 'Accepted' || order.Status == 'Waiting') {
+        if(order.status == 'Accepted' || order.status == 'Waiting') {
         Get.to(
                 () => orderInfo(order.id!),
             transition: Transition.rightToLeft
         );
-        // } else if(order.Status == 'Delivered' || order.Status == 'Canceled'){
-        //   Get.to(
-        //           () => LoadingRoute(order: order),
-        //       transition: Transition.rightToLeft
-        //   );
-        // }
+        } else if(order.status == 'Delivered' || order.status == 'Canceled'){
+          Get.to(
+                  () => LoadingRoute(order: order),
+              transition: Transition.rightToLeft
+          );
+        }
 
       },
     ),
@@ -482,20 +455,20 @@ ListView OrdersListNow(List<AllOrders> List,var context,{bool trial = false,int 
   );
 }
 ListView DeliveredOrdersList(List<AllOrders> List,var context,{bool trial = false,int limit = 3}) {
+
   return ListView.builder(
     physics: const BouncingScrollPhysics(),
     shrinkWrap: true,
-    itemCount: trial && List.length > limit ? limit  : List.length,
+    itemCount:  List.length == 0 ?  limit   : List.length,
     itemBuilder: (context, index) {
-      return 'Delivered' != List[index].orderType ? 'Canceled'  != List[index].orderType ? Padding(
+      return List[index].status  == 'Delivered'  ||  List[index].status  == 'Canceled' ? Padding(
           padding: const EdgeInsets.only(bottom: 15),
           child: _OrdersListViewDone(context,List[index])
       )
           :
-      Container()
-          :
-      Container()
-      ;
+      Container(
+
+      );
     },
   );
 }

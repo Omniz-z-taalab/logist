@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:logist/others/location_user_2.dart';
 import '../../models/viecelModel/viecleModel.dart';
+import '../../others/PickupPlace2.dart';
 import '../create_order/location_user_1.dart';
 import '../../others/variables.dart';
 import '../create_order/Home_package_active.dart';
@@ -13,21 +16,36 @@ import '../../widgets/Location_service.dart';
 import '../../widgets/SearchAPI.dart';
 
 
-class pickupPlace extends StatefulWidget {
+class pickdownPlace extends StatefulWidget {
+  var Lat;
+  var Lng;
   String noteText;
-  List<String> TimeNum;
   int PayloadText;
-  int Typetext;
+  List<String> TimeNum;
   String Trtext;
+  int Typetext;
+  String placeuserpick1;
+  String placeuserdown1;
   int vicleId;
- int  trilerId;
-   pickupPlace(this.noteText,this.TimeNum,this.PayloadText,this.Typetext,this.Trtext ,this.vicleId,this.trilerId);
+  int trilerId;
 
+  pickdownPlace(
+      this.Lat,
+      this.Lng,
+      this.noteText,
+      this.PayloadText,
+      this.TimeNum,
+      this.Trtext,
+      this.Typetext,
+      this.placeuserpick1,
+      this.placeuserdown1,
+      this.vicleId,
+      this.trilerId);
   @override
-  State<pickupPlace> createState() => _pickupPlaceState();
+  State<pickdownPlace> createState() => _pickdownPlaceState();
 }
 
-class _pickupPlaceState extends State<pickupPlace> {
+class _pickdownPlaceState extends State<pickdownPlace> {
 
   final String key = 'AIzaSyA8R2ZGRtTqb3ZaPFIGY2nxfWospmbfBTY';
   Future<List<place>> getUserSuggestions(String query) async {
@@ -61,7 +79,7 @@ class _pickupPlaceState extends State<pickupPlace> {
       throw Exception();
   }
 
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -193,8 +211,8 @@ class _pickupPlaceState extends State<pickupPlace> {
 
     );
   }
-var place1;
-var place2;
+  var place1;
+  var place2;
   List<List<String>> places = [];
 
   Widget locationList(){
@@ -233,26 +251,36 @@ var place2;
           ),
           onTap: () async{
             //print(places.length);
-                 place1 =  places[i][0];
-                place2 =  places[i][1];
-                 print('---------------------');
-print(places[i][0]);
-                 //Get name And Subtitle address
-            var results = await LocationService().getPlaceNameFullName(places[i][0]);
-            print('555555%%%%%%%%%%%%%%%');
-            print(results[0]);
-              print(LatPoint);
-              print(langPoint);
-            Origine = [results[0],results[1]];
-                 print(results[2]);
-                  print(results[1]);
-                 // print(results[2]);
-                 print(LatPoint);
-                 print('&&&&&&&&&&&&&&&&&&&&&');
-              LatPoint;
-             Get.to (()=> package_place(LatPoint,langPoint,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,results[0],results[1], widget. vicleId,widget.trilerId
-              ));
-            //Go to the Second page
+            place1 =  places[i][0];
+            place2 =  places[i][1];
+            //Get name And Subtitle address
+            var results = await LocationService().getPlaceNameFullName2(places[i][0]);
+            // setState(() {
+            //   Destination= results;
+            // });
+
+            Destination = [results[0],results[1]];
+
+
+            LatPoint;
+            Get.to(
+                    () => package_place2(
+                widget. Lat,
+              widget.Lng,
+                      LatPoint,
+                      langPoint,
+                  widget.noteText,
+                  widget.PayloadText,
+                  widget.TimeNum,
+                  widget.Trtext,
+                  widget.Typetext,
+                  widget.placeuserpick1,
+                  widget.placeuserdown1,
+                      results[0],
+                      results[1],
+                  widget.vicleId,
+                  widget.trilerId,
+                ),);            //Go to the Second page
 
 
 
@@ -317,11 +345,17 @@ print(places[i][0]);
       onTap: (){
         //Use Map search Instead
         Get.to(
-                ()=>LocationUser1(widget.noteText,
+                ()=>LocationUser2(widget.Lat,
+                    widget.Lng,
+                    widget.noteText,
                     widget.PayloadText,
                     widget.TimeNum,
                     widget.Trtext,
-                    widget.Typetext,widget.vicleId,widget.trilerId),
+                    widget.Typetext,
+                    widget.placeuserpick1,
+                    widget.placeuserdown1,
+                    widget.vicleId,
+                    widget.trilerId),
             transition: Transition.rightToLeft
         );
 

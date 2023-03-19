@@ -8,11 +8,13 @@ import 'package:logist/Classes/Order_Class.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/widgets/Widgets.dart';
 
+import '../../models/order_list.dart';
+
 
 class OrderDetailsV2 extends StatefulWidget {
 
   OrderDetailsV2({Key? key,required this.order,this.special = false}) : super(key: key);
-  Order order;
+  AllOrders order;
   bool special;
   @override
   State<OrderDetailsV2> createState() => _OrderDetailsV2State(order,special);
@@ -21,7 +23,7 @@ class OrderDetailsV2 extends StatefulWidget {
 class _OrderDetailsV2State extends State<OrderDetailsV2> {
 
   bool special;
-  Order order;
+  AllOrders order;
   _OrderDetailsV2State(this.order,this.special);
 
 
@@ -218,7 +220,7 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                               text:  TextSpan(children: [
                                 TextSpan(
                                   //Price Here
-                                    text: order.Price.toString(),
+                                    text: order.price.toString(),
                                     style: const TextStyle(
                                         fontFamily: 'DM Sans',
                                         fontSize: 24,
@@ -268,13 +270,13 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
 
                               borderRadius: BorderRadius.circular(39)
                           ),
-                          child: ConfirmationButtn(order.Status)
+                          child: ConfirmationButtn(order.status)
                       ),
 
                       //Client name
                       title:  Text(
                         //User Name
-                        order.driver.name,
+                        order.driverName,
                         style: const TextStyle(fontSize: 16, fontFamily: 'Madani'),
                         textDirection: TextDirection.rtl,
                       ),
@@ -286,15 +288,15 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                         textDirection: TextDirection.rtl,
                       ),
 
-                      trailing:  Padding(
-                          padding: EdgeInsets.only(right: 15),
-
-                          child:ClipRRect(
-                              borderRadius: BorderRadius.circular(18),
-                              child: Image.network(order.driver.picture,width: 53,height: 53,)
-                          )
-
-                      ),
+                      // trailing:  Padding(
+                      //     padding: EdgeInsets.only(right: 15),
+                      //
+                      //     child:ClipRRect(
+                      //         borderRadius: BorderRadius.circular(18),
+                      //         child: Image.network(order.,width: 53,height: 53,)
+                      //     )
+                      //
+                      // ),
                     ),
                   ),
 
@@ -315,28 +317,28 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                     child: Column(
                       children: [
                         //Depart
-                        DetailsListView(order.OrigineName,order.OrigineDesc,'','','depart',context),
+                        // DetailsListView(order.,order.OrigineDesc,'','','depart',context),
                         Container(height: 1,color: const Color(0xffF2F1F4)),
 
                         //Arrive
-                        DetailsListView(order.DestName,order.DestDesc,'','','arriving',context),
+                        // DetailsListView(order.DestName,order.DestDesc,'','','arriving',context),
                         Container(height: 1,color: const Color(0xffF2F1F4)),
 
                         //Distance
-                        DetailsListView('مسافة نقل الشحنة','',order.Distance.toString().replaceAll('km', ''),'KM','distance',context),
+                        DetailsListView('مسافة نقل الشحنة','',order.totalDistance.toString().replaceAll('km', ''),'KM','distance',context),
                         Container(height: 1,color: const Color(0xffF2F1F4)),
 
                         //Truck name
-                        DetailsListView(order.Truck.name,'','','','',context),
+                        DetailsListView(order.orderType,'','','','',context),
                         Container(height: 1,color: const Color(0xffF2F1F4)),
 
                         //Truck Shape
-                        DetailsListView(order.Truck.trailer,'','','','',context),
+                        // DetailsListView(order.Truck.trailer,'','','','',context),
                         Container(height: 1,color: const Color(0xffF2F1F4)),
 
 
                         //Truck Type
-                        DetailsListView(order.Truck.trailertype,'','','','',context),
+                        DetailsListView(order.orderType,'','','','',context),
                         Container(height: 1,color: const Color(0xffF2F1F4)),
 
                         //load Type
@@ -344,7 +346,7 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                         Container(height: 1,color: const Color(0xffF2F1F4)),
 
                         //Date and Time
-                        DetailsListView(order.Date.toString(),'',order.Date.toString(),'','time',context),
+                        DetailsListView(order.orderStartTime.toString(),'',order.orderEndTime.toString(),'','time',context),
                         //Container(height: 1,color: const Color(0xffF2F1F4)),
 
                       ],

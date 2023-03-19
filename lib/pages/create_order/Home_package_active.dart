@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logist/pages/Order_Setup/pickdownPlace.dart';
 import '../../models/viecelModel/viecleModel.dart';
 import '../../others/location_user_2.dart';
 import '../../others/variables.dart';
@@ -68,7 +69,7 @@ var lng;
           // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
           print(par);
           Get.to(
-              () => LocationUser2(lat,lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,widget.placeuserpick1,widget.placeuserdown1, widget.vicleId,widget.trilerId
+              () => pickdownPlace(lat,lng,widget.noteText,widget.PayloadText,widget.TimeNum,widget.Trtext,widget.Typetext,widget.placeuserpick1,widget.placeuserdown1, widget.vicleId,widget.trilerId
               ),
               transition: Transition.rightToLeft
           );

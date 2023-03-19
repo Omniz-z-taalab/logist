@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:logist/models/order_list.dart';
 // import 'package:location/location.dart';
 import '../../Classes/Order_Class.dart';
 import '../../others/variables.dart';
@@ -21,7 +22,7 @@ class orderMapv2 extends StatefulWidget {
   orderMapv2(this.order,this.orderRoute);
   @override
   State<orderMapv2> createState() => orderMapv2State(order,orderRoute);
-  Order order;
+  AllOrders order;
   OrderRoute orderRoute;
 }
 
@@ -29,7 +30,7 @@ late GoogleMapController googleMapController;
 
 class orderMapv2State extends State<orderMapv2> {
 
-  Order order;
+  AllOrders order;
   OrderRoute orderRoute;
   orderMapv2State(this.order,this.orderRoute);
 
@@ -323,7 +324,7 @@ class orderMapv2State extends State<orderMapv2> {
                   _controller.complete(controller);
                   googleMapController = controller ;
                   _customInfoWindowController.googleMapController = controller;
-                  journeyInfo(LatLng(order.Destilatlng.latitude,order.Destilatlng.longitude));
+                  journeyInfo(LatLng(order.distinationLat.latitude,order.distinationLong.longitude));
                   tooglePanel();
                 },
 
@@ -441,13 +442,13 @@ class orderMapv2State extends State<orderMapv2> {
                                         height: 11,
                                         width: 11,
                                         decoration: BoxDecoration(
-                                          // color: Color(0xffF8F8F8),
-                                            color: order.StatusColor(),
+                                          color: Color(0xffF8F8F8),
+                                          //   color: order.StatusColor(),
                                             shape: BoxShape.circle
                                         ),
                                       ),
                                       Text(
-                                          order.SayStatus(),
+                                          order.status(),
                                           textAlign: TextAlign.left,
                                           style:  TextStyle(
                                             fontFamily: 'Montserrat',
@@ -469,28 +470,28 @@ class orderMapv2State extends State<orderMapv2> {
                                   children: [
 
                                     //Title
-                                    Text(order.Truck.name,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w300,
-                                        color: Color(0xff191F28),
-
-                                      ),
-
-                                    ),
+                                    // Text(order.,
+                                    //   style: TextStyle(
+                                    //     fontSize: 14,
+                                    //     fontFamily: 'Montserrat',
+                                    //     fontWeight: FontWeight.w300,
+                                    //     color: Color(0xff191F28),
+                                    //
+                                    //   ),
+                                    //
+                                    // ),
 
                                     //SubText
-                                    Text(order.Truck.loadtype,
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w300,
-                                        color: Color(0xff6C6C6C),
-
-                                      ),
-                                    ),
+                                    // Text(order.Truck.loadtype,
+                                    //   textDirection: TextDirection.rtl,
+                                    //   style: TextStyle(
+                                    //     fontSize: 10,
+                                    //     fontFamily: 'Montserrat',
+                                    //     fontWeight: FontWeight.w300,
+                                    //     color: Color(0xff6C6C6C),
+                                    //
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -551,7 +552,7 @@ class orderMapv2State extends State<orderMapv2> {
                                   children: [
 
                                     //Title
-                                    Text(order.OrigineName,
+                                    Text(order.orderType,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'Montserrat',
@@ -563,16 +564,16 @@ class orderMapv2State extends State<orderMapv2> {
                                     ),
 
                                     //SubText
-                                    Text(order.OrigineDesc,
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w300,
-                                        color: Color(0xff6C6C6C),
-
-                                      ),
-                                    ),
+                                    // Text(order.OrigineDesc,
+                                    //   textDirection: TextDirection.rtl,
+                                    //   style: TextStyle(
+                                    //     fontSize: 10,
+                                    //     fontFamily: 'Montserrat',
+                                    //     fontWeight: FontWeight.w300,
+                                    //     color: Color(0xff6C6C6C),
+                                    //
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -633,7 +634,7 @@ class orderMapv2State extends State<orderMapv2> {
                                   children: [
 
                                     //Title
-                                    Text(order.DestName,
+                                    Text(order.driverName,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: 'Montserrat',
@@ -645,16 +646,16 @@ class orderMapv2State extends State<orderMapv2> {
                                     ),
 
                                     //SubText
-                                    Text(order.DestDesc,
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w300,
-                                        color: Color(0xff6C6C6C),
-
-                                      ),
-                                    ),
+                                    // Text(order.DestDesc,
+                                    //   textDirection: TextDirection.rtl,
+                                    //   style: TextStyle(
+                                    //     fontSize: 10,
+                                    //     fontFamily: 'Montserrat',
+                                    //     fontWeight: FontWeight.w300,
+                                    //     color: Color(0xff6C6C6C),
+                                    //
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -705,73 +706,73 @@ class orderMapv2State extends State<orderMapv2> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
 
-                          Row(
-
-                            children: [
-
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                width: 65,
-                                child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: order.Distance.toString().replaceAll('km', ''), //Distance Number
-                                          style: const TextStyle(
-                                              fontFamily: 'visbydemibold',
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xff191F28))),
-                                      TextSpan(
-                                          text: 'km', //Distance Unit
-                                          style: const TextStyle(
-                                              fontFamily: 'visbylight',
-                                              fontSize: 12,
-                                              color: Color(0xff191F28)))
-                                    ])),
-                              ),
-
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-
-                                    //Title
-                                    Text('مسافة نقل الشحنة',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w300,
-                                        color: Color(0xff191F28),
-
-                                      ),
-
-                                    ),
-
-
-                                  ],
-                                ),
-                              ),
-
-                              Padding(
-                                padding: const EdgeInsets.all(14.0),
-                                child: Container(
-                                  width: 55,
-                                  height: 49,
-                                  decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(100),
-                                    ),
-                                  ),
-                                  alignment: Alignment.center,
-
-                                  //Image
-                                  child: Image.asset('assets/pics/distance.png',width: 40,height: 40,),),
-                              ),
-
-                            ],
-                          ),
+                          // Row(
+                          //
+                          //   children: [
+                          //
+                          //     Container(
+                          //       alignment: Alignment.centerLeft,
+                          //       width: 65,
+                          //       child: RichText(
+                          //           text: TextSpan(children: [
+                          //             TextSpan(
+                          //                 text: order.Distance.toString().replaceAll('km', ''), //Distance Number
+                          //                 style: const TextStyle(
+                          //                     fontFamily: 'visbydemibold',
+                          //                     fontSize: 16,
+                          //                     fontWeight: FontWeight.w600,
+                          //                     color: Color(0xff191F28))),
+                          //             TextSpan(
+                          //                 text: 'km', //Distance Unit
+                          //                 style: const TextStyle(
+                          //                     fontFamily: 'visbylight',
+                          //                     fontSize: 12,
+                          //                     color: Color(0xff191F28)))
+                          //           ])),
+                          //     ),
+                          //
+                          //     Expanded(
+                          //       child: Column(
+                          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //         crossAxisAlignment: CrossAxisAlignment.end,
+                          //         children: [
+                          //
+                          //           //Title
+                          //           Text('مسافة نقل الشحنة',
+                          //             style: TextStyle(
+                          //               fontSize: 14,
+                          //               fontFamily: 'Montserrat',
+                          //               fontWeight: FontWeight.w300,
+                          //               color: Color(0xff191F28),
+                          //
+                          //             ),
+                          //
+                          //           ),
+                          //
+                          //
+                          //         ],
+                          //       ),
+                          //     ),
+                          //
+                          //     Padding(
+                          //       padding: const EdgeInsets.all(14.0),
+                          //       child: Container(
+                          //         width: 55,
+                          //         height: 49,
+                          //         decoration: BoxDecoration(
+                          //           color: Colors.transparent,
+                          //           borderRadius: BorderRadius.all(
+                          //             Radius.circular(100),
+                          //           ),
+                          //         ),
+                          //         alignment: Alignment.center,
+                          //
+                          //         //Image
+                          //         child: Image.asset('assets/pics/distance.png',width: 40,height: 40,),),
+                          //     ),
+                          //
+                          //   ],
+                          // ),
 
                           Container(width: MediaQuery.of(context).size.width-67)
 
@@ -843,7 +844,7 @@ class orderMapv2State extends State<orderMapv2> {
     );
 
     // _setOrigineMarker(Orlat,Orlng);
-    _setMarker(LatLng(order.Destilatlng.latitude, order.Destilatlng.longitude),order.Originelatlng.latitude,order.Originelatlng.longitude);
+    _setMarker(LatLng(order.distinationLat.latitude, order.distinationLong.longitude),order.locationLat.latitude,order.locationLong.longitude);
 
     try {
       controller.animateCamera(CameraUpdate.newLatLngBounds(

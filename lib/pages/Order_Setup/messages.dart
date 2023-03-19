@@ -18,7 +18,7 @@ import '../../models/chat/inbox_model.dart';
 import '../../models/chat/message.dart';
 
 class conversation extends StatefulWidget {
-  const conversation({Key? key, required this.inbox}) : super(key: key);
+  const conversation({Key? key,  this.inbox,}) : super(key: key);
   final ChatListResponse? inbox;
 
   @override
@@ -38,8 +38,15 @@ class _conversationState extends State<conversation> {
 
   @override
   void initState() {
+    print('wewqewqewqewqewqewqe');
     print(widget.inbox!.senderId);
-    context.read<ChatProvider>().getMesages();
+
+    print(widget.inbox!.receiverId);
+    print('wewqewqewqewqewqewqe');
+    print(widget.inbox!.senderId);
+    print(widget.inbox!.senderId);
+    print(widget.inbox!.senderId);
+    context.read<ChatProvider>().getMesages(senderId: widget.inbox!.senderId,recieveId: widget.inbox!.receiverId);
     context.read<ChatProvider>().readMesages(widget!.inbox!.hash);
     // listScrollController.addListener(_scrollListener);
     super.initState();
@@ -131,7 +138,7 @@ class _conversationState extends State<conversation> {
             const SizedBox(width: 20),
           ],
         ),
-        body: SafeArea(
+        body:context.watch<ChatProvider>().messages == [] ? Center(child: Text(''),): SafeArea(
           child: Column(
             children: [
               //

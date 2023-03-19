@@ -120,7 +120,7 @@ int? id ;
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      child: Image.network(viecle!.sPic!),
+                      child:viecle.sPic == ''  ||viecle.sPic == null  ? Icon(Icons.question_mark,color: Colors.black38,): Image.network(viecle!.sPic!),
                     ),
                   ),
 

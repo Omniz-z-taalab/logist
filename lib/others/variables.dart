@@ -94,7 +94,10 @@ Set<Marker> _markers = Set<Marker>();
 List<String> Origine = [];
 List<String> Destination = [];
 
-String OrPoint = '';
+String LatPoint = '';
+String LatPoint2 = '';
+String langPoint = '';
+String langPoint2= '';
 String DesPoint = '';
 
 //Distance
