@@ -9,7 +9,6 @@ import 'package:logist/pages/Order_Setup/messages.dart';
 import 'package:provider/provider.dart';
 import '../../Classes/Order_Class.dart';
 import '../../core/logic/messages/chat_provider.dart';
-import '../../core/utilities/dio_helper.dart';
 import '../../models/chat/inbox_model.dart';
 import '../../others/variables.dart';
 import '../Order_Setup/OrderMap.dart';
@@ -114,7 +113,7 @@ var  driver;
 
                       //Truck name
                       Text(
-                        DateUtil().formattedDate(DateTime.parse(driver!.orderStartTime!)),
+                        DateUtil().formattedDate(DateTime.parse(driver!.orderStartTime)),
                         style:  const TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w300,
@@ -308,14 +307,6 @@ SizedBox(height: 20,),
                 ),
               ),
               onPressed: (){
-                if(  driver!.accepted == 1 ){
-                  context.read<OrderProvider>().cancelOrders(driver!.id);
-                  showToast('تم ',true,true);
-                  print(' 3423423432432432');
-
-                }else{
-                  showToast('غير مقبول',true,false);
-                }
 
               }
           ),

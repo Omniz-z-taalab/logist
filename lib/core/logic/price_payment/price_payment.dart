@@ -14,27 +14,22 @@ class PriceProvider extends ChangeNotifier {
       dynamic lat1, dynamic lang1, dynamic lat2, dynamic lang2) async {
     isGetViecle = true;
     notifyListeners();
-    print('lat1$lat1');
     print(lat1);
     print('xzxZXzXd');
     print(lat2);
-    print('lat2$lat2');
-    print('lang1$lang1');
-    print('lang2$lang2');
+    print(lang1);
+    print(lang2);
 
-    //I/flutter (14415): latttttt24.7721495,lnggggggg46.6975932
-//  I/flutter (14415): latt124.79367045270101lng146.677787117660046
-//I/flutter (14415): latt224.7721495lng246.6975932
     try {
       Response response = await DioHelper.postData(url: '${AppApiPaths.base}/api/v1/order/price',data: {
 
           "Distination":{
-            "lant":lat2,
-            "long": lang1
+            "lant":lat1,
+            "long": lat2
           },
           "location":{
-            "lant":lat1,
-            "long": lang1
+            "lant":lang1,
+            "long": lang2
           }
 
       });
@@ -64,20 +59,28 @@ class PriceProvider extends ChangeNotifier {
     print(date);
     print('111111111111');
 
-    print('lat1$lat1');
+    print(lat1);
     print('222222222222');
 
-    print('lang1$lang1');
+    print(lang1);
     print('333333333333');
 
     print(vicleId);
     print('444444444444');
 
-    print('lat2$lat2');
+    print(lat2);
     print('^^^^^^^^^^^^^^^^^^^^^^');
 
-    print('lang2$lang2');
-    print('lang1$lang1');
+    print(lang2);
+    print(lat2);
+    print(lat2);
+    print(vicleId);
+    print(vicleId);
+    print('trilerId)');
+    print(trilerId);
+
+    print(vicleId);
+    print(vicleId);
 
     try{
       Response response =await DioHelper.postData(url: '${AppApiPaths.base}/api/v1/order',
@@ -85,12 +88,12 @@ class PriceProvider extends ChangeNotifier {
         "Driver_ID": driverId,
           "Date_of_Order": '$date',
           "Distination": {
-          "lant": lat2,
-          "long":lang2
+          "lant": lat1,
+          "long":lang1
           },
           "location": {
-          "lant": lat1,
-          "long": lang1
+          "lant": lat2,
+          "long": lang2
           },
           "viecle_Id": vicleId,
           "trailer_id": trilerId,
