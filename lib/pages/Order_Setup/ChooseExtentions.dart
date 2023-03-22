@@ -4535,25 +4535,25 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                     : Text(
                   '${Fhour(hour)}:${Fminute(minute)}',
                   style: const TextStyle(
-                      fontSize: 14, fontFamily: 'visbydemibold'),
+                      fontSize: 12, fontFamily: 'visbydemibold'),
                 )),
             selected
                 ? Container()
                 : Text('/${Fhour(day)}.${Fhour(month)}.$year',
                 style: const TextStyle(
-                    fontSize: 14, fontFamily: 'visbydemibold')),
+                    fontSize: 12, fontFamily: 'visbydemibold')),
             Expanded(
                 child: Text(
                   title.toString(),
                   textAlign: TextAlign.end,
                   style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w300,
                       color: Color(0xff191F28)),
                 )),
             Padding(
-              padding: const EdgeInsets.only(right: 9, left: 16),
+              padding: const EdgeInsets.only(right: 9, left: 2),
               child:
               Image.asset('assets/pics/$Icon.png', width: 24, height: 24),
             ),
@@ -7470,7 +7470,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                               borderRadius: BorderRadius.circular(12.8),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(10),
                               child: SfDateRangePicker(
                                 initialSelectedDate: DateTime.now(),
                                 minDate: DateTime.now(),
