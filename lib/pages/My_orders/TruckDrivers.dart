@@ -491,23 +491,32 @@ class _truckdriversState extends State<truckdrivers> {
                   onTap: () {
                     print(drivers![index].id!);
 
-                   Navigator.push(context, MaterialPageRoute(builder: (_) =>   paaaa(drivers![index].id!, widget.lat1,
-          widget.lat2,
-          widget.lng1,
-          widget.lng2,
-          widget.noteText,
-          widget.PayloadText,
-          widget.TimeNum,
-          widget.Trtext,
-          widget.Typetext,
-          widget.placeuserpick1,
-          widget.placeuserdown1,
-          widget.placeuserpick2,
-          widget.placeuserdown2,widget.vicleId,
-          widget.trilerId)
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext builder){
+                          return CupertinoPopupSurface(
+                            isSurfacePainted: false,
+                            child: Expanded(
+                              child: Material(
+                                child:
+                                paaaa(drivers![index].id!, widget.lat1,
+                                    widget.lat2,
+                                    widget.lng1,
+                                    widget.lng2,
+                                    widget.noteText,
+                                    widget.PayloadText,
+                                    widget.TimeNum,
+                                    widget.Trtext,
+                                    widget.Typetext,
+                                    widget.placeuserpick1,
+                                    widget.placeuserdown1,
+                                    widget.placeuserpick2,
+                                    widget.placeuserdown2,widget.vicleId,
+                                    widget.trilerId)),
+                            )
 
-
-                                ));
+                                );},
+                    );
 
                   },
                 ),
@@ -568,122 +577,120 @@ class _paaaaState extends State<paaaa> {
   Widget build(BuildContext context) {
     var  driver =  context.watch<DriversProvider>().driverModel;
     return  driver == null ? Center(child: CircularProgressIndicator())
-        : Scaffold(
-          body: Container(
-            height: 300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                 Container(height: 10,),
-                Container(
-                  width: 58,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Color(0xffEFEFEF),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
+        : Container(
+          height: 300,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+               Container(height: 10,),
+              Container(
+                width: 58,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Color(0xffEFEFEF),
+                  borderRadius: BorderRadius.circular(16),
                 ),
+              ),
 
-                SizedBox(height: 30),
+              SizedBox(height: 30),
 
-                //Driver Picture
-                CircleAvatar(
-                  backgroundImage: NetworkImage(driver!.lecensePhoto! ),
+              //Driver Picture
+              CircleAvatar(
+                backgroundImage: NetworkImage(driver!.lecensePhoto! ),
+              ),
+
+              //Driver Name
+              Text(
+                driver!.fullName! ,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w500,
                 ),
+              ),
 
-                //Driver Name
-                Text(
-                  driver!.fullName! ,
-                  style: TextStyle(
-                    fontSize: 24,
+              SizedBox(height: 10),
+
+              //Truck name
+              Text(
+                driver.status! ,
+                style: const TextStyle(
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                    fontWeight: FontWeight.w300,
+                    color: Color(0xff909090)),
+              ),
+              SizedBox(height: 10),
 
-                SizedBox(height: 10),
+              Text(
+                driver.license! ,
+                style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w300,
+                    color: Color(0xff909090)),
+              ),
+              SizedBox(height: 10),
 
-                //Truck name
-                Text(
-                  driver.status! ,
-                  style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w300,
-                      color: Color(0xff909090)),
-                ),
-                SizedBox(height: 10),
+              Text(
+                driver.phoneNumber! ,
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w300,
+                    color: Color(0xff909090)),
+              ),
+              //Truck Info
 
-                Text(
-                  driver.license! ,
-                  style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w300,
-                      color: Color(0xff909090)),
-                ),
-                SizedBox(height: 10),
+              Positioned(
+                bottom: 10,
+                child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Container(
+                        width: MediaQuery.of(context).size.width - 50,
+                        child:  MaterialButton(
+                          color: On,
+                          minWidth: double.infinity,
+                          height: 60,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0),
+                          ),
 
-                Text(
-                  driver.phoneNumber! ,
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w300,
-                      color: Color(0xff909090)),
-                ),
-                //Truck Info
-
-                Positioned(
-                  bottom: 10,
-                  child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                          width: MediaQuery.of(context).size.width - 50,
-                          child:  MaterialButton(
-                            color: On,
-                            minWidth: double.infinity,
-                            height: 60,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100.0),
-                            ),
-
-                            child: Container(
-                              child: Text(
-                                'اختر السائق',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w500,
-                                ),
+                          child: Container(
+                            child: Text(
+                              'اختر السائق',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            onPressed: () async {
+                          ),
+                          onPressed: () async {
 
-                              Get.to(() =>
-                                  ResumeScreen(
-                                      widget.lat1,
-                                      widget.lat2,
-                                      widget.lng1,
-                                      widget.lng2,
-                                      widget.noteText,
-                                      widget.PayloadText,
-                                      widget.TimeNum,
-                                      widget.Trtext,
-                                      widget.Typetext,
-                                      driver.id!,
-                                      widget.placeuserpick1,
-                                      widget.placeuserdown1,
-                                      widget.placeuserpick2,
-                                      widget.placeuserdown2,widget.vicleId,
-                                      widget.trilerId));
-                              //Button destination
-                            },
-                          ))
-                  ),
-                )
-              ],
-            ),),
-        );
+                            Get.to(() =>
+                                ResumeScreen(
+                                    widget.lat1,
+                                    widget.lat2,
+                                    widget.lng1,
+                                    widget.lng2,
+                                    widget.noteText,
+                                    widget.PayloadText,
+                                    widget.TimeNum,
+                                    widget.Trtext,
+                                    widget.Typetext,
+                                    driver.id!,
+                                    widget.placeuserpick1,
+                                    widget.placeuserdown1,
+                                    widget.placeuserpick2,
+                                    widget.placeuserdown2,widget.vicleId,
+                                    widget.trilerId));
+                            //Button destination
+                          },
+                        ))
+                ),
+              )
+            ],
+          ),);
 
     }
 
