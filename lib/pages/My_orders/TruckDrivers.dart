@@ -574,7 +574,7 @@ class _paaaaState extends State<paaaa> {
   @override
   Widget build(BuildContext context) {
     var  driver =  context.watch<DriversProvider>().driverModel;
-    return  driver == null ? CircularProgressIndicator()
+    return  driver == null ? Center(child: CircularProgressIndicator())
         : Container(
           height: 300,
           child: Column(
@@ -664,9 +664,7 @@ class _paaaaState extends State<paaaa> {
                             ),
                           ),
                           onPressed: () async {
-                            print(widget.trilerId);
-                            print('32232323');
-                            print(widget.vicleId);
+
                             Get.to(() =>
                                 ResumeScreen(
                                     widget.lat1,
