@@ -576,12 +576,12 @@ class _paaaaState extends State<paaaa> {
     var  driver =  context.watch<DriversProvider>().driverModel;
     return  driver == null ? CircularProgressIndicator()
         : Container(
-          height: 400,
+          height: 300,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(height: 10,),
+               Container(height: 10,),
               Container(
                 width: 58,
                 height: 4,
@@ -591,7 +591,7 @@ class _paaaaState extends State<paaaa> {
                 ),
               ),
 
-              SizedBox(height: 50),
+              SizedBox(height: 30),
 
               //Driver Picture
               CircleAvatar(

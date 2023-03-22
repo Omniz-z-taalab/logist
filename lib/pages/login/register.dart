@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logist/core/utilities/dio_helper.dart';
 import '../../others/variables.dart';
 import 'Loading.dart';
 import '../../widgets/Texts.dart';
@@ -47,7 +48,11 @@ class _pagenameState extends State<pagename> {
             // context.read<AuthProvider>().setPhone(widget.phone!);
             // name = _name.text;
             context.read<AuthProvider>().registerUser(_address.text,_email.text,_name.text,_phone.text).then((value) {
+              if(context.watch<AuthProvider>().model != null){
               Get.to(() => const loading(), transition: Transition.rightToLeft);
+            }else {
+              showToast('حاول مره اخري', true, false);
+              }
             });
 
             //Going to main Menu

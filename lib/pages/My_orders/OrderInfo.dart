@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:logist/core/logic/layout/order/order_provider.dart';
+import 'package:logist/core/utilities/dio_helper.dart';
 import 'package:logist/others/Dummy_Data_Orders.dart';
 import 'package:logist/pages/Order_Setup/messages.dart';
 import 'package:provider/provider.dart';
@@ -212,33 +213,33 @@ var  driver;
                           Get.to(() => conversation());
                         }
                     ),
-SizedBox(height: 20,),
-                    MaterialButton(
-
-                      height: MediaQuery.of(context).size.height * 0.075,
-                      minWidth: MediaQuery.of(context).size.width - 50,
-                      color: const Color(0xff191F28),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(37.5),
-                        side: BorderSide(color: Theme.of(context).primaryColor),
-                      ),
-
-
-                      child: const Text(
-                        'إتمام الرحلة',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: (){
-                        Get.to(
-                            () =>orderMap(),
-                            transition: Transition.rightToLeft
-                        );
-                      },
-                    ),
+// SizedBox(height: 20,),
+//                     MaterialButton(
+//
+//                       height: MediaQuery.of(context).size.height * 0.075,
+//                       minWidth: MediaQuery.of(context).size.width - 50,
+//                       color: const Color(0xff191F28),
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(37.5),
+//                         side: BorderSide(color: Theme.of(context).primaryColor),
+//                       ),
+//
+//
+//                       child: const Text(
+//                         'إتمام الرحلة',
+//                         style: TextStyle(
+//                           fontFamily: 'Montserrat',
+//                           fontSize: 16,
+//                           color: Colors.white,
+//                         ),
+//                       ),
+//                       onPressed: (){
+//                         Get.to(
+//                             () =>orderMap(),
+//                             transition: Transition.rightToLeft
+//                         );
+//                       },
+//                     ),
                     SizedBox( height: MediaQuery.of(context).size.height * 0.02,) //todo:check on iphone 11
 
                   ],
@@ -307,7 +308,13 @@ SizedBox(height: 20,),
                 ),
               ),
               onPressed: (){
+              if(driver!.accepted == 1){
+                context.read<OrderProvider>().cancelOrders(driver.id);
+                showToast(' تم', true, true);
 
+              }else{
+                showToast('غير مقبول', true, false);
+              }
               }
           ),
 

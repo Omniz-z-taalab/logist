@@ -117,7 +117,7 @@ class LocationService {
     print(results);
     print('yyyyyyyyy');
     var name2 = results['address_components'][0]['short_name'];
-    var FullName2 = results['types'][1]['long_name'];
+    var FullName2 = results['address_components'][1]['long_name'];
     var lat2 = results['geometry']['location']['lat'];
     var lang2 = results['geometry']['location']['lng'];
     print(results['geometry']['location']);

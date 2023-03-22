@@ -110,7 +110,7 @@ class AuthProvider extends ChangeNotifier {
       return isExist!;
     }
   }
-
+  registerModel? model;
   Future<bool> registerUser(String? address,String? email,String? name,String? phone) async {
     print('----------------------------------------------------------------');
     isLoading = true;
@@ -126,17 +126,18 @@ class AuthProvider extends ChangeNotifier {
                 "email": email
               },
               );
-
-
+          model = registerModel.fromJson(response.data);
+          if(model!.accesToken == null ){
+            showToast('غير صحيح', true , false);
+          }else{
       CacheHelper.putData(key: 'accessToken', value: response.data['accesToken']);
       isLoading = false;
       String? tokeeeeeeeen = CacheHelper.getData(key: 'accessToken');
       print(tokeeeeeeeen);
-      print(tokeeeeeeeen);
       print('tokeeeeeeeeeeeeeeeeeeeeeeeeeen is');
-      notifyListeners();
+      notifyListeners();}
       return isVerify;
-    } catch (error) {
+    }catch (error) {
       showToast(error.toString(), true, false);
       isLoading = false;
       // notifyListeners();
@@ -174,4 +175,22 @@ class AuthProvider extends ChangeNotifier {
   }
 
   //registerDriver
+}
+class registerModel {
+  String? accesToken;
+  String? refreshToken;
+
+  registerModel({this.accesToken, this.refreshToken});
+
+  registerModel.fromJson(Map<String, dynamic> json) {
+    accesToken = json['accesToken'];
+    refreshToken = json['RefreshToken'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['accesToken'] = this.accesToken;
+    data['RefreshToken'] = this.refreshToken;
+    return data;
+  }
 }
