@@ -342,9 +342,7 @@ class LocationUser2State extends State<LocationUser2> {
                 }
                 placeuserpick2 = Titles[0];
                 placeuserdown2 = Titles[1];
-                print(placeuserpick2);
-                print(placeuserdown2);
-                print('yaaaaaaayaaaaaaa raaaaab');
+
               },
               polylines: _polylines,
               markers: _markers,

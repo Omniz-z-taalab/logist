@@ -68,13 +68,11 @@ class _truckdriversState extends State<truckdrivers> {
 
   @override
   void initState() {
-    Provider.of<DriversProvider>(context, listen: false)
-        .getAllDrivers();
-    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DriversProvider>(context, listen: false).getAllDrivers();
+    });
+
     super.initState();
-    print(widget.lat1);
-    print(widget.lng1);
-    print(widget.PayloadText.toString());
   }
 
   @override
@@ -116,24 +114,19 @@ class _truckdriversState extends State<truckdrivers> {
         ],
       ),
       body: Center(
-        child: Column(
-          children: [
-            Expanded(
-                flex: 4,
-                child: SizedBox(
-                  height: 300,
-                  child: drivers == null
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : drivers.isEmpty
-                          ? const Center(
-                              child: Text('لايوجد سائقين حاليا'),
-                            )
-                          : _buildListView(drivers),
-                )),
-          ],
-        ),
+        child: drivers == null
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : drivers.isEmpty
+                ? const Center(
+                    child: Text(
+                      'لايوجد سائقين حاليا',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : _buildListView(drivers),
       ),
     );
   }
@@ -430,102 +423,97 @@ class _truckdriversState extends State<truckdrivers> {
     );
   }
 
-
   ListView _buildListView(List<DriversModel> drivers) {
-
-    return
-      ListView.builder(
+    return ListView.builder(
         physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
+        // shrinkWrap: true,
         itemCount: drivers.length,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: (){
-              Provider.of<DriversProvider>(context,listen: false).getDetailsDriver(id:drivers![index].id);
+              onTap: () {
+                Provider.of<DriversProvider>(context, listen: false)
+                    .getDetailsDriver(id: drivers[index].id);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0, left: 8, top: 8),
+                child: Container(
+                  height: 70,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.black12,
+                      )),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.circle,
+                      color: Colors.green,
+                    ),
+                    title: Text(
+                      drivers[index].fullName!,
+                      style: const TextStyle(
+                          fontSize: 14, fontFamily: 'ArabotoFat'),
+                      textDirection: TextDirection.rtl,
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          drivers![index].license!,
+                          style: const TextStyle(
+                              fontSize: 10,
+                              fontFamily: 'Araboto',
+                              color: Color(0xff909090)),
+                          textDirection: TextDirection.rtl,
+                        ),
+                        Text(
+                          drivers![index].plateNumber!,
+                          style: const TextStyle(
+                              fontSize: 10,
+                              fontFamily: 'Araboto',
+                              color: Color(0xff909090)),
+                          textDirection: TextDirection.rtl,
+                        ),
+                      ],
+                    ),
+                    trailing: CircleAvatar(
+                      backgroundImage: NetworkImage(drivers[index].avatar!),
+                    ),
+                    onTap: () {
+                      print(drivers[index].id!);
 
-            },
-                child: Padding(
-              padding: const EdgeInsets.only(right: 8.0, left: 8, top: 8),
-              child: Container(
-                height: 70,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: Colors.black12,
-                    )),
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.circle,
-                    color: Colors.green,
-                  ),
-                  title: Text(
-                    drivers![index].fullName!,
-                    style:
-                        const TextStyle(fontSize: 14, fontFamily: 'ArabotoFat'),
-                    textDirection: TextDirection.rtl,
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        drivers![index].license!,
-                        style: const TextStyle(
-                            fontSize: 10,
-                            fontFamily: 'Araboto',
-                            color: Color(0xff909090)),
-                        textDirection: TextDirection.rtl,
-                      ),
-                      Text(
-                        drivers![index].plateNumber!,
-                        style: const TextStyle(
-                            fontSize: 10,
-                            fontFamily: 'Araboto',
-                            color: Color(0xff909090)),
-                        textDirection: TextDirection.rtl,
-                      ),
-                    ],
-                  ),
-                  trailing: CircleAvatar(
-                    backgroundImage: NetworkImage(drivers![index].lecensePhoto!),
-                  ),
-                  onTap: () {
-                    print(drivers![index].id!);
-
-                    showCupertinoModalPopup(
+                      showCupertinoModalPopup(
                         context: context,
-                        builder: (BuildContext builder){
+                        builder: (BuildContext builder) {
                           return CupertinoPopupSurface(
-                            isSurfacePainted: false,
-                            child: Expanded(
+                              isSurfacePainted: false,
                               child: Material(
-                                child:
-                                paaaa(drivers![index].id!, widget.lat1,
-                                    widget.lat2,
-                                    widget.lng1,
-                                    widget.lng2,
-                                    widget.noteText,
-                                    widget.PayloadText,
-                                    widget.TimeNum,
-                                    widget.Trtext,
-                                    widget.Typetext,
-                                    widget.placeuserpick1,
-                                    widget.placeuserdown1,
-                                    widget.placeuserpick2,
-                                    widget.placeuserdown2,widget.vicleId,
-                                    widget.trilerId)),
-                            )
-
-                                );},
-                    );
-
-                  },
+                                  child: paaaa(
+                                      drivers[index].id!,
+                                      widget.lat1,
+                                      widget.lat2,
+                                      widget.lng1,
+                                      widget.lng2,
+                                      widget.noteText,
+                                      widget.PayloadText,
+                                      widget.TimeNum,
+                                      widget.Trtext,
+                                      widget.Typetext,
+                                      widget.placeuserpick1,
+                                      widget.placeuserdown1,
+                                      widget.placeuserpick2,
+                                      widget.placeuserdown2,
+                                      widget.vicleId,
+                                      widget.trilerId)));
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            )
-          );
-    });}
-
+              ));
+        });
+  }
 }
+
 class paaaa extends StatefulWidget {
   int id;
   var lat1;
@@ -543,6 +531,7 @@ class paaaa extends StatefulWidget {
   String placeuserdown2;
   int vicleId;
   int trilerId;
+
   paaaa(
       this.id,
       this.lat1,
@@ -560,6 +549,7 @@ class paaaa extends StatefulWidget {
       this.placeuserdown2,
       this.vicleId,
       this.trilerId);
+
   @override
   State<paaaa> createState() => _paaaaState();
 }
@@ -568,135 +558,131 @@ class _paaaaState extends State<paaaa> {
   @override
   void initState() {
     print(widget.id);
-    Provider.of<DriversProvider>(context,listen: false).getDetailsDriver(id:widget.id);
+    Provider.of<DriversProvider>(context, listen: false)
+        .getDetailsDriver(id: widget.id);
 
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    var  driver =  context.watch<DriversProvider>().driverModel;
-    return  driver == null ? Center(child: CircularProgressIndicator())
-        : Container(
-          height: 300,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-               Container(height: 10,),
-              Container(
-                width: 58,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Color(0xffEFEFEF),
-                  borderRadius: BorderRadius.circular(16),
+    var driver = context.watch<DriversProvider>().driverModel;
+    return driver == null
+        ? const Center(child: CircularProgressIndicator())
+        : SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 10,
                 ),
-              ),
-
-              SizedBox(height: 30),
-
-              //Driver Picture
-              CircleAvatar(
-                backgroundImage: NetworkImage(driver!.lecensePhoto! ),
-              ),
-
-              //Driver Name
-              Text(
-                driver!.fullName! ,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w500,
+                Container(
+                  width: 58,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Color(0xffEFEFEF),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
-              ),
 
-              SizedBox(height: 10),
+                SizedBox(height: 30),
 
-              //Truck name
-              Text(
-                driver.status! ,
-                style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w300,
-                    color: Color(0xff909090)),
-              ),
-              SizedBox(height: 10),
-
-              Text(
-                driver.license! ,
-                style: const TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w300,
-                    color: Color(0xff909090)),
-              ),
-              SizedBox(height: 10),
-
-              Text(
-                driver.phoneNumber! ,
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w300,
-                    color: Color(0xff909090)),
-              ),
-              //Truck Info
-
-              Positioned(
-                bottom: 10,
-                child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Container(
-                        width: MediaQuery.of(context).size.width - 50,
-                        child:  MaterialButton(
-                          color: On,
-                          minWidth: double.infinity,
-                          height: 60,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0),
-                          ),
-
-                          child: Container(
-                            child: Text(
-                              'اختر السائق',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          onPressed: () async {
-
-                            Get.to(() =>
-                                ResumeScreen(
-                                    widget.lat1,
-                                    widget.lat2,
-                                    widget.lng1,
-                                    widget.lng2,
-                                    widget.noteText,
-                                    widget.PayloadText,
-                                    widget.TimeNum,
-                                    widget.Trtext,
-                                    widget.Typetext,
-                                    driver.id!,
-                                    widget.placeuserpick1,
-                                    widget.placeuserdown1,
-                                    widget.placeuserpick2,
-                                    widget.placeuserdown2,widget.vicleId,
-                                    widget.trilerId));
-                            //Button destination
-                          },
-                        ))
+                //Driver Picture
+                CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(driver.avatar ?? driver.lecensePhoto!),
                 ),
-              )
-            ],
-          ),);
 
-    }
+                //Driver Name
+                Text(
+                  driver.fullName!,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
 
+                const SizedBox(height: 10),
+
+                //Truck name
+                Text(
+                  driver.status!,
+                  style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xff909090)),
+                ),
+                SizedBox(height: 10),
+
+                Text(
+                  driver.license!,
+                  style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xff909090)),
+                ),
+                SizedBox(height: 10),
+
+                Text(
+                  driver.phoneNumber!,
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xff909090)),
+                ),
+                //Truck Info
+
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: MaterialButton(
+                      color: On,
+                      minWidth: double.infinity,
+                      height: 60,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      child: const Text(
+                        'اختر السائق',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      onPressed: () async {
+                        Get.to(() => ResumeScreen(
+                            widget.lat1,
+                            widget.lat2,
+                            widget.lng1,
+                            widget.lng2,
+                            widget.noteText,
+                            widget.PayloadText,
+                            widget.TimeNum,
+                            widget.Trtext,
+                            widget.Typetext,
+                            driver.id!,
+                            widget.placeuserpick1,
+                            widget.placeuserdown1,
+                            widget.placeuserpick2,
+                            widget.placeuserdown2,
+                            widget.vicleId,
+                            widget.trilerId));
+                        //Button destination
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+  }
 }
-
-
 
 // Future<void> setDriverData(int choice) async {
 //   Name = [choice];

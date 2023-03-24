@@ -23,7 +23,11 @@ class _ChoseTrailerState extends State<ChoseTrailer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<VieclesProvider>(context, listen: false).getTrailers();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+      Provider.of<VieclesProvider>(context, listen: false).getTrailers();
+
+    });
   }
 
   @override
@@ -84,9 +88,9 @@ int? id ;
   Widget TrailerList(Viecle viecle) {
     return InkWell(
       onTap: (){
-        print(viecle!.sName);
+        print(viecle.sName);
         setState(() {
-          id = viecle!.id;
+          id = viecle.id;
 
         });
         Get.to(
@@ -120,7 +124,7 @@ int? id ;
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      child:viecle.sPic == ''  ||viecle.sPic == null  ? Icon(Icons.question_mark,color: Colors.black38,): Image.network(viecle!.sPic!),
+                      child:viecle.sPic == ''  ||viecle.sPic == null  ? Icon(Icons.question_mark,color: Colors.black38,): Image.network(viecle!.sPic!,errorBuilder: (context, error, stackTrace) => Icon(Icons.car_crash),),
                     ),
                   ),
 

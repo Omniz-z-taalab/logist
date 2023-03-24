@@ -169,7 +169,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                                 ),
                                               ),
                                             ),
-                                            const Expanded(
+                                             Expanded(
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -302,7 +302,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                                 ),
                                               ),
                                             ),
-                                          const  Expanded(
+                                            Expanded(
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment

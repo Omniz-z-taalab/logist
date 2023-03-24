@@ -4079,8 +4079,12 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   int? trilerId;
   @override
   void initState() {
-    Provider.of<VieclesProvider>(context, listen: false)
-        .getViecle(); // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+      Provider.of<VieclesProvider>(context, listen: false)
+          .getViecle();
+    });
+   // TODO: implement initState
     viecle = context.read<VieclesProvider>().viecles;
     super.initState();
     trilerId = widget.data.id;
@@ -4302,8 +4306,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
       botton = true;
     });
     print(botton);
-    print('eeeeeeeeeee');
-    return TheNote;
+     return TheNote;
   }
 
   String NoteIcon(int choice) {
@@ -7775,181 +7778,180 @@ class _chooseExtentionsState extends State<chooseExtentions> {
           const SizedBox(width: 20),
         ],
       ),
-      body: SingleChildScrollView(
-        child: SlidingUpPanel(
-          controller: panelController,
-          minHeight: 0,
-          maxHeight: MaxHe,
-          backdropEnabled: true,
-          backdropOpacity: 0.3,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-          backdropTapClosesPanel: true,
-          isDraggable: true,
-          onPanelSlide: (value) {
-            setState(() {
-              HeadOpacity = value * 0.3;
-            });
-          },
-          body: Padding(
-            padding: const EdgeInsets.only(left: 37, right: 37),
-            child: SizedBox(
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      //Truck Image
-                      Container(
-                          alignment: Alignment.center,
-                          child: Image.network(widget!.data!.sPic!,
-                              height:
-                              MediaQuery.of(context).size.height * 0.25)),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: SlidingUpPanel(
+            controller: panelController,
+            minHeight: 0,
+            maxHeight: MaxHe,
+            backdropEnabled: true,
+            backdropOpacity: 0.3,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+            backdropTapClosesPanel: true,
+            isDraggable: true,
+            onPanelSlide: (value) {
+              setState(() {
+                HeadOpacity = value * 0.3;
+              });
+            },
+            body: Padding(
+              padding: const EdgeInsets.only(left: 37, right: 37),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    //Truck Image
+                    Container(
+                        alignment: Alignment.center,
+                        child: Image.network(widget.data.sPic!,
+                            errorBuilder:(context, error, stackTrace) => Icon(Icons.car_crash),
+                            height:
+                            MediaQuery.of(context).size.height * 0.25)),
 
-                      //Truck name
-                      Text(
-                        widget!.data!.sName!,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      ),
+                    //Truck name
+                    Text(
+                      widget.data.sName!,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                          fontSize: 22,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
 
-                      //Truck text
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16, bottom: 24),
-                        child: Container(
-                            width:
-                            MediaQuery.of(context).size.width - (70 + 33),
-                            child:  Text(
-                              widget!.data!.sDesc!,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w200,
-                                  color: Color(0xff868686)),
-                              textAlign: TextAlign.end,
-                            )),
-                      ),
+                    //Truck text
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16, bottom: 24),
+                      child: SizedBox(
+                          width:
+                          MediaQuery.of(context).size.width - (70 + 33),
+                          child:  Text(
+                            widget.data.sDesc!,
+                            style: const TextStyle(
+                                fontSize: 13,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w200,
+                                color: Color(0xff868686)),
+                            textAlign: TextAlign.end,
+                          )),
+                    ),
 
-                      //Thin line
-                      Container(
-                        width: double.infinity,
-                        height: 2,
-                        color: const Color(0xffF2F1F4),
-                      ),
+                    //Thin line
+                    Container(
+                      width: double.infinity,
+                      height: 2,
+                      color: const Color(0xffF2F1F4),
+                    ),
 
-                      //شكل الشاحنة
-                      InkWell(
-                        child: Options(Trtext(_trShape), Tricon(_trShape),
-                            Trarrow(_trShape)),
-                        onTap: () {
-                          vicle = Trtext(_trShape);
-                          setState(() {
-                            MaxHe = 400;
-                            panelController.open();
-                            ParaType = "trShape";
-                          });
-                        },
-                      ),
+                    //شكل الشاحنة
+                    InkWell(
+                      child: Options(Trtext(_trShape), Tricon(_trShape),
+                          Trarrow(_trShape)),
+                      onTap: () {
+                        vicle = Trtext(_trShape);
+                        setState(() {
+                          // MaxHe = 500;
+                          panelController.open();
+                          ParaType = "trShape";
+                        });
+                      },
+                    ),
 
-                      Container(
-                        width: double.infinity,
-                        height: 2,
-                        color: const Color(0xffF2F1F4),
-                      ),
+                    Container(
+                      width: double.infinity,
+                      height: 2,
+                      color: const Color(0xffF2F1F4),
+                    ),
 
-                      //نوع الشاحنة
-                      InkWell(
-                        child: Options(Typetext(_trType), TypeIcon(_trType),
-                            Trarrow(_trType)),
-                        onTap: () {
-                          setState(() {
-                            MaxHe = 450;
-                            panelController.open();
-                            ParaType = "TRtype";
-                          });
-                        },
-                      ),
+                    //نوع الشاحنة
+                    InkWell(
+                      child: Options(Typetext(_trType), TypeIcon(_trType),
+                          Trarrow(_trType)),
+                      onTap: () {
+                        setState(() {
+                          MaxHe = 450;
+                          panelController.open();
+                          ParaType = "TRtype";
+                        });
+                      },
+                    ),
 
-                      Container(
-                        width: double.infinity,
-                        height: 2,
-                        color: const Color(0xffF2F1F4),
-                      ),
+                    Container(
+                      width: double.infinity,
+                      height: 2,
+                      color: const Color(0xffF2F1F4),
+                    ),
 
-                      //نوع الحمولة
-                      InkWell(
-                        child: Options(PayloadText(_payload),
-                            payloadIcon(_payload), Trarrow(_payload)),
-                        onTap: () {
-                          setState(() {
-                            MaxHe = 700;
-                            panelController.open();
-                            ParaType = "payload";
-                          });
-                        },
-                      ),
+                    //نوع الحمولة
+                    InkWell(
+                      child: Options(PayloadText(_payload),
+                          payloadIcon(_payload), Trarrow(_payload)),
+                      onTap: () {
+                        setState(() {
+                          MaxHe = 600;
+                          panelController.open();
+                          ParaType = "payload";
+                        });
+                      },
+                    ),
 
-                      Container(
-                        width: double.infinity,
-                        height: 2,
-                        color: const Color(0xffF2F1F4),
-                      ),
+                    Container(
+                      width: double.infinity,
+                      height: 2,
+                      color: const Color(0xffF2F1F4),
+                    ),
 
-                      //التوقيت
-                      InkWell(
-                        child: OptionsTime(TimeText(_time), TimeIcon(_time),
-                            TimeNum(_time), DateTime(_date)),
-                        onTap: () {
-                          setState(() {
-                            MaxHe = 780;
-                            panelController.open();
-                            ParaType = "time";
-                          });
-                        },
-                      ),
+                    //التوقيت
+                    InkWell(
+                      child: OptionsTime(TimeText(_time), TimeIcon(_time),
+                          TimeNum(_time), DateTime(_date)),
+                      onTap: () {
+                        setState(() {
+                          MaxHe = 780;
+                          panelController.open();
+                          ParaType = "time";
+                        });
+                      },
+                    ),
 
-                      Container(
-                        width: double.infinity,
-                        height: 2,
-                        color: const Color(0xffF2F1F4),
-                      ),
+                    Container(
+                      width: double.infinity,
+                      height: 2,
+                      color: const Color(0xffF2F1F4),
+                    ),
 
-                      //Note to the Driver
-                      InkWell(
-                        child: Options(
-                            NoteText(_note), NoteIcon(_note), Notearrow(_note)),
-                        onTap: () {
-                          setState(() {
-                            MaxHe = 500;
-                            panelController.open();
-                            ParaType = "note";
-                          });
-                        },
-                      ),
+                    //Note to the Driver
+                    InkWell(
+                      child: Options(
+                          NoteText(_note), NoteIcon(_note), Notearrow(_note)),
+                      onTap: () {
+                        setState(() {
+                          MaxHe = 550;
+                          panelController.open();
+                          ParaType = "note";
+                        });
+                      },
+                    ),
 
-                      Container(
-                        width: double.infinity,
-                        height: 2,
-                        color: const Color(0xffF2F1F4),
-                      ),
+                    Container(
+                      width: double.infinity,
+                      height: 2,
+                      color: const Color(0xffF2F1F4),
+                    ),
 
-                      SizedBox(
-                        height: lastButtonHeight(),
-                      ),
+                    SizedBox(
+                      height: lastButtonHeight(),
+                    ),
 
-                      Confirm('متابعة'),
-                    ],
-                  ),
-                ],
+                    Confirm('متابعة'),
+                  ],
+                ),
               ),
             ),
+            panel: Type(ParaType),
           ),
-          panel: Type(ParaType),
         ),
       ),
     );

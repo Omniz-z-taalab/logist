@@ -16,34 +16,29 @@ List<DriversModel> driver = [];
       await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/drivers?status=online',
       );
       print(response.data);
-   response.data.forEach((user) => driver!.add(DriversModel.fromJson(user)));
-      print('wwwww');
+   response.data.forEach((user) => driver .add(DriversModel.fromJson(user)));
 
       isAddViecle = true;
       notifyListeners();
-      print('wwwww');
-    } catch (error) {
-      // showToast(error.toString(), false, false);
+     } catch (error) {
+      showToast(error.toString(), false, false);
       isAddViecle = false;
     }
   }
 bool load = false;
- DriverModel? driverModel ;
-  Future<DriverModel?>getDetailsDriver({int? id}) async {
+DriversModel? driverModel ;
+  Future<DriversModel?>getDetailsDriver({int? id}) async {
     load = true;
     try {
-      print('my id isssssss $id');
-      var response =
+       var response =
       await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/drivers/$id',
       );
-      print('ya allah');
-      print(response.data);
-      driverModel = DriverModel.fromJson(response.data);
+       print(response.data);
+      driverModel = DriversModel.fromJson(response.data);
       load = true;
       print(driverModel!.fullName);
        notifyListeners();
-      print('wwwww');
-    } catch (error) {
+     } catch (error) {
       print(error.toString());
        showToast(error.toString(), false, false);
     }

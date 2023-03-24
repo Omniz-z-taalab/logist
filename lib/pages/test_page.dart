@@ -90,7 +90,7 @@ class _panelScreenState extends State<panelScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    DriverModel?  driver =  context.watch<DriversProvider>().driverModel;
+    DriversModel?  driver =  context.watch<DriversProvider>().driverModel;
 
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.center,

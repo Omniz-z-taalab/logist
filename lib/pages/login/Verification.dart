@@ -346,7 +346,7 @@ class _VerificationState extends State<Verification> {
           if (formKey.currentState!.validate()) {
             context
                 .read<AuthProvider>()
-                .verifyUser(
+                .                                                      verifyUser(
                     phoneNumber: widget.phone,
                     key: _input1.text +
                         _input2.text +

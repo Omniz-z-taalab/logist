@@ -470,7 +470,7 @@ var placeUserpick2;
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 77,
+                          // height: 77,
                           alignment: Alignment.centerLeft,
 
                           decoration: BoxDecoration(

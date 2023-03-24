@@ -394,7 +394,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:dio/dio.dart';
 
-
 import '../local/cache_helper.dart';
 import 'api_path.dart';
 
@@ -422,44 +421,49 @@ import 'api_path.dart';
 //   return dio;
 // }
 
-class DioHelper{
-  static  Dio? dio;
-  static init(){
+class DioHelper {
+  static Dio? dio;
+
+  static init() {
     String? token = CacheHelper.getData(key: 'token');
 
-
     BaseOptions options = BaseOptions(
-     baseUrl: AppApiPaths.base,
-    connectTimeout: 20 * 1000,
-    receiveTimeout: 20 * 1000,
-    receiveDataWhenStatusError: true,
-  );
+      baseUrl: AppApiPaths.base,
+      connectTimeout: 20 * 1000,
+      receiveTimeout: 20 * 1000,
+      receiveDataWhenStatusError: true,
+    );
     dio = Dio(options);
-
   }
+
   static Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
     data,
-
-  }) async{
-String? token =  CacheHelper.getData(key: 'accessToken');
-print('token is$token');
-return await dio!.get(url,queryParameters: query,options: Options(headers:{"Authorization":"Bearer $token"},));
-
+  }) async {
+    String? token = CacheHelper.getData(key: 'accessToken');
+    print('token is$token');
+    return await dio!.get(url,
+        queryParameters: query,
+        options: Options(
+          headers: {"Authorization": "Bearer $token"},
+        ));
   }
+
   static Future<Response> postData({
     required String url,
-   data,
+    data,
     // String? token,
-
-  }) async{
-     String? token = CacheHelper.getData(key: 'accessToken');
-     return await dio!.post(url, data:data,options:  Options(headers:{"Authorization":"Bearer $token"},)
-    );
-
+  }) async {
+    String? token = CacheHelper.getData(key: 'accessToken');
+    return await dio!.post(url,
+        data: data,
+        options: Options(
+          headers: {"Authorization": "Bearer $token"},
+        ));
   }
 }
+
 void showToast(String text, bool webShowClose, bool success) {
   Fluttertoast.showToast(
       webShowClose: webShowClose,
@@ -471,4 +475,3 @@ void showToast(String text, bool webShowClose, bool success) {
       textColor: Colors.white,
       fontSize: 16.0);
 }
-

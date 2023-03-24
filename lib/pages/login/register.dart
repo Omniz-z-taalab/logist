@@ -23,7 +23,6 @@ class _pagenameState extends State<pagename> {
   final _address = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-
   //Buttons
   Widget SendCode(String par) => MaterialButton(
         color: On,
@@ -47,11 +46,16 @@ class _pagenameState extends State<pagename> {
             // context.read<AuthProvider>().setName(_name.text);
             // context.read<AuthProvider>().setPhone(widget.phone!);
             // name = _name.text;
-            context.read<AuthProvider>().registerUser(_address.text,_email.text,_name.text,_phone.text).then((value) {
-              if(context.watch<AuthProvider>().model != null){
-              Get.to(() => const loading(), transition: Transition.rightToLeft);
-            }else {
-              showToast('حاول مره اخري', true, false);
+            context
+                .read<AuthProvider>()
+                .registerUser(
+                    _address.text, _email.text, _name.text, widget.phone)
+                .then((value) {
+              if (Provider.of<AuthProvider>(context,listen: false).model != null) {
+                Get.to(() => const loading(),
+                    transition: Transition.rightToLeft);
+              } else {
+                showToast('حاول مره اخري', true, false);
               }
             });
 
@@ -59,12 +63,13 @@ class _pagenameState extends State<pagename> {
           }
         },
       );
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,7 +149,10 @@ class _pagenameState extends State<pagename> {
                                     width: 1,
                                     color: const Color(0xffD7D7D7),
                                   ),
-                                 Icon(Icons.person_2_outlined,size: 25,)
+                                  Icon(
+                                    Icons.person_2_outlined,
+                                    size: 25,
+                                  )
                                 ],
                               ),
                             )),
@@ -158,70 +166,70 @@ class _pagenameState extends State<pagename> {
                       },
                     ),
                     const SizedBox(height: 30),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Container(
-                          alignment: Alignment.centerRight,
-                          child: Subtext('رقم الهاتف',
-                              size: 14, color: const Color(0xffABAEBC))),
-                    ),
-                    const SizedBox(height: 5),
-                    TextFormField(
-                      controller: _phone,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 25.0, horizontal: 10.0),
-                        filled: true,
-                        fillColor: fill,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(75.0),
-                            borderSide:
-                            const BorderSide(color: Colors.transparent)),
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Colors.transparent, width: 0),
-                          borderRadius: BorderRadius.circular(75.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(75.0),
-                            borderSide:
-                            const BorderSide(color: Colors.transparent)),
-                        errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(75.0),
-                            borderSide: const BorderSide(
-                              color: Colors.red,
-                              width: 2,
-                            )),
-                        errorText: null,
-                        errorStyle: const TextStyle(height: 0),
-                        isDense: true,
-                        suffixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Container(
-                              width: 49,
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    height: 42,
-                                    width: 1,
-                                    color: const Color(0xffD7D7D7),
-                                  ),
-                                  const Icon(Icons.phone)
-                                ],
-                              ),
-                            )),
-                      ),
-                      textDirection: TextDirection.rtl,
-                      validator: (value) {
-                        if (value!.length < 10) {
-                          return 'ادخل رقم الهاتف الصحيح';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 30),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 0),
+                    //   child: Container(
+                    //       alignment: Alignment.centerRight,
+                    //       child: Subtext('رقم الهاتف',
+                    //           size: 14, color: const Color(0xffABAEBC))),
+                    // ),
+                    // const SizedBox(height: 5),
+                    // TextFormField(
+                    //   controller: _phone,
+                    //   decoration: InputDecoration(
+                    //     contentPadding: const EdgeInsets.symmetric(
+                    //         vertical: 25.0, horizontal: 10.0),
+                    //     filled: true,
+                    //     fillColor: fill,
+                    //     focusedBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(75.0),
+                    //         borderSide:
+                    //         const BorderSide(color: Colors.transparent)),
+                    //     border: OutlineInputBorder(
+                    //       borderSide: const BorderSide(
+                    //           color: Colors.transparent, width: 0),
+                    //       borderRadius: BorderRadius.circular(75.0),
+                    //     ),
+                    //     enabledBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(75.0),
+                    //         borderSide:
+                    //         const BorderSide(color: Colors.transparent)),
+                    //     errorBorder: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(75.0),
+                    //         borderSide: const BorderSide(
+                    //           color: Colors.red,
+                    //           width: 2,
+                    //         )),
+                    //     errorText: null,
+                    //     errorStyle: const TextStyle(height: 0),
+                    //     isDense: true,
+                    //     suffixIcon: Padding(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 12),
+                    //         child: Container(
+                    //           width: 49,
+                    //           child: Row(
+                    //             mainAxisAlignment:
+                    //             MainAxisAlignment.spaceAround,
+                    //             children: [
+                    //               Container(
+                    //                 height: 42,
+                    //                 width: 1,
+                    //                 color: const Color(0xffD7D7D7),
+                    //               ),
+                    //               const Icon(Icons.phone)
+                    //             ],
+                    //           ),
+                    //         )),
+                    //   ),
+                    //   textDirection: TextDirection.rtl,
+                    //   validator: (value) {
+                    //     if (value!.length < 10) {
+                    //       return 'ادخل رقم الهاتف الصحيح';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    // const SizedBox(height: 30),
                     Padding(
                       padding: const EdgeInsets.only(right: 0),
                       child: Container(
@@ -231,64 +239,66 @@ class _pagenameState extends State<pagename> {
                     ),
                     const SizedBox(height: 5),
                     TextFormField(
-                      controller: _email,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 25.0, horizontal: 10.0),
-                        filled: true,
-                        fillColor: fill,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(75.0),
-                            borderSide:
-                            const BorderSide(color: Colors.transparent)),
-                        border: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Colors.transparent, width: 0),
-                          borderRadius: BorderRadius.circular(75.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(75.0),
-                            borderSide:
-                            const BorderSide(color: Colors.transparent)),
-                        errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(75.0),
+                        controller: _email,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 25.0, horizontal: 10.0),
+                          filled: true,
+                          fillColor: fill,
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(75.0),
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent)),
+                          border: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Colors.red,
-                              width: 2,
-                            )),
-                        errorText: null,
-                        errorStyle: const TextStyle(height: 0),
-                        isDense: true,
-                        suffixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Container(
-                              width: 49,
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
-                                children: [
-                                  Container(
-                                    height: 42,
-                                    width: 1,
-                                    color: const Color(0xffD7D7D7),
-                                  ),
-                                Icon(Icons.email_outlined,size: 20,)
-                                ],
-                              ),
-                            )),
-                      ),
-                      textDirection: TextDirection.rtl,
-                      validator:  (input) {
-    if (!input
-        .toString()
-        .contains('@'));}
-                    ),
+                                color: Colors.transparent, width: 0),
+                            borderRadius: BorderRadius.circular(75.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(75.0),
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent)),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(75.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                                width: 2,
+                              )),
+                          errorText: null,
+                          errorStyle: const TextStyle(height: 0),
+                          isDense: true,
+                          suffixIcon: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Container(
+                                width: 49,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Container(
+                                      height: 42,
+                                      width: 1,
+                                      color: const Color(0xffD7D7D7),
+                                    ),
+                                    Icon(
+                                      Icons.email_outlined,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ),
+                        textDirection: TextDirection.rtl,
+                        validator: (input) {
+                          if (!input.toString().contains('@')) ;
+                        }),
                     const SizedBox(height: 30),
                     Padding(
                       padding: const EdgeInsets.only(right: 0),
                       child: Container(
                           alignment: Alignment.centerRight,
-                          child: Subtext( "العنوان",
+                          child: Subtext("العنوان",
                               size: 14, color: const Color(0xffABAEBC))),
                     ),
                     const SizedBox(height: 5),
@@ -302,7 +312,7 @@ class _pagenameState extends State<pagename> {
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(75.0),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         border: OutlineInputBorder(
                           borderSide: const BorderSide(
                               color: Colors.transparent, width: 0),
@@ -311,7 +321,7 @@ class _pagenameState extends State<pagename> {
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(75.0),
                             borderSide:
-                            const BorderSide(color: Colors.transparent)),
+                                const BorderSide(color: Colors.transparent)),
                         errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(75.0),
                             borderSide: const BorderSide(
@@ -327,14 +337,17 @@ class _pagenameState extends State<pagename> {
                               width: 49,
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
                                     height: 42,
                                     width: 1,
                                     color: const Color(0xffD7D7D7),
                                   ),
-                                  Icon(Icons.home_outlined,size: 22,)
+                                  Icon(
+                                    Icons.home_outlined,
+                                    size: 22,
+                                  )
                                 ],
                               ),
                             )),

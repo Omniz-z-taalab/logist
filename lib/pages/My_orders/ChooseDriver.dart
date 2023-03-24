@@ -60,19 +60,13 @@ class _chooseDriverState extends State<chooseDriver> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.lat1);
-    print(widget.lat2);
-    print(widget.lng1);
-    print(widget.lng2);
-    print(widget.noteText);
-    print(widget.PayloadText);
-    print(widget.TimeNum);
-    print(widget.Trtext);
-    print(widget.Typetext);
-    print('eeeeeeeeee');
-    print(widget.PayloadText);
-    Provider.of<DriversProvider>(context, listen: false)
-        .getAllDrivers();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+      Provider.of<DriversProvider>(context, listen: false)
+          .getAllDrivers();
+
+    });
+
   }
 
   //Choose Button
@@ -172,7 +166,7 @@ class _chooseDriverState extends State<chooseDriver> {
                 icon: const Icon(CupertinoIcons.chevron_forward),
                 iconSize: 25,
                 onPressed: () {
-                  Navigator.of(context);
+                  Navigator.of(context).pop();
                   print('Down');
                 },
               ),
@@ -182,7 +176,7 @@ class _chooseDriverState extends State<chooseDriver> {
         ],
       ),
       body: context.watch<DriversProvider>().driver.isEmpty ?
-      Center(child: CircularProgressIndicator())
+      const Center(child: CircularProgressIndicator())
           : SlidingUpPanel(
         controller: ApanelController,
         maxHeight: 600,
@@ -194,7 +188,7 @@ class _chooseDriverState extends State<chooseDriver> {
             child: Stack(
               children: [
                 Positioned(
-                  bottom: 80,
+                  bottom: 120,
                   child: Column(
                     children: [
                       //Thine line

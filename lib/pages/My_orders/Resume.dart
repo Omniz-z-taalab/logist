@@ -89,7 +89,11 @@ class _ResumeScreenState extends State<ResumeScreen> {
   //         width: 20, height: 20, child: CircularProgressIndicator());}
   initState() {
     super.initState();
-    Provider.of<PriceProvider>(context,listen: false).getPrice(widget.lat1, widget.lng1, widget.lat2, widget.lng2);
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+      Provider.of<PriceProvider>(context,listen: false).getPrice(widget.lat1, widget.lng1, widget.lat2, widget.lng2);
+
+    });
     print(widget.noteText);
     // myIconButton();
   }
@@ -420,7 +424,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
           Provider.of<PriceProvider>(context, listen: false).createOrder(
               widget.vicleId,
               widget.TimeNum[0],
-              widget!.lat1,
+              widget .lat1,
               widget.lng1,
               widget.lat2,
               widget.lng2,
