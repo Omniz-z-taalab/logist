@@ -2,10 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logist/models/viecelModel/viecleModel.dart';
 
-import '../../utilities/dio_helper.dart';
-
 import '../../../models/viecle_model.dart';
 import '../../utilities/api_path.dart';
+import '../../utilities/dio_helper.dart';
 
 class VieclesProvider extends ChangeNotifier {
   bool isAddViecle = false;
@@ -23,12 +22,13 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response =
-          await DioHelper.postData(url:'${AppApiPaths.base}/api/v1/viecles/', data: {
-        "name": "v-three",
-        "desc": "test v-one",
-        "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
-      });
+      var response = await DioHelper.postData(
+          url: '${AppApiPaths.base}/api/v1/viecles/',
+          data: {
+            "name": "v-three",
+            "desc": "test v-one",
+            "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
+          });
 
       showToast(response.data['msg'], true, true);
 
@@ -44,15 +44,14 @@ class VieclesProvider extends ChangeNotifier {
   //get viecle
   Future<void> getViecle() async {
     isGetViecle = true;
-    viecles =[];
+    viecles = [];
     notifyListeners();
 
     try {
       Response response = await DioHelper.getData(
-
         url: '${AppApiPaths.base}/api/v1/viecles/',
       );
-      response.data.forEach((user) => viecles!.add(viecleModel.fromJson(user)));
+      response.data.forEach((user) => viecles.add(viecleModel.fromJson(user)));
       // print(viecles![0].sPic);
       // showToast(response['msg'], true, true);
 
@@ -70,12 +69,13 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioHelper
-          .postData(url:'${AppApiPaths.base}/api/v1/viecles/Trailers', data: {
-        "name": "t-one",
-        "desc": "test t-one",
-        "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
-      });
+      var response = await DioHelper.postData(
+          url: '${AppApiPaths.base}/api/v1/viecles/Trailers',
+          data: {
+            "name": "t-one",
+            "desc": "test t-one",
+            "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
+          });
 
       showToast(response.data['msg'], true, true);
 
@@ -96,13 +96,13 @@ class VieclesProvider extends ChangeNotifier {
     print('ddddd');
     try {
       Response response = await DioHelper.getData(
-       url:'${AppApiPaths.base}/api/v1/viecles/Trailers',
+        url: '${AppApiPaths.base}/api/v1/viecles/Trailers',
       );
-       response.data.forEach((e)=> trailers.add!(Viecle.fromJson(e)));
+      response.data.forEach((e) => trailers.add!(Viecle.fromJson(e)));
       print(response.data);
       // showToast(response['msg'], true, true);
-    print(trailers![0].sName);
-    print('43434343');
+      print(trailers![0].sName);
+      print('43434343');
       isGetTrailer = false;
       notifyListeners();
     } catch (error) {
@@ -117,12 +117,13 @@ class VieclesProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioHelper
-          .postData(url:'${AppApiPaths.base}/api/v1/viecles/TrailerTypes', data: {
-        "name": "tt-one",
-        "desc": "test v-one",
-        "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
-      });
+      var response = await DioHelper.postData(
+          url: '${AppApiPaths.base}/api/v1/viecles/TrailerTypes',
+          data: {
+            "name": "tt-one",
+            "desc": "test v-one",
+            "pic": "https://storage.googleapis.com/storage_buket_1/id.png"
+          });
 
       showToast(response.data['msg'], true, true);
 
@@ -142,7 +143,7 @@ class VieclesProvider extends ChangeNotifier {
 
     try {
       Response response = await DioHelper.getData(
-       url: '${AppApiPaths.base}/api/v1/viecles/TrailerTypes?name=tt-three',
+        url: '${AppApiPaths.base}/api/v1/viecles/TrailerTypes?name=tt-three',
       );
       // viecles=(response.data as List<dynamic>).map((e){Viecle.fromJson(e)}).toList();
       print(response.data);

@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
 import '../core/logic/layout/profile/profile_provider.dart';
-import '../models/user_model.dart';
-import '../others/variables.dart';
 import 'Home_and_location/Home_Page.dart';
-import 'Navigation_bar/Chats/all_masseges.dart';
-import 'Navigation_bar/PickupPlace.dart';
-import 'Menu_and_settings/Notification.dart';
 import 'Menu_and_settings/Profile.dart';
+import 'Navigation_bar/Chats/all_masseges.dart';
 import 'Navigation_bar/Settings.dart';
 import 'Navigation_bar/order_bar.dart';
-import 'Order_Setup/ChooseExtentions.dart';
 import 'Order_Setup/Chose_car.dart';
 
 class mainHomePage extends StatefulWidget {
@@ -24,8 +20,6 @@ class mainHomePage extends StatefulWidget {
 class _mainHomePageState extends State<mainHomePage> {
   //Icon Rotation
   double _counter = 0;
-
-
 
   //todo: Set Auto Start function To Dump Data
   //Alpha tools
@@ -60,19 +54,21 @@ class _mainHomePageState extends State<mainHomePage> {
       }
     });
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
-      context.read<ProfileProvider>().getUser();
-      // print(context.read<ProfileProvider>().userModel!.fullName);
+    context.read<ProfileProvider>().getUser();
+    // print(context.read<ProfileProvider>().userModel!.fullName);
 
-      // print(  context.read<ProfileProvider>().getUser());
-  super.initState();
+    // print(  context.read<ProfileProvider>().getUser());
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-   var userModel = context.watch<ProfileProvider>().userModel;
-   // print(userModel!.id!);
+    var userModel = context.watch<ProfileProvider>().userModel;
+    // print(userModel!.id!);
     return Scaffold(
       body: Stack(
         children: [
@@ -169,7 +165,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                                 ),
                                               ),
                                             ),
-                                             Expanded(
+                                            Expanded(
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -242,8 +238,8 @@ class _mainHomePageState extends State<mainHomePage> {
                                   ),
                                   onTap: () async {
                                     Change();
-                                     Get.to( ChoseTrailer());
-                                     // Get.to(const chooseExtentions());
+                                    Get.to(ChoseTrailer());
+                                    // Get.to(const chooseExtentions());
                                   },
                                 ),
                                 const SizedBox(height: 7),
@@ -374,7 +370,7 @@ class _mainHomePageState extends State<mainHomePage> {
                                     ),
                                   ),
                                   onTap: () async {
-                                      Get.to(ChoseTrailer());
+                                    Get.to(ChoseTrailer());
                                     //Get.to(pickupPlace());
                                   },
                                 ),
@@ -562,7 +558,7 @@ class _mainHomePageState extends State<mainHomePage> {
                           if (index == 0) {
                             Get.to(const settings());
                           } else if (index == 3) {
-                            Get.to( conversationsList(userModel!.id));
+                            Get.to(conversationsList(userModel!.id));
                           } else if (index == 1) {
                             // SetDummyData();
                             Get.to(
@@ -581,7 +577,8 @@ class _mainHomePageState extends State<mainHomePage> {
                         items: [
                           BottomNavigationBarItem(
                             label: 'Profile',
-                            icon:const Icon(Icons.person_2_outlined,
+                            icon: const Icon(
+                              Icons.person_2_outlined,
                             ),
                             activeIcon: Image.asset(
                               'assets/pics/BottomIcons/profile_outlined.png',

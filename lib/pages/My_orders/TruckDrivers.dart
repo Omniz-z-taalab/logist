@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:logist/core/logic/drivers/driver_provider.dart';
-import 'package:provider/provider.dart';
-import '../../models/driver_model.dart';
-import '../../models/viecelModel/viecleModel.dart';
-import '../../others/variables.dart';
-import '../test_page.dart';
-import 'Resume.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../../models/driver_model.dart';
+import '../../others/variables.dart';
+import 'Resume.dart';
 
 class truckdrivers extends StatefulWidget {
   var lat1;
@@ -560,8 +559,6 @@ class _paaaaState extends State<paaaa> {
     print(widget.id);
     Provider.of<DriversProvider>(context, listen: false)
         .getDetailsDriver(id: widget.id);
-
-    // TODO: implement initState
     super.initState();
   }
 

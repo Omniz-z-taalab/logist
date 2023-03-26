@@ -1,17 +1,19 @@
+import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/logic/layout/profile/profile_provider.dart';
 import '../../models/user_model.dart';
 import '../../others/variables.dart';
-import '../Navigation_bar/Settings.dart';
 import '../../widgets/Texts.dart';
-import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import '../../core/logic/layout/profile/profile_provider.dart';
+
 enum ImageSourceType { gallery, camera }
+
 class profile extends StatefulWidget {
   const profile({Key? key, this.userModel}) : super(key: key);
   final UserModel? userModel;
@@ -25,24 +27,31 @@ class _profileState extends State<profile> {
   var _image;
   var imagePicker;
   var type;
+  File? image;
 
-  ImagePicker picker = ImagePicker();
-  // Future pickImage() async {
-  //   try {
-  //     final image = await picker.pickImage(source: ImageSource.gallery);
-  //     if(image == null) return;
-  //     final imageTemp = File(image.path);
-  //     setState(() => this.image = imageTemp);
-  //   } on PlatformException catch(e) {
-  //     print('Failed to pick image: $e');
-  //   }
-  // }
-  //Profile picture
-  _openCamera(BuildContext context) async{
-    var picture =await ImagePicker().getImage(source: ImageSource.camera);
+  Future pickImage() async {
+    try {
+      XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemp = File(image.path);
+      setState(() async {
+        this.image = imageTemp;
+        await context.read<ProfileProvider>().uploadDocs(file: imageTemp);
+      });
+      print(image.path);
+      print('weeweeee');
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  _openCamera(BuildContext context) async {
+    var picture = await ImagePicker().getImage(source: ImageSource.camera);
     setState(() {
       _image = picture;
-    });}
+    });
+  }
+
   Widget Profile_pic() {
     return Column(
       children: [
@@ -55,20 +64,20 @@ class _profileState extends State<profile> {
             // backgroundColor: Colors.white,
             radius: 50,
             child: Center(
-              child:
-              Text(
-
-                 context
-                    .read<ProfileProvider>()
-                    .userModel!
-                    .fullName!.split('')[0].toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+                child: Text(
+              context
+                  .read<ProfileProvider>()
+                  .userModel!
+                  .fullName!
+                  .split('')[0]
+                  .toUpperCase(),
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+                // ),
                 ),
-              )
-              // ),
-            ),
           ),
         ),
 
@@ -77,27 +86,28 @@ class _profileState extends State<profile> {
 
         //Button Text
         TextButton(
-          style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
-            minimumSize: const Size(123, 40),
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
-          child: const Text(
-            "تغيير صورة الحساب",
-            style: TextStyle(
-              color: Color(
-                0xff3F3F3F,
-              ),
-              fontSize: 13.96,
-              fontWeight: FontWeight.w300,
-              fontFamily: "ArabotoFat",
-              letterSpacing: 0,
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(123, 40),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            textAlign: TextAlign.right,
-          ),
-          onPressed: ()async {
-    print('User want to change  his pic');}
-        ),
+            child: const Text(
+              "تغيير صورة الحساب",
+              style: TextStyle(
+                color: Color(
+                  0xff3F3F3F,
+                ),
+                fontSize: 13.96,
+                fontWeight: FontWeight.w300,
+                fontFamily: "ArabotoFat",
+                letterSpacing: 0,
+              ),
+              textAlign: TextAlign.right,
+            ),
+            onPressed: () async {
+              pickImage();
+              print('User want to change  his pic');
+            }),
       ],
     );
   }
@@ -108,9 +118,10 @@ class _profileState extends State<profile> {
   final phonenumber = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  @override
   void initState() {
     username.text = widget.userModel!.fullName!;
-    phonenumber.text = widget.userModel!.phoneNumber!;
+    phonenumber.text = widget.userModel!.phoneNumber!.substring(4);
     email.text = widget.userModel!.email!;
     super.initState();
   }
@@ -119,9 +130,6 @@ class _profileState extends State<profile> {
     setState(() {
       String tmpname = username.text;
       String tmpPhone = phonenumber.text;
-
-      name = tmpname;
-      phonenum = '966' + tmpPhone;
 
       setUserphone(phonenum);
       print(phonenum);
@@ -264,7 +272,7 @@ class _profileState extends State<profile> {
 
                       TextFormField(
                         controller: phonenumber,
-                        textDirection: TextDirection.rtl,
+                        // textDirection: TextDirection.rtl,
                         keyboardType: TextInputType.number,
                         // maxLength: 9,
                         style: const TextStyle(
@@ -293,6 +301,39 @@ class _profileState extends State<profile> {
                             color: Colors.red,
                             width: 2,
                           )),
+                          prefixIcon: const Padding(
+                              padding: EdgeInsets.only(left: 12),
+                              child: SizedBox(
+                                width: 49,
+                                child: Text(
+                                  '  +966 ',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Madani',
+                                      color: Color(0xff999999),
+                                      height: 1.5),
+                                ),
+                              )),
+                          prefixIconConstraints:
+                              const BoxConstraints(minWidth: 0, minHeight: 0),
+                          suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 16),
+                              child: SizedBox(
+                                width: 49,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      height: 42,
+                                      width: 1,
+                                      color: const Color(0xffD7D7D7),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Image.asset('assets/pics/iphone.png',
+                                        width: 24, height: 24),
+                                  ],
+                                ),
+                              )),
                           // errorText: null,
                           // counterText: '',
                           // suffixIcon: Padding(
@@ -363,6 +404,9 @@ class _profileState extends State<profile> {
                               widget.userModel!.email = email.text;
                               widget.userModel!.phoneNumber =
                                   '+966' + phonenumber.text;
+                              widget.userModel!.avatar =
+                                  context.read<ProfileProvider>().photo ??
+                                      widget.userModel!.avatar;
                               context
                                   .read<ProfileProvider>()
                                   .updateUser(widget.userModel!);

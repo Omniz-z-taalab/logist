@@ -1,22 +1,17 @@
 import 'dart:async';
 import 'dart:convert' as convert;
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
-// import 'package:location/location.dart';
-import '../models/viecelModel/viecleModel.dart';
 import 'PickupPlace2.dart';
 import 'variables.dart';
-import '../widgets/Location_service.dart';
 
 class LocationUser2 extends StatefulWidget {
   var Lat;
@@ -61,24 +56,14 @@ class LocationUser2State extends State<LocationUser2> {
     try {
       var response = await http.get(Uri.parse(url));
       var json = convert.jsonDecode(response.body);
-      print('Sent $lat , $Long');
-      print('Received $json');
       var status = json['status'];
       Lat = lat;
       Lng = Long;
-      print('111111111$Lat,2222222222$Lng');
       if (status != 'ZERO_RESULTS') {
         var placeId = json['results'][0]['formatted_address'];
         var name = json['results'][0]['address_components'][2]['short_name'];
         var address = json['plus_code']['compound_code'];
-        print(
-            '===================================================================');
-        print(name);
-        print(address);
-        print(
-            '===================================================================');
         SubDest = placeId;
-        //return [SubOrigin,SubOrigin];
         return [name, address];
       } else {
         var name = json['plus_code']['global_code'];
@@ -140,9 +125,6 @@ class LocationUser2State extends State<LocationUser2> {
   //Logo Position
   double mapBottomPadding = 125;
 
-  double Camlat = 24.7136;
-  double Camlng = 46.6753;
-
   String Dest = 'اختر مكان التسليم';
   String SubDest = 'يمكنك تحديد مكان التسليم يدوية أو البحث';
   List<String> Titles = [
@@ -164,10 +146,8 @@ class LocationUser2State extends State<LocationUser2> {
   void initState() {
     super.initState();
     setMark();
-    print('4444455555555555555');
     latitude = widget.Lat;
     langtude = widget.Lng;
-    print('latttttt$latitude,lnggggggg$langtude');
     //getCurrentLocation();
 
     // _setMarker(LatLng(32.294047, -6.709170));
@@ -271,22 +251,22 @@ class LocationUser2State extends State<LocationUser2> {
           print('wwwwww');
           Get.to(
               () => package_place2(
-                  Lat,
-                  Lng,
-                  latitude,
-                  langtude,
-                  widget.noteText,
-                  widget.PayloadText,
-                  widget.TimeNum,
-                  widget.Trtext,
-                  widget.Typetext,
-                  widget.placeuserpick1,
-                  widget.placeuserdown1,
-                  placeuserpick2,
-                  placeuserdown2,
-                  widget.vicleId,
-                  widget.trilerId,
-              ),
+                    Lat,
+                    Lng,
+                    latitude,
+                    langtude,
+                    widget.noteText,
+                    widget.PayloadText,
+                    widget.TimeNum,
+                    widget.Trtext,
+                    widget.Typetext,
+                    widget.placeuserpick1,
+                    widget.placeuserdown1,
+                    placeuserpick2,
+                    placeuserdown2,
+                    widget.vicleId,
+                    widget.trilerId,
+                  ),
               transition: Transition.rightToLeft);
           print('Went to Map2');
         },
@@ -342,7 +322,6 @@ class LocationUser2State extends State<LocationUser2> {
                 }
                 placeuserpick2 = Titles[0];
                 placeuserdown2 = Titles[1];
-
               },
               polylines: _polylines,
               markers: _markers,
