@@ -52,6 +52,7 @@ class _profileState extends State<profile> {
     });
   }
 
+  //Profile picture
   Widget Profile_pic() {
     return Column(
       children: [
@@ -63,21 +64,33 @@ class _profileState extends State<profile> {
           child: CircleAvatar(
             // backgroundColor: Colors.white,
             radius: 50,
-            child: Center(
-                child: Text(
-              context
-                  .read<ProfileProvider>()
-                  .userModel!
-                  .fullName!
-                  .split('')[0]
-                  .toUpperCase(),
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: const Color(0xffECF4FD),
               ),
-            )
-                // ),
-                ),
+              width: 170,
+              height: 170,
+              child: Center(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100.0),
+                      child: image == null
+                          ? Image.network(
+                              context
+                                  .read<ProfileProvider>()
+                                  .userModel!
+                                  .avatar!,
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              image!,
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            ))),
+            ),
           ),
         ),
 
@@ -86,11 +99,15 @@ class _profileState extends State<profile> {
 
         //Button Text
         TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero,
-              minimumSize: const Size(123, 40),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
+            minimumSize: const Size(123, 40),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: InkWell(
+            onTap: () {
+              pickImage();
+            },
             child: const Text(
               "تغيير صورة الحساب",
               style: TextStyle(
@@ -104,10 +121,11 @@ class _profileState extends State<profile> {
               ),
               textAlign: TextAlign.right,
             ),
-            onPressed: () async {
-              pickImage();
-              print('User want to change  his pic');
-            }),
+          ),
+          onPressed: () {
+            print('User want to change  his pic');
+          },
+        ),
       ],
     );
   }

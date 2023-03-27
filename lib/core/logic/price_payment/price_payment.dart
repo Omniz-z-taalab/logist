@@ -64,17 +64,6 @@ class PriceProvider extends ChangeNotifier {
             },
             "Order_Type": "Single",
             "Order_Start_Time": date
-            // "Date_of_Order": "2023-02-22",
-            // "Distination": {"lant": lat1, "long": lang1},
-            // "location": {"lant": lat2, "long": lang2},
-            // "viecle_Id": vicleId,
-            // "trailer_id": trilerId,
-            // "Current_Location": {
-            //   "lant": 29.951755714712075,
-            //   "long": 30.934096798504832
-            // },
-            // "Order_Type": "Single",
-            // "Order_Start_Time": "2023-02-22"
           });
 
       print(response.data);

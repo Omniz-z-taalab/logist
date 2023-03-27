@@ -63,12 +63,6 @@ class _pickupPlaceState extends State<pickupPlace> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.Typetext);
-    print(widget.Trtext);
-    print(widget.TimeNum);
-    print(widget.PayloadText);
-    print(widget.noteText);
-    print(widget.vicleId);
   }
 
   @override
@@ -212,25 +206,15 @@ class _pickupPlaceState extends State<pickupPlace> {
                   //print(places.length);
                   place1 = places[i][0];
                   place2 = places[i][1];
-                  print('---------------------');
-                  print(places[i][0]);
+
                   //Get name And Subtitle address
                   var results = await LocationService()
                       .getPlaceNameFullName(places[i][0]);
-                  print('555555%%%%%%%%%%%%%%%');
-                  print(results[0]);
-                  print(LatPoint);
-                  print(langPoint);
+
                   Origine = [results[0], results[1]];
-                  print(results[2]);
-                  print(results[1]);
-                  // print(results[2]);
-                  print(LatPoint);
-                  print('&&&&&&&&&&&&&&&&&&&&&');
-                  LatPoint;
                   Get.to(() => package_place(
-                      LatPoint,
-                      langPoint,
+                      results[2],
+                      results[3],
                       widget.noteText,
                       widget.PayloadText,
                       widget.TimeNum,
@@ -273,7 +257,7 @@ class _pickupPlaceState extends State<pickupPlace> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Expanded(
+            const Expanded(
               flex: 4,
               child: Text(
                 'تحديد الموقع على الخريطة',

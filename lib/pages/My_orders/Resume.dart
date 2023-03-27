@@ -440,17 +440,19 @@ class _ResumeScreenState extends State<ResumeScreen> {
         //Button destination
         print(widget.vicleId);
         print('widget.vicleId');
-        Provider.of<PriceProvider>(context, listen: false).createOrder(
-          widget.vicleId,
-          widget.TimeNum[0],
-          widget.lat1,
-          widget.lng1,
-          widget.lat2,
-          widget.lng2,
-          widget.id,
-          widget.trilerId,
-        );
-        Get.to(() => paymentMethods(context.watch<PriceProvider>().price),
-            transition: Transition.rightToLeft);
+        Provider.of<PriceProvider>(context, listen: false)
+            .createOrder(
+              widget.vicleId,
+              widget.TimeNum[0],
+              widget.lat1,
+              widget.lng1,
+              widget.lat2,
+              widget.lng2,
+              widget.id,
+              widget.trilerId,
+            )
+            .then((value) => Get.to(
+                () => paymentMethods(context.watch<PriceProvider>().price),
+                transition: Transition.rightToLeft));
       });
 }

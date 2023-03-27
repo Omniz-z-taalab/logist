@@ -222,21 +222,23 @@ class _pickdownPlaceState extends State<pickdownPlace> {
                   place1 = places[i][0];
                   place2 = places[i][1];
                   //Get name And Subtitle address
-                  var results = await LocationService()
-                      .getPlaceNameFullName2(places[i][0]);
+                  // var results = await LocationService()
+                  //     .getPlaceNameFullName2(places[i][0]);
                   // setState(() {
                   //   Destination= results;
                   // });
+                  var results = await LocationService()
+                      .getPlaceNameFullName(places[i][0]);
 
                   Destination = [results[0], results[1]];
+                  Destination = [results[0], results[1]];
 
-                  LatPoint;
                   Get.to(
                     () => package_place2(
                       widget.Lat,
                       widget.Lng,
-                      LatPoint,
-                      langPoint,
+                      results[2],
+                      results[3],
                       widget.noteText,
                       widget.PayloadText,
                       widget.TimeNum,

@@ -1,7 +1,8 @@
+import 'dart:convert' as convert;
+
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 import '../others/variables.dart';
 
@@ -51,29 +52,21 @@ class LocationService {
 
   Future<List<String>> getPlaceNameFullName(String input) async {
     final placeId = await getPlaceId(input);
-    print(placeId);
-    print('youssef');
     final String url =
         "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$key";
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
     var results = json['result'] as Map<String, dynamic>;
-    print(results);
-    print('yyyyyyyyy');
+
     var name = results['address_components'][0]['short_name'];
     var FullName = results['address_components'][1]['long_name'];
     var lat = results['geometry']['location']['lat'];
     var lang = results['geometry']['location']['lng'];
-    print(results['geometry']['location']);
-    print(name);
 
-    print('yyyyyyyyy');
-    LatPoint = lat.toString() ;
-        langPoint =  lang.toString();
-        print(LatPoint);
-    return [name, FullName,LatPoint,langPoint];
+    LatPoint = lat.toString();
+    langPoint = lang.toString();
+    return [name, FullName, LatPoint, langPoint];
   }
-
 
   Future<Map<String, dynamic>> getPlace2(String input) async {
     final placeId = await getPlaceId(input);
@@ -103,6 +96,7 @@ class LocationService {
 
     return [name, FullName, latlng];
   }
+
   //I/flutter (14415): lat24.815897++++++++long46.72862869999999
   //I/flutter (14415): latt124.78949044638915lng146.6791345924139
   Future<List<String>> getPlaceNameFullName2(String input) async {
@@ -124,10 +118,10 @@ class LocationService {
     print(name);
 
     print('yyyyyyyyy');
-    LatPoint2 = lat2.toString() ;
-    langPoint2 =  lang2.toString();
+    LatPoint2 = lat2.toString();
+    langPoint2 = lang2.toString();
     print(LatPoint);
-    return [name2, FullName2,LatPoint,langPoint];
+    return [name2, FullName2, LatPoint, langPoint];
   }
 
   Future<Map<String, dynamic>> getDirections(

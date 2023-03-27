@@ -17,7 +17,7 @@ class ProfileProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     print('4444444444444444444');
-    print(userModel!.fullName);
+    print(userModel.fullName);
 
     try {
       var response = await DioHelper.postData(url: '/api/v1/user/', data: {
@@ -29,7 +29,7 @@ class ProfileProvider extends ChangeNotifier {
       });
       print(response);
       userModel = UserModel.fromJson(response.data);
-      showToast("تم تعديل بنجاج", true, true);
+      showToast("تم تعديل بنجاح", true, true);
       getUser();
 
       isLoading = false;
@@ -46,7 +46,6 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> getUser() async {
     isLoading = true;
     // notifyListeners();
-    print('555555555555555');
     try {
       var response = await DioHelper.getData(
         url: '${AppApiPaths.base}/api/v1/user/',
@@ -55,7 +54,6 @@ class ProfileProvider extends ChangeNotifier {
       userModel = UserModel.fromJson(response.data);
       isLoading = false;
 
-      print(userModel!.id);
       name = userModel!.fullName;
       notifyListeners();
     } catch (error) {

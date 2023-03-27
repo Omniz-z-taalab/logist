@@ -148,8 +148,8 @@ class _package_place2State extends State<package_place2> {
                             ),
                           ),
                           SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 27),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 27),
                             child: Text(
                               'يمكنك تحديد أكثر من شحنة  للوصول.',
                               style: TextStyle(
