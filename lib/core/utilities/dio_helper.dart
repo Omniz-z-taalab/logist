@@ -198,28 +198,7 @@
 //     }
 //   }
 //
-//   Future<dynamic> uploadFiles(String url,
-//       {required File file, bool isAuth = true}) async {
-//     if (isAuth) {
-//       await authorize();
-//     }
-//     String fileName = file.path.split('/').last;
-//     FormData formData = FormData.fromMap({
-//       "file": await MultipartFile.fromFile(file.path, filename: fileName),
-//     });
-//     try {
-//       final Response response = await _dio!.post(url,
-//           data: formData,
-//           options: Options(
-//               validateStatus: (int? status) {
-//                 return true;
-//               },
-//               contentType: "multipart/form-data"));
-//       return response.data;
-//     } catch (e) {
-//       rethrow;
-//     }
-//   }
+
 //
 //   // ${CacheHelper.getData(key: 'accessToken') ?? ''}
 //   Future<void> authorize() async {
@@ -389,10 +368,11 @@
 //     }
 //   }
 // }
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../local/cache_helper.dart';
 import 'api_path.dart';
@@ -436,13 +416,41 @@ class DioHelper {
     dio = Dio(options);
   }
 
+  Future<dynamic> uploadFiles(String url,
+      {required File file, bool isAuth = true}) async {
+    if (isAuth) {
+      await authorize();
+    }
+    String fileName = file.path.split('/').last;
+    FormData formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(file.path, filename: fileName),
+    });
+    try {
+      final Response response = await dio!.post(url,
+          data: formData,
+          options: Options(
+              validateStatus: (int? status) {
+                return true;
+              },
+              contentType: "multipart/form-data"));
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> authorize() async {
+    print(CacheHelper.getData(key: 'accessToken'));
+    dio!.options.headers['Authorization'] =
+        "Bearer ${CacheHelper.getData(key: 'accessToken')}";
+  }
+
   static Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
     data,
   }) async {
     String? token = CacheHelper.getData(key: 'accessToken');
-    print('token is$token');
     return await dio!.get(url,
         queryParameters: query,
         options: Options(

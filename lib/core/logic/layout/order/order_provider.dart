@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../models/order_list.dart';
-import '../../../../models/order_model.dart';
 import '../../../utilities/api_path.dart';
 import '../../../utilities/dio_helper.dart';
 
@@ -12,12 +11,55 @@ class OrderProvider extends ChangeNotifier {
   bool compelet = false;
   bool cancele = false;
   bool accept = false;
+
   //get orders
-  List<AllOrders> allorders = [];
-  List<AllOrders> comporders = [];
-  List<AllOrders> acceptorder = [];
-  List<AllOrders> cancelorder = [];
+  // List<AllOrders> allorders = [];
+  // List<AllOrders> comporders = [];
+  // List<AllOrders> acceptorder = [];
+  // List<AllOrders> cancelorder = [];
   OrderDitModel? orderDitModel;
+
+  List<AllOrders>? myOrdersModel = [];
+  List<AllOrders>? myEndedOrdersModel = [];
+  List<AllOrders>? myAcceptedOrdersModel = [];
+
+  //get orders
+  Future<void> getOrders() async {
+    myOrdersModel = [];
+    // myWaitingOrdersModel = [];
+    myEndedOrdersModel = [];
+    myAcceptedOrdersModel = [];
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      var response = await DioHelper.getData(
+          url: '${AppApiPaths.base}/api/v1/user/GetOrders');
+
+      response.data
+          .forEach((order) => myOrdersModel!.add(AllOrders.fromJson(order)));
+      print(myOrdersModel);
+      for (var element in myOrdersModel!) {
+        if (element.status == "Pending" ||
+            element.status == "Accepted" ||
+            element.status == "Started") {
+          myAcceptedOrdersModel!.add(element);
+        } else if (element.status == "Delivered" ||
+            element.status == "Canceled") {
+          myEndedOrdersModel!.add(element);
+        }
+      }
+      notifyListeners();
+
+      isLoading = false;
+      notifyListeners();
+    } catch (error) {
+      isLoading = false;
+      print(error);
+      // notifyListeners();
+    }
+  }
+
   // Future<bool> getOrders() async {
   //   orders=[];
   //   isGetLoading = true;
@@ -41,41 +83,39 @@ class OrderProvider extends ChangeNotifier {
 
   //create order//
   //accept order
-  Future<bool> acceptOrders() async {
-    isLoading = true;
-    accept = true;
-    print('omniaZayed');
-    acceptorder =[];
-    notifyListeners();
-    try {
-      var response = await DioHelper
-          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders?status=Started');
-      isLoading = false;
-      response.data.forEach((order)=> acceptorder.add(AllOrders.fromJson(order)));
-      print('tttttttttttttttttt');
-      accept == false;
-      print('tttttttttttttttttt');
-      print(response.data);
-      notifyListeners();
-      return isLoading;
-    } catch (error) {
-      isLoading = false;
-      // notifyListeners();
-      return isLoading;
-    }
-  }
+  // Future<bool> acceptOrders() async {
+  //   isLoading = true;
+  //   accept = true;
+  //   print('omniaZayed');
+  //   acceptorder = [];
+  //   notifyListeners();
+  //   try {
+  //     var response = await DioHelper.getData(
+  //         url: '${AppApiPaths.base}/api/v1/user/GetOrders?status=Started');
+  //     isLoading = false;
+  //     response.data
+  //         .forEach((order) => acceptorder.add(AllOrders.fromJson(order)));
+  //     print('tttttttttttttttttt');
+  //     accept == false;
+  //     print('tttttttttttttttttt');
+  //     print(response.data);
+  //     notifyListeners();
+  //     return isLoading;
+  //   } catch (error) {
+  //     isLoading = false;
+  //     // notifyListeners();
+  //     return isLoading;
+  //   }
+  // }
+
   //cancel order
   Future<void> cancelOrders(int id) async {
-
-    print('Youssef');
-    print('Youssef');
-    print(id);
     // cancelorder = [];
     notifyListeners();
     try {
-      var response = await DioHelper.postData(url:'${AppApiPaths.base}/api/v1/order/CancelOrder',data: {
-        "id":id
-      });
+      var response = await DioHelper.postData(
+          url: '${AppApiPaths.base}/api/v1/order/CancelOrder',
+          data: {"id": id});
 
       print(response.data);
       print('eeeeeeee');
@@ -86,80 +126,81 @@ class OrderProvider extends ChangeNotifier {
       isLoading = false;
       // notifyListeners();
       print(error);
-    //  return isLoading;
+      //  return isLoading;
     }
   }
+
   //complete order
-  Future<bool> completeOrders() async {
-    isLoading = true;
-    comporders = [];
-    compelet == true;
-    notifyListeners();
-    try {
-      var response = await DioHelper
-          .getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders',);
-      isLoading = false;
-      response.data.forEach((order)=> comporders.add(AllOrders.fromJson(order)));
-      print('rrrrrrrrrrrrrrrr');
-      compelet == false;
-      print(response.data);
-      print('434444');
-      notifyListeners();
-      return isLoading;
-    } catch (error) {
-      isLoading = false;
-      // notifyListeners();
-      print(error);
-      return isLoading;
-    }
-  }
-  Future<bool> orderDetails(int? id) async {
+  // Future<bool> completeOrders() async {
+  //   isLoading = true;
+  //   comporders = [];
+  //   compelet == true;
+  //   notifyListeners();
+  //   try {
+  //     var response = await DioHelper.getData(
+  //       url: '${AppApiPaths.base}/api/v1/user/GetOrders',
+  //     );
+  //     isLoading = false;
+  //     response.data
+  //         .forEach((order) => comporders.add(AllOrders.fromJson(order)));
+  //     print('rrrrrrrrrrrrrrrr');
+  //     compelet == false;
+  //     print(response.data);
+  //     print('434444');
+  //     notifyListeners();
+  //     return isLoading;
+  //   } catch (error) {
+  //     isLoading = false;
+  //     // notifyListeners();
+  //     print(error);
+  //     return isLoading;
+  //   }
+  // }
+
+  Future<void> orderDetails(int? id) async {
+    orderDitModel = null;
     notifyListeners();
 
     try {
-      var response = await DioHelper
-          .getData(url:'${AppApiPaths.base}/api/v1/employee/orders/$id',);
-      print(response.data);
-      print('taalaaaaaaaaaaab');
-      orderDitModel =   OrderDitModel.fromJson(response.data);
-      print('434444');
-      print(orderDitModel!.driverName);
-      print(response.data);
+      var response = await DioHelper.getData(
+        url: '${AppApiPaths.base}/api/v1/employee/orders/$id',
+      );
+      orderDitModel = OrderDitModel.fromJson(response.data);
+
       notifyListeners();
-      return isLoading;
-    } catch (error) {
-      isLoading = false;
-      print(error);
-      // notifyListeners();
-      return isLoading;
-    }
-  }
-  Future<bool> allOrder() async {
-    isLoading = true;
-    allorders = [];
-    all = true;
-    notifyListeners();
-    try {
-      var response = await DioHelper.getData(url:'${AppApiPaths.base}/api/v1/user/GetOrders');
-          print('object');
-          print(response.data);
-      response.data.forEach((order)=> allorders.add(AllOrders.fromJson(order)));
-      isLoading = false;
-      print(allorders);
-      print('[[[[ewewew]]]]]]');
-      acceptOrders();
-      completeOrders();
-      all == false;
-      print('object');
-      notifyListeners();
-      return isLoading;
     } catch (error) {
       print(error);
-      isLoading = false;
-      // notifyListeners();
-      return isLoading;
     }
   }
+
+  // Future<bool> allOrder() async {
+  //   isLoading = true;
+  //   allorders = [];
+  //   all = true;
+  //   notifyListeners();
+  //   try {
+  //     var response = await DioHelper.getData(
+  //         url: '${AppApiPaths.base}/api/v1/user/GetOrders');
+  //     print('object');
+  //     print(response.data);
+  //     response.data
+  //         .forEach((order) => allorders.add(AllOrders.fromJson(order)));
+  //     isLoading = false;
+  //     print(allorders);
+  //     print('[[[[ewewew]]]]]]');
+  //     acceptOrders();
+  //     completeOrders();
+  //     all == false;
+  //     print('object');
+  //     notifyListeners();
+  //     return isLoading;
+  //   } catch (error) {
+  //     print(error);
+  //     isLoading = false;
+  //     // notifyListeners();
+  //     return isLoading;
+  //   }
+  // }
 
   //updateLocationfor Order
   Future<bool> updateLocationOrders({int? orderId, double? lat, long}) async {
@@ -167,13 +208,12 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioHelper
-          .postData(url:'${AppApiPaths.base}/api/v1/order/UpdateLocation', data:
-        {
-          "location": {"lant": 30.0812558, "long": 31.2511902},
-          "id": 6
-
-      });
+      var response = await DioHelper.postData(
+          url: '${AppApiPaths.base}/api/v1/order/UpdateLocation',
+          data: {
+            "location": {"lant": 30.0812558, "long": 31.2511902},
+            "id": 6
+          });
 
       isLoading = false;
       notifyListeners();
@@ -191,13 +231,12 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioHelper
-          .getData(url:'${AppApiPaths.base}/api/v1/order/UpdateLocation', data:
-        {
-          "location": {"lant": 30.0812558, "long": 31.2511902},
-          "id": 6
-
-      });
+      var response = await DioHelper.getData(
+          url: '${AppApiPaths.base}/api/v1/order/UpdateLocation',
+          data: {
+            "location": {"lant": 30.0812558, "long": 31.2511902},
+            "id": 6
+          });
 
       isLoading = false;
       notifyListeners();
@@ -215,10 +254,11 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      var response = await DioHelper
-          .getData(url:'${AppApiPaths.base}/api/v1/order/DriversToDeliver', data: {
-        {"lan": 30.0812558, "lon": 31.2511902, "Range": range}
-      });
+      var response = await DioHelper.getData(
+          url: '${AppApiPaths.base}/api/v1/order/DriversToDeliver',
+          data: {
+            {"lan": 30.0812558, "lon": 31.2511902, "Range": range}
+          });
 
       isLoading = false;
       notifyListeners();

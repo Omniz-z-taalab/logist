@@ -15,7 +15,6 @@ import 'package:http/http.dart' as http;
 
 import '../../others/variables.dart';
 import 'Home_package_active.dart';
-// import 'Home_package_activers/google_api_headers.dart';
 
 class LocationUser1 extends StatefulWidget {
   String noteText;
@@ -306,15 +305,13 @@ class LocationUser1State extends State<LocationUser1> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100.0),
         ),
-        child: Container(
-          child: Text(
-            par,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w500,
-            ),
+        child: Text(
+          par,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.white,
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w500,
           ),
         ),
         onPressed: netError

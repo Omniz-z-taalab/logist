@@ -5,20 +5,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../core/logic/layout/profile/profile_provider.dart';
+
+import '../../core/logic/messages/chat_provider.dart';
 import '../../models/chat/content_message.dart';
+import '../../models/chat/inbox_model.dart';
+import '../../models/chat/message.dart';
 import '../../others/variables.dart';
 import '../../widgets/recieve_message.dart';
 import '../../widgets/send_message.dart';
-import 'package:provider/provider.dart';
-
-import '../../core/logic/messages/chat_provider.dart';
-import '../../models/chat/inbox_model.dart';
-import '../../models/chat/message.dart';
 
 class conversation extends StatefulWidget {
-  const conversation({Key? key,  this.inbox,}) : super(key: key);
+  const conversation({
+    Key? key,
+    this.inbox,
+  }) : super(key: key);
   final ChatListResponse? inbox;
 
   @override
@@ -38,16 +40,9 @@ class _conversationState extends State<conversation> {
 
   @override
   void initState() {
-    print('wewqewqewqewqewqewqe');
-    print(widget.inbox!.senderId);
-
-    print(widget.inbox!.receiverId);
-    print('wewqewqewqewqewqewqe');
-    print(widget.inbox!.senderId);
-    print(widget.inbox!.senderId);
-    print(widget.inbox!.senderId);
-    context.read<ChatProvider>().getMesages(senderId: widget.inbox!.senderId,recieveId: widget.inbox!.receiverId);
-    context.read<ChatProvider>().readMesages(widget!.inbox!.hash);
+    context.read<ChatProvider>().getMesages(
+        senderId: widget.inbox!.senderId, recieveId: widget.inbox!.receiverId);
+    context.read<ChatProvider>().readMesages(widget.inbox!.hash);
     // listScrollController.addListener(_scrollListener);
     super.initState();
   }
@@ -138,113 +133,122 @@ class _conversationState extends State<conversation> {
             const SizedBox(width: 20),
           ],
         ),
-        body:context.watch<ChatProvider>().messages == [] ? Center(child: Text(''),): SafeArea(
-          child: Column(
-            children: [
-              //
-              Flexible(
-                child: context.read<ChatProvider>().messages == 0 ?Center(
-                  child:Text('noo'),
-                ) : context.read<ChatProvider>().isGetConversation == true
-                    ?_buildShimmerListView()
-
-                :ListView.builder(
-                  padding: const EdgeInsets.all(10),
-                  itemBuilder: (context, index) {
-                    print(messages![0].contentImage);
-                    if (messages![index].senderId == widget.inbox!.senderId) {
-                      return SendMessageWidget(
-                        message: messages[index],
-                      );
-                    }
-                    return RecieveMessage(
-                      message: messages![index],
-                    );
-                  },
-                   itemCount: messages!.length,
-                  reverse: false,
-                  controller: listScrollController,
-
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: context.watch<ChatProvider>().messages == []
+            ? Center(
+                child: Text(''),
+              )
+            : SafeArea(
+                child: Column(
                   children: [
-                    InkWell(
-                      onTap: (() async {
-                        await getImage();
-                      }),
-                      child: Container(
-                        width: 55,
-                        height: 55,
-                        decoration: BoxDecoration(
-                            color: Color(0xffF8FAFC),
-                            borderRadius: BorderRadius.circular(100)),
-                        child: Image.asset('assets/pics/attachment.png',
-                            width: 18),
-                      ),
+                    //
+                    Flexible(
+                      child: context.read<ChatProvider>().messages == 0
+                          ? Center(
+                              child: Text('noo'),
+                            )
+                          : context.read<ChatProvider>().isGetConversation ==
+                                  true
+                              ? _buildShimmerListView()
+                              : ListView.builder(
+                                  padding: const EdgeInsets.all(10),
+                                  itemBuilder: (context, index) {
+                                    print(messages![0].contentImage);
+                                    if (messages![index].senderId ==
+                                        widget.inbox!.senderId) {
+                                      return SendMessageWidget(
+                                        message: messages[index],
+                                      );
+                                    }
+                                    return RecieveMessage(
+                                      message: messages![index],
+                                    );
+                                  },
+                                  itemCount: messages!.length,
+                                  reverse: false,
+                                  controller: listScrollController,
+                                ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: textEditingController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(46.0),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: (() async {
+                              await getImage();
+                            }),
+                            child: Container(
+                              width: 55,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                  color: Color(0xffF8FAFC),
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: Image.asset('assets/pics/attachment.png',
+                                  width: 18),
+                            ),
                           ),
-                          filled: true,
-                          hintTextDirection: TextDirection.rtl,
-                          hintStyle: const TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Araboto',
-                            color: Color(0xffB4B4B4),
+                          const SizedBox(
+                            width: 10,
                           ),
-                          hintText: "أكتب رسالة نصية",
-                          fillColor: Color(0xffF8FAFC),
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: (() {
-                        if (textEditingController.text.isNotEmpty) {
-                          context
-                              .read<ChatProvider>()
-                              .sentMesages(
-                                  contentMessage: ContentMessage(
-                                      senderId: widget.inbox!.senderId!,
-                                       receiverId: widget.inbox!.receiverId,
-                                      contentText: textEditingController.text))
-                              .then((value) {
-                            textEditingController.clear();
-                          });
-                        }
-                      }),
-                      child: Container(
-                        width: 55,
-                        height: 55,
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(100)),
-                        child: SizedBox(
-                            // width: 9,
-                            // height: 9,
-                            child: Image.asset(
-                          'assets/pics/ChatArrow.png',
-                          scale: 2,
-                        )),
+                          Expanded(
+                            child: TextField(
+                              controller: textEditingController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(46.0),
+                                ),
+                                filled: true,
+                                hintTextDirection: TextDirection.rtl,
+                                hintStyle: const TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'Araboto',
+                                  color: Color(0xffB4B4B4),
+                                ),
+                                hintText: "أكتب رسالة نصية",
+                                fillColor: Color(0xffF8FAFC),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: (() {
+                              if (textEditingController.text.isNotEmpty) {
+                                context
+                                    .read<ChatProvider>()
+                                    .sentMesages(
+                                        contentMessage: ContentMessage(
+                                            senderId: widget.inbox!.senderId!,
+                                            receiverId:
+                                                widget.inbox!.receiverId,
+                                            contentText:
+                                                textEditingController.text))
+                                    .then((value) {
+                                  textEditingController.clear();
+                                });
+                              }
+                            }),
+                            child: Container(
+                              width: 55,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: SizedBox(
+                                  // width: 9,
+                                  // height: 9,
+                                  child: Image.asset(
+                                'assets/pics/ChatArrow.png',
+                                scale: 2,
+                              )),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        ));
+              ));
   }
 
   ListView _buildShimmerListView() {

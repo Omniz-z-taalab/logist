@@ -8,16 +8,13 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../core/logic/layout/profile/profile_provider.dart';
 import '../../../core/logic/messages/chat_provider.dart';
-import '../../../models/user_model.dart';
 import '../../../others/variables.dart';
 import '../../Order_Setup/messages.dart';
 
-
 class conversationsList extends StatefulWidget {
   int? id;
-   conversationsList(this.id) ;
+  conversationsList(this.id);
 
   @override
   State<conversationsList> createState() => _conversationsListState();
@@ -29,17 +26,18 @@ class _conversationsListState extends State<conversationsList> {
   void Open() {
     ApanelController.isPanelClosed ? ApanelController.open() : null;
   }
-var  usermodel;
+
+  var usermodel;
   @override
   void initState() {
     super.initState();
-    print(widget.id);
-    context.read<ChatProvider>().getInbox(userId: widget.id);
-    done();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ChatProvider>().getInbox(userId: widget.id);
+      done();
+    });
   }
 
   void done() async {
-    print(widget!.id);
     await Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         // isLoading = false;
@@ -47,9 +45,9 @@ var  usermodel;
     });
   }
 
+  @override
   Widget build(BuildContext context) {
-    var response = context.watch<ChatProvider>().inboxMessage ;
-    print(response![0].name);
+    var response = context.watch<ChatProvider>().inboxMessage;
     return Scaffold(
         backgroundColor: Color(0xffFAFBFB),
         appBar: AppBar(
@@ -94,12 +92,17 @@ var  usermodel;
                     child: SizedBox(
                       height: 300,
                       child: context.watch<ChatProvider>().inboxMessage == 0
-                          ? const Center(child: Text('لا توجد رسائل',style: TextStyle(color: Colors.black),))
-                          : context.watch<ChatProvider>().isGetInbox ==true
-                          ? _buildShimmerListView()
-                          :ListView.builder(
-                        itemBuilder: (context,index) =>_buildListView(response![index]),
-                        itemCount: response!.length),
+                          ? const Center(
+                              child: Text(
+                              'لا توجد رسائل',
+                              style: TextStyle(color: Colors.black),
+                            ))
+                          : context.watch<ChatProvider>().isGetInbox == true
+                              ? _buildShimmerListView()
+                              : ListView.builder(
+                                  itemBuilder: (context, index) =>
+                                      _buildListView(response![index]),
+                                  itemCount: response!.length),
                     )),
               ],
             ),
@@ -110,62 +113,62 @@ var  usermodel;
 
   Widget _buildListView(ChatListResponse response) {
     return Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: ListTile(
-            tileColor: Colors.white,
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            leading: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                response!.unseenNumber == 0 ? Container(
-                  height: 12,
-                  width: 12,
-                  decoration:const  BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
+      padding: const EdgeInsets.only(bottom: 8),
+      child: ListTile(
+        tileColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            response!.unseenNumber == 0
+                ? Container(
+                    height: 12,
+                    width: 12,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                  )
+                : Container(
+                    height: 18,
+                    width: 18,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: Center(
+                        child: Text(
+                      '${response!.unseenNumber!}',
+                      style: TextStyle(color: Colors.white),
+                    )),
                   ),
-                )
-                    : Container(
-                  height: 18,
-                  width: 18,
-                  decoration:const  BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                  child:  Center(child: Text('${response!.unseenNumber!}',style: TextStyle(color: Colors.white),)),
-                ),
-              ],
-            ),
-            // : null,
-            title: Text(
-              response!.name!,
-              style: const TextStyle(fontSize: 14, fontFamily: 'ArabotoFat'),
-              textDirection: TextDirection.rtl,
-            ),
-            subtitle: Text(
-              response!.lastMessage!,
-              style: const TextStyle(
-                  fontSize: 10,
-                  fontFamily: 'Araboto',
-                  color: Color(0xff909090)),
-              textDirection: TextDirection.rtl,
-            ),
-            trailing: CircleAvatar(
-              backgroundImage: NetworkImage(response!.profileImage!),
-            ),
-            onTap: () {
-
-              Get.to(
-                      () => conversation(
+          ],
+        ),
+        // : null,
+        title: Text(
+          response!.name!,
+          style: const TextStyle(fontSize: 14, fontFamily: 'ArabotoFat'),
+          textDirection: TextDirection.rtl,
+        ),
+        subtitle: Text(
+          response!.lastMessage!,
+          style: const TextStyle(
+              fontSize: 10, fontFamily: 'Araboto', color: Color(0xff909090)),
+          textDirection: TextDirection.rtl,
+        ),
+        trailing: CircleAvatar(
+          backgroundImage: NetworkImage(response!.profileImage!),
+        ),
+        onTap: () {
+          Get.to(
+              () => conversation(
                     inbox: response,
                   ),
-                  transition: Transition.rightToLeft);
-              //ApanelController.isPanelOpen ? ApanelController.close() : ApanelController.open();
-            },
-          ),
-        );
-
+              transition: Transition.rightToLeft);
+          //ApanelController.isPanelOpen ? ApanelController.close() : ApanelController.open();
+        },
+      ),
+    );
   }
 
   ListView _buildShimmerListView() {

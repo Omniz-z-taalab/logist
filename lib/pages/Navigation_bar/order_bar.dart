@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/logic/messages/chat_provider.dart';
-import '../../others/Dummy_Data_Orders.dart';
-import '../../others/variables.dart';
-import '../../widgets/Widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../core/logic/layout/order/order_provider.dart';
+import '../../others/variables.dart';
+import '../../widgets/Widgets.dart';
 
 class Orders extends StatefulWidget {
   Orders({Key? key, this.isLoading = true}) : super(key: key);
@@ -31,26 +29,25 @@ class _OrdersState extends State<Orders> {
   bool isLoading;
 
   // //Finish loading
-  void done() async{
-
-    await Future.delayed(const Duration(seconds: 1), (){
+  void done() async {
+    await Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         isLoading = false;
       });
     });
   }
 
-
   @override
   void initState() {
-    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       done();
-    super.initState();
-    context.read<OrderProvider>().allOrder();
-    context.read<OrderProvider>().acceptOrders();
-    context.read<OrderProvider>().completeOrders();
-    // context.read<OrderProvider>().cancelOrders();
 
+      context.read<OrderProvider>().getOrders();
+      // context.read<OrderProvider>().acceptOrders();
+      // context.read<OrderProvider>().completeOrders();
+      // context.read<OrderProvider>().cancelOrders();
+    });
+    super.initState();
   }
 
   @override
@@ -187,37 +184,53 @@ class _OrdersState extends State<Orders> {
                 children: [
                   //delivered
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: context.watch<OrderProvider>().comporders == null
-                        ? ShimmerData()
-                        : context.watch<OrderProvider>().comporders.isEmpty
-                            ?const Center(child: Text("لايوجد طلبات"))
-                        : DeliveredOrdersList(
-                                context.watch<OrderProvider>().comporders, context)
-
-                  ),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child:
+                          context.watch<OrderProvider>().myEndedOrdersModel ==
+                                  null
+                              ? ShimmerData()
+                              : context
+                                      .watch<OrderProvider>()
+                                      .myEndedOrdersModel!
+                                      .isEmpty
+                                  ? const Center(child: Text("لايوجد طلبات"))
+                                  : DeliveredOrdersList(
+                                      context
+                                          .watch<OrderProvider>()
+                                          .myEndedOrdersModel!,
+                                      context)),
                   //now
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: context.watch<OrderProvider>().accept == false
-                        ? ShimmerData()
-                        : context.watch<OrderProvider>().acceptorder.isEmpty
-                            ?const Center(child: Text("لايوجد طلبات")):
-                    OrdersList(
-                                context.watch<OrderProvider>().acceptorder, context)
-
-                  ),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: context
+                              .watch<OrderProvider>()
+                              .myAcceptedOrdersModel!
+                              .isEmpty
+                          ? ShimmerData()
+                          // : context
+                          //         .watch<OrderProvider>()
+                          //         .myAcceptedOrdersModel!
+                          //         .isEmpty
+                          //     ? const Center(child: Text("لايوجد طلبات"))
+                          : OrdersList(
+                              context
+                                  .watch<OrderProvider>()
+                                  .myAcceptedOrdersModel!,
+                              context)),
                   //all orders
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: context.watch<OrderProvider>().all == false
-                        ? ShimmerData()
-                        : context.watch<OrderProvider>().allorders.isEmpty
-                            ? const Center(child: Text("لايوجد طلبات"))
-                        : OrdersListNow(
-                                context.watch<OrderProvider>().allorders, context)
-
-                  ),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child:
+                          context.watch<OrderProvider>().myOrdersModel!.isEmpty
+                              ? ShimmerData()
+                              // : context
+                              //         .watch<OrderProvider>()
+                              //         .myOrdersModel!
+                              //         .isEmpty
+                              //     ? const Center(child: Text("لايوجد طلبات"))
+                              : OrdersListNow(
+                                  context.watch<OrderProvider>().myOrdersModel!,
+                                  context)),
                 ],
               ),
             )

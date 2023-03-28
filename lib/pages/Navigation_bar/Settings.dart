@@ -3,17 +3,15 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/logic/layout/profile/profile_provider.dart';
 import '../../others/variables.dart';
 import '../Menu_and_settings/Language.dart';
 import '../Menu_and_settings/Logout.dart';
 import '../Menu_and_settings/Notification.dart';
 import '../Menu_and_settings/Profile.dart';
-import '../Payments/PaymentPage.dart';
 import '../Support/Tickets.dart';
-import 'package:provider/provider.dart';
-
-import '../../core/logic/layout/profile/profile_provider.dart';
-import '../Payments/PaymentMethods.dart';
 
 class settings extends StatefulWidget {
   const settings({Key? key}) : super(key: key);
@@ -28,6 +26,7 @@ class _settingsState extends State<settings> {
   void refreshSettings() {
     setState(() {});
   }
+
   //Profile picture
 
   Widget Profile_pic() {
@@ -52,20 +51,14 @@ class _settingsState extends State<settings> {
             width: 170,
             height: 170,
             child: Center(
-              child: Text(
-                context
-                    .read<ProfileProvider>()
-                    .userModel!
-                    .fullName!
-                    .split('')[0],
-                style: const TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 36,
-                  letterSpacing: -3,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.0),
+                    child: Image.network(
+                      context.read<ProfileProvider>().userModel!.avatar!,
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ))),
           ),
 
           //to add space
@@ -242,7 +235,7 @@ class _settingsState extends State<settings> {
 
   @override
   void dispose() {
-     timer?.cancel();
+    timer?.cancel();
     super.dispose();
   }
 

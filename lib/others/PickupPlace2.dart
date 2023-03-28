@@ -1,12 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/viecelModel/viecleModel.dart';
+
 import '../pages/My_orders/ChooseDriver.dart';
-import 'location_user_2.dart';
-import '../pages/create_order/location_user_1.dart';
 import 'variables.dart';
-import '../pages/Order_Setup/ChooseExtentions.dart';
 
 class package_place2 extends StatefulWidget {
   var lat1;
@@ -63,14 +59,6 @@ class _package_place2State extends State<package_place2> {
     latU2 = widget.lat2;
     lngU1 = widget.lng1;
     lngU2 = widget.lng2;
-    print('latt1${widget.lat1}lng1${widget.lng1}');
-    print('latt2${widget.lat2}lng2${widget.lng2}');
-    print(widget.placeuserpick2);
-    print(widget.placeuserpick1);
-    print(widget.placeuserdown1);
-    print(widget.placeuserdown2);
-    print(widget.PayloadText);
-    print('3333333333');
   }
 
   //Next Button
@@ -160,8 +148,8 @@ class _package_place2State extends State<package_place2> {
                             ),
                           ),
                           SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 27),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 27),
                             child: Text(
                               'يمكنك تحديد أكثر من شحنة  للوصول.',
                               style: TextStyle(
