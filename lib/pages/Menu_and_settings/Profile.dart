@@ -381,12 +381,12 @@ class _profileState extends State<profile> {
                           // prefixIconConstraints:
                           //     const BoxConstraints(minWidth: 0, minHeight: 0),
                         ),
-                        // validator: (value) {
-                        //   if (value!.length != 9) {
-                        //     return '';
-                        //   }
-                        //   return null;
-                        // },
+                        validator: (value) {
+                          if (value!.length != 9) {
+                            return 'الرقم غير صحيح';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),

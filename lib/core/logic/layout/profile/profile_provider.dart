@@ -16,8 +16,6 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> updateUser(UserModel userModel) async {
     isLoading = true;
     notifyListeners();
-    print('4444444444444444444');
-    print(userModel.fullName);
 
     try {
       var response = await DioHelper.postData(url: '/api/v1/user/', data: {
@@ -27,8 +25,7 @@ class ProfileProvider extends ChangeNotifier {
         "email": userModel.email,
         "avatar": userModel.avatar
       });
-      print(response);
-      userModel = UserModel.fromJson(response.data);
+       userModel = UserModel.fromJson(response.data);
       showToast("تم تعديل بنجاح", true, true);
       getUser();
 
