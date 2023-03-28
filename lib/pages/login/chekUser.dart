@@ -105,7 +105,7 @@ class _CheckUserState extends State<CheckUser> {
                       ],
                       autofocus: false,
                       onChanged: (value) {
-                        if (value.length == 10) {
+                        if (value.length == 9) {
                           setState(() {
                             isfull = true;
                           });
@@ -182,7 +182,7 @@ class _CheckUserState extends State<CheckUser> {
                             )),
                       ),
                       validator: (value) {
-                        if (value!.length != 10) {
+                        if (value!.length != 9) {
                           return 'ادخل الرقم الصحيح';
                         }
                         return null;
