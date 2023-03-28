@@ -1,12 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:logist/models/order_list.dart';
 import 'package:logist/pages/MainHomePage.dart';
-import '../../others/Dummy_Data_Orders.dart';
+
 import '../../others/variables.dart';
-import '../My_orders/OrderInfo.dart';
-import '../login/s1.dart';
 
 class paymentSucess extends StatefulWidget {
   const paymentSucess({Key? key}) : super(key: key);
@@ -39,10 +34,13 @@ class _paymentSucessState extends State<paymentSucess> {
         ),
         onPressed: () {
           //Button destination
-          Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const mainHomePage() ));
+          Navigator.push<void>(
+              context,
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const mainHomePage()));
           // Get.to(
-           // () => orderInfo(Orders,true),
-           // transition: Transition.rightToLeft);
+          // () => orderInfo(Orders,true),
+          // transition: Transition.rightToLeft);
 
           // );
         },
@@ -66,48 +64,40 @@ class _paymentSucessState extends State<paymentSucess> {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.only(top: 37, left: 37, right: 37),
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: Stack(
                 children: [
                   Center(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Expanded(child: Container()),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                'assets/pics/paysucc.png',
-                                width: 105,
-                                height: 105,
-                              ),
-                              Text(
-                                'لقد تم الدفع!',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 34,
-                                ),
-                              ),
-                              SizedBox(height: 13),
-                              Container(
-                                width: 276,
-                                child: Text(
-                                  'لقد تم الطلب بنجاح سيتم تنفيد الطلب حسب التوقيت المحدد.',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w200,
-                                  ),
-                                ),
-                              )
-                            ],
+                        Image.asset(
+                          'assets/pics/paysucc.png',
+                          width: 105,
+                          height: 105,
+                        ),
+                        const Text(
+                          'لقد تم الدفع!',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 34,
                           ),
                         ),
-                        Expanded(child: Container()),
+                        const SizedBox(height: 13),
+                        const SizedBox(
+                          width: 276,
+                          child: Text(
+                            'لقد تم الطلب بنجاح سيتم تنفيد الطلب حسب التوقيت المحدد.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w200,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
