@@ -17,26 +17,32 @@ class DriversModel {
   String? phoneNumber;
   String? fullName;
   String? adrress;
+  String? rejectionReason;
+  String? dateOfBirth;
+  int? vehicleId;
 
   DriversModel(
       {this.id,
-        this.userId,
-        this.nationality,
-        this.identityCard,
-        this.license,
-        this.vehicleRegisterNumber,
-        this.plateNumber,
-        this.identityCardPhotoFront,
-        this.identityCardPhotoBack,
-        this.lecensePhoto,
-        this.avatar,
-        this.vehicleTypeId,
-        this.verified,
-        this.status,
-        this.numberOfShipments,
-        this.phoneNumber,
-        this.fullName,
-        this.adrress});
+      this.userId,
+      this.vehicleId,
+      this.dateOfBirth,
+      this.rejectionReason,
+      this.nationality,
+      this.identityCard,
+      this.license,
+      this.vehicleRegisterNumber,
+      this.plateNumber,
+      this.identityCardPhotoFront,
+      this.identityCardPhotoBack,
+      this.lecensePhoto,
+      this.avatar,
+      this.vehicleTypeId,
+      this.verified,
+      this.status,
+      this.numberOfShipments,
+      this.phoneNumber,
+      this.fullName,
+      this.adrress});
 
   DriversModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,32 +63,37 @@ class DriversModel {
     phoneNumber = json['phone_number'];
     fullName = json['full_name'];
     adrress = json['adrress'];
+    rejectionReason = json['rejection_reason'];
+    dateOfBirth = json['date_of_birth'];
+    vehicleId = json['vehicle_id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['nationality'] = this.nationality;
-    data['identity_card'] = this.identityCard;
-    data['license'] = this.license;
-    data['avatar'] = this.avatar;
-    data['vehicle_register_number'] = this.vehicleRegisterNumber;
-    data['plate_number'] = this.plateNumber;
-    data['identity_card_photo_front'] = this.identityCardPhotoFront;
-    data['identity_card_photo_back'] = this.identityCardPhotoBack;
-    data['lecense_photo'] = this.lecensePhoto;
-    data['vehicle_type_id'] = this.vehicleTypeId;
-    data['verified'] = this.verified;
-    data['status'] = this.status;
-    data['number_of_shipments'] = this.numberOfShipments;
-    data['phone_number'] = this.phoneNumber;
-    data['full_name'] = this.fullName;
-    data['adrress'] = this.adrress;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['rejection_reason'] = rejectionReason;
+    data['date_of_birth'] = dateOfBirth;
+    data['vehicle_id'] = vehicleId;
+    data['user_id'] = userId;
+    data['nationality'] = nationality;
+    data['identity_card'] = identityCard;
+    data['license'] = license;
+    data['avatar'] = avatar;
+    data['vehicle_register_number'] = vehicleRegisterNumber;
+    data['plate_number'] = plateNumber;
+    data['identity_card_photo_front'] = identityCardPhotoFront;
+    data['identity_card_photo_back'] = identityCardPhotoBack;
+    data['lecense_photo'] = lecensePhoto;
+    data['vehicle_type_id'] = vehicleTypeId;
+    data['verified'] = verified;
+    data['status'] = status;
+    data['number_of_shipments'] = numberOfShipments;
+    data['phone_number'] = phoneNumber;
+    data['full_name'] = fullName;
+    data['adrress'] = adrress;
     return data;
   }
 }
-
 
 // class DriverModel {
 //   int? id;
@@ -107,7 +118,7 @@ class DriversModel {
 //   String? adrress;
 //
 //   DriverModel(
-//       {this.id,
+//       {id,
 //         this.userId,
 //         this.nationality,
 //         this.identityCard,

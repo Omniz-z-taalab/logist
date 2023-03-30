@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/widgets/Widgets.dart';
+import 'package:provider/provider.dart';
 
+import '../../core/logic/layout/order/order_provider.dart';
 import '../../models/order_list.dart';
 
 class OrderDetailsV2 extends StatefulWidget {
@@ -286,11 +288,31 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                     child: Column(
                       children: [
                         //Depart
-                        // DetailsListView(order.,order.OrigineDesc,'','','depart',context),
+                        DetailsListView(
+                            title: Provider.of<OrderProvider>(context)
+                                .points[0]
+                                .Name,
+                            subtitle: Provider.of<OrderProvider>(context)
+                                .points[0]
+                                .Desc,
+                            numb: '',
+                            unit: '',
+                            image: 'depart',
+                            context: context),
                         Container(height: 1, color: const Color(0xffF2F1F4)),
 
                         //Arrive
-                        // DetailsListView(order.DestName,order.DestDesc,'','','arriving',context),
+                        DetailsListView(
+                            title: Provider.of<OrderProvider>(context)
+                                .points[1]
+                                .Name,
+                            subtitle: Provider.of<OrderProvider>(context)
+                                .points[1]
+                                .Desc,
+                            numb: '',
+                            unit: '',
+                            image: 'arriving',
+                            context: context),
                         Container(height: 1, color: const Color(0xffF2F1F4)),
 
                         //Distance
@@ -305,36 +327,51 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                             context: context),
                         Container(height: 1, color: const Color(0xffF2F1F4)),
 
-                        // Truck name
-                        DetailsListView(
-                            title: order.viecleName ?? "شحاحنه",
-                            subtitle: '',
-                            numb: '',
-                            unit: '',
-                            image: order.vieclePic ?? "",
-                            isLocalImage: false,
-                            context: context),
+                        //Truck name
+                        if (order.vehicleName != null)
+                          DetailsListView(
+                              title: order.vehicleName,
+                              subtitle: order.vehicleDesc,
+                              numb: '',
+                              unit: '',
+                              image: order.vehiclePic,
+                              isLocalImage: false,
+                              context: context),
                         Container(height: 1, color: const Color(0xffF2F1F4)),
 
-                        // Truck Shape
-                        DetailsListView(
-                            title: order.trailerName ?? "تريلة",
-                            subtitle: '',
-                            numb: '',
-                            unit: '',
-                            image: order.trailerPic ?? "",
-                            isLocalImage: false,
-                            context: context),
+                        //trailler Shape
+                        if (order.trailerName != null)
+                          DetailsListView(
+                              title: order.trailerName,
+                              subtitle: '',
+                              numb: '',
+                              unit: '',
+                              image: order.trailerPic,
+                              isLocalImage: false,
+                              context: context),
                         Container(height: 1, color: const Color(0xffF2F1F4)),
 
-                        // //Truck Type
-                        // DetailsListView(
-                        //     order.orderType, '', '', '', '', context),
-                        // Container(height: 1, color: const Color(0xffF2F1F4)),
-
-                        //load Type
-                        //DetailsListView(order.Truck.loadtype,'','','','',context),
-                        // Container(height: 1, color: const Color(0xffF2F1F4)),
+                        //trailler type
+                        if (order.traillerTypeName != null)
+                          DetailsListView(
+                              title: order.traillerTypeName,
+                              subtitle: order.traillerTypeDesc,
+                              numb: '',
+                              unit: '',
+                              image: order.traillerTypePic,
+                              isLocalImage: false,
+                              context: context),
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
+                        //Truck tyoe
+                        if (order.vehicleTypeName != null)
+                          DetailsListView(
+                              title: order.vehicleTypeName,
+                              subtitle: '',
+                              numb: '',
+                              unit: '',
+                              image: "IconTruck",
+                              context: context),
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
 
                         //Date and Time
                         DetailsListView(

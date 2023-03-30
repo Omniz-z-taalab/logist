@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logist/models/viecelModel/viecleModel.dart';
 
 import '../../../models/viecle_model.dart';
 import '../../utilities/api_path.dart';
@@ -39,8 +38,31 @@ class VieclesProvider extends ChangeNotifier {
   //     isAddViecle = false;
   //   }
   // }
+  Viecle? selectedTruck;
+  Viecle? selectedTrailer;
+  Viecle? selectedTrailerType;
+  ViecleTypes? selectedTruckType;
+  void setTruck(Viecle truck) {
+    selectedTruck = truck;
+    notifyListeners();
+  }
 
-  List<viecleModel> viecles = [];
+  void setTrailer(Viecle trailer) {
+    selectedTrailer = trailer;
+    notifyListeners();
+  }
+
+  void setTrailerType(Viecle trailerType) {
+    selectedTrailerType = trailerType;
+    notifyListeners();
+  }
+
+  void setTruckType(ViecleTypes truckType) {
+    selectedTruckType = truckType;
+    notifyListeners();
+  }
+
+  List<Viecle> viecles = [];
   //get viecle
   Future<void> getViecle() async {
     isGetViecle = true;
@@ -51,7 +73,7 @@ class VieclesProvider extends ChangeNotifier {
       Response response = await DioHelper.getData(
         url: '${AppApiPaths.base}/api/v1/viecles/',
       );
-      response.data.forEach((user) => viecles.add(viecleModel.fromJson(user)));
+      response.data.forEach((user) => viecles.add(Viecle.fromJson(user)));
       // print(viecles![0].sPic);
       // showToast(response['msg'], true, true);
 

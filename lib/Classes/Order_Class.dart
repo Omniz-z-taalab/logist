@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class Order{
-
+class Order {
   String ID;
 
   double Distance;
@@ -23,10 +22,8 @@ class Order{
   // 01/07/2022
   int Date;
 
-
   // id , name , trailer , trailer type , loadtype
   Ordertruck Truck;
-
 
   LatLng Originelatlng;
   LatLng Destilatlng;
@@ -43,59 +40,103 @@ class Order{
   String Status; //(other options might be added later)
 
   Order(
-      this.ID,this.Distance,this.clientID,this.OrigineName,this.OrigineDesc,
-      this.DestName,this.DestDesc,this.Truck,this.Price,this.driver,
-      this.driverRating,this.Date,this.Destilatlng,this.Originelatlng,this.Type,
-      this.Status
-      );
+      this.ID,
+      this.Distance,
+      this.clientID,
+      this.OrigineName,
+      this.OrigineDesc,
+      this.DestName,
+      this.DestDesc,
+      this.Truck,
+      this.Price,
+      this.driver,
+      this.driverRating,
+      this.Date,
+      this.Destilatlng,
+      this.Originelatlng,
+      this.Type,
+      this.Status);
 
   //Say status In arabic
-  String SayStatus(){
-    switch(this.Status) {
-      case "Pending": {  return"تتبع"; }
+  String SayStatus() {
+    switch (this.Status) {
+      case "Pending":
+        {
+          return "تتبع";
+        }
 
-      case "Delivered": {  return"مكتملة"; }
+      case "Delivered":
+        {
+          return "مكتملة";
+        }
 
-      case "Canceled": {  return"مرفوضة"; }
+      case "Canceled":
+        {
+          return "مرفوضة";
+        }
 
-      case "Accepted": {  return"مقبولة"; }
+      case "Accepted":
+        {
+          return "مقبولة";
+        }
 
-      case "Waiting": {  return"انتظار الرد"; }
+      case "Waiting":
+        {
+          return "انتظار الرد";
+        }
 
-      default: { return this.Status; }
+      default:
+        {
+          return this.Status;
+        }
     }
   }
 
   //Return Colors Depending on the status
-  Color StatusColor(){
-    switch(this.Status) {
-      case "Pending": {  Color(0xff015FF5); }
-      break;
+  Color StatusColor() {
+    switch (this.Status) {
+      case "Pending":
+        {
+          Color(0xff015FF5);
+        }
+        break;
 
-      case "Delivered": {  Color(0xff2FBF71); }
-      break;
+      case "Delivered":
+        {
+          Color(0xff2FBF71);
+        }
+        break;
 
-      case "Canceled": {  Colors.red; }
-      break;
+      case "Canceled":
+        {
+          Colors.red;
+        }
+        break;
 
-      case "Accepted": {  Color(0xff191F28); }
-      break;
+      case "Accepted":
+        {
+          Color(0xff191F28);
+        }
+        break;
 
-      case "Waiting": {  Colors.purple; }
-      break;
+      case "Waiting":
+        {
+          Colors.purple;
+        }
+        break;
 
-      default: { return Colors.black; }
+      default:
+        {
+          return Colors.black;
+        }
     }
 
     return Colors.black;
   }
-
 }
 
-
 //Used In Orders
-class Ordertruck{
-
+class Ordertruck {
   int id;
 
   String name;
@@ -113,7 +154,7 @@ class Ordertruck{
 }
 
 //Order used in the setup
-class OrderSetup{
+class OrderSetup {
   String id;
   String Status;
 
@@ -128,22 +169,20 @@ class OrderSetup{
       this.driver);
 }
 
-//Places Class for order Setup
-class Place{
-  int Position;
+//Places Data
+class Place {
   String Name;
-  String Description;
-
-  //Origine , Destination , PickUp, Delivery
-  String Type;
-
+  String Desc;
   LatLng latlng;
 
-  Place(this.Position,this.Name, this.Description, this.Type, this.latlng);
+  // origin , Destination (for now)
+  String type;
+
+  Place(this.Name, this.Desc, this.latlng, this.type);
 }
 
 //
-class Driver{
+class Driver {
   String id;
   String name;
   String description;
@@ -154,7 +193,7 @@ class Driver{
   Driver(this.id, this.name, this.description, this.picture, this.TruckInfo);
 }
 
-class truck{
+class truck {
   String pic;
   String name;
   String plate;
@@ -163,7 +202,7 @@ class truck{
   truck(this.pic, this.name, this.plate, this.license);
 }
 
-class DriverRating{
+class DriverRating {
   String Total;
   String Base;
 
@@ -178,8 +217,7 @@ class DriverRating{
 }
 
 //Route Data
-class OrderRoute{
-
+class OrderRoute {
   List<PointLatLng> Dummy;
   Map<String, dynamic> bounds_ne;
   Map<String, dynamic> bounds_sw;
@@ -188,10 +226,10 @@ class OrderRoute{
   String OrPoint;
   String DesPoint;
 
-  OrderRoute(this.Dummy, this.bounds_ne, this.bounds_sw, this.dmlat, this.dmlng, this.OrPoint, this.DesPoint);
+  OrderRoute(this.Dummy, this.bounds_ne, this.bounds_sw, this.dmlat, this.dmlng,
+      this.OrPoint, this.DesPoint);
 }
 
 //Tmp fix for orderMapV2
 Map<String, dynamic> bounds_nee = {};
 Map<String, dynamic> bounds_sww = {};
-

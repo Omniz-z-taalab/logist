@@ -9,10 +9,12 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logist/models/order_list.dart';
 import 'package:logist/widgets/Widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // import 'package:location/location.dart';
 import '../../Classes/Order_Class.dart';
+import '../../core/logic/layout/order/order_provider.dart';
 import '../../others/variables.dart';
 import 'DetailsV2.dart';
 
@@ -233,10 +235,12 @@ class orderMapv2State extends State<orderMapv2> {
             ),
           ),
         ),
-        onPressed: () {
+        onPressed: () async {
           //Button destination
           // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
           print(par);
+          await Provider.of<OrderProvider>(context, listen: false)
+              .getPlaces(order);
           Get.to(() => OrderDetailsV2(order: order),
               transition: Transition.rightToLeft);
           //Button Navigation Place
@@ -282,8 +286,8 @@ class orderMapv2State extends State<orderMapv2> {
                   _controller.complete(controller);
                   googleMapController = controller;
                   _customInfoWindowController.googleMapController = controller;
-                  journeyInfo(LatLng(order.distinationLat,
-                      order.distinationLong));
+                  journeyInfo(
+                      LatLng(order.distinationLat, order.distinationLong));
                   tooglePanel();
                 },
               ),
@@ -432,7 +436,7 @@ class orderMapv2State extends State<orderMapv2> {
                                 child: Container(
                                   width: 55,
                                   height: 49,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.transparent,
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(100),
@@ -441,9 +445,9 @@ class orderMapv2State extends State<orderMapv2> {
                                   alignment: Alignment.center,
 
                                   //Image
-                                  child: order.vieclePic != null
+                                  child: order.vehiclePic != null
                                       ? SimplePicNetwork(
-                                          order.vieclePic!, 40, 40)
+                                          order.vehiclePic!, 40, 40)
                                       : Image.asset(
                                           'assets/pics/ALX.png',
                                           width: 40,

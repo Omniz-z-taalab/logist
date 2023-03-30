@@ -7,6 +7,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../core/logic/viecles/viecles_provider.dart';
 import '../../models/driver_model.dart';
 import '../../others/variables.dart';
 import 'Resume.dart';
@@ -68,7 +69,19 @@ class _truckdriversState extends State<truckdrivers> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DriversProvider>(context, listen: false).getAllDrivers();
+      Provider.of<DriversProvider>(context, listen: false).getAllDrivers(
+          trailerId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTrailer!
+              .id,
+          trailerTypeId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTrailerType!
+              .id,
+          vehicleId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTruck!
+              .id,
+          vehicleTypeId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTruckType!
+              .id);
     });
 
     super.initState();
@@ -120,7 +133,7 @@ class _truckdriversState extends State<truckdrivers> {
             : drivers.isEmpty
                 ? const Center(
                     child: Text(
-                      'لايوجد سائقين حاليا',
+                      'لايوجد سائقين بهذه المواصفات حاليا',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),

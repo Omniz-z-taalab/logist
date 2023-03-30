@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../Classes/Order_Class.dart';
 import '../../../../models/order_list.dart';
 import '../../../utilities/api_path.dart';
 import '../../../utilities/dio_helper.dart';
@@ -22,6 +26,81 @@ class OrderProvider extends ChangeNotifier {
   List<AllOrders>? myOrdersModel = [];
   List<AllOrders>? myEndedOrdersModel = [];
   List<AllOrders>? myAcceptedOrdersModel = [];
+  List<Place> points = [];
+  Future<String> getAddressFromLatLong(Position position, bool isName) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    Placemark place = placemarks[0];
+
+    notifyListeners();
+    if (!isName) {
+      return '${place.street}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea} , ${place.country}';
+    } else {
+      return place.country!;
+    }
+  }
+
+  Future<void> getPlaces(AllOrders myOrderModel) async {
+    points = [];
+    Place origin = Place(
+        await getAddressFromLatLong(
+            Position(
+              altitude: 31.000,
+              accuracy: 1,
+              speed: 1,
+              heading: 1,
+              timestamp: DateTime.now(),
+              speedAccuracy: 1,
+              longitude: myOrderModel.locationLong!,
+              latitude: myOrderModel.locationLat!,
+            ),
+            true),
+        await getAddressFromLatLong(
+            Position(
+              altitude: 31.000,
+              accuracy: 1,
+              speed: 1,
+              heading: 1,
+              timestamp: DateTime.now(),
+              speedAccuracy: 1,
+              longitude: myOrderModel.locationLong!,
+              latitude: myOrderModel.locationLat!,
+            ),
+            false),
+        LatLng(myOrderModel.locationLat!, myOrderModel.locationLong!),
+        "Origine");
+    Place destenation = Place(
+        await getAddressFromLatLong(
+            Position(
+              altitude: 31.000,
+              accuracy: 1,
+              speed: 1,
+              heading: 1,
+              timestamp: DateTime.now(),
+              speedAccuracy: 1,
+              longitude: myOrderModel.distinationLong!,
+              latitude: myOrderModel.distinationLat!,
+            ),
+            true),
+        await getAddressFromLatLong(
+            Position(
+              altitude: 31.000,
+              accuracy: 1,
+              speed: 1,
+              heading: 1,
+              timestamp: DateTime.now(),
+              speedAccuracy: 1,
+              longitude: myOrderModel.distinationLong!,
+              latitude: myOrderModel.distinationLat!,
+            ),
+            false),
+        LatLng(myOrderModel.distinationLat!, myOrderModel.distinationLong!),
+        "Destination");
+
+    points = [origin, destenation];
+    notifyListeners();
+  }
 
   //get orders
   Future<void> getOrders() async {
@@ -109,7 +188,7 @@ class OrderProvider extends ChangeNotifier {
   // }
 
   //cancel order
-  Future<void> cancelOrders(int id) async {
+  Future<void> cancelOrders(int id, BuildContext context) async {
     // cancelorder = [];
     notifyListeners();
     try {
@@ -117,8 +196,9 @@ class OrderProvider extends ChangeNotifier {
           url: '${AppApiPaths.base}/api/v1/order/CancelOrder',
           data: {"id": id});
 
-      print(response.data);
-      print('eeeeeeee');
+      getOrders();
+      showToast(' تم', true, true);
+      Navigator.of(context).pop();
       isLoading = false;
       notifyListeners();
       // return isLoading;

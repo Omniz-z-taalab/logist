@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
-
 // ignore: file_names
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:logist/Classes/Driver_classes.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/pages/My_orders/Resume.dart';
 import 'package:logist/pages/My_orders/TruckDrivers.dart';
@@ -15,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../core/logic/drivers/driver_provider.dart';
-import '../../models/viecelModel/viecleModel.dart';
+import '../../core/logic/viecles/viecles_provider.dart';
 
 class chooseDriver extends StatefulWidget {
   var lat1;
@@ -60,13 +58,21 @@ class _chooseDriverState extends State<chooseDriver> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-
-      Provider.of<DriversProvider>(context, listen: false)
-          .getAllDrivers();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DriversProvider>(context, listen: false).getAllDrivers(
+          trailerId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTrailer!
+              .id,
+          trailerTypeId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTrailerType!
+              .id,
+          vehicleId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTruck!
+              .id,
+          vehicleTypeId: Provider.of<VieclesProvider>(context, listen: false)
+              .selectedTruckType!
+              .id);
     });
-
   }
 
   //Choose Button
@@ -108,13 +114,12 @@ class _chooseDriverState extends State<chooseDriver> {
                     widget.placeuserpick1,
                     widget.placeuserdown1,
                     widget.placeuserpick2,
-                    widget.placeuserdown2, widget.vicleId,
-                widget.trilerId),
+                    widget.placeuserdown2,
+                    widget.vicleId,
+                    widget.trilerId),
                 transition: Transition.rightToLeft);
-          }
-          else if (Type == 'auto') {
-
-             // Get.to(orderMap());
+          } else if (Type == 'auto') {
+            // Get.to(orderMap());
             setState(() {
               Clicked = true;
             });
@@ -175,209 +180,228 @@ class _chooseDriverState extends State<chooseDriver> {
           const SizedBox(width: 20),
         ],
       ),
-      body: context.watch<DriversProvider>().driver.isEmpty ?
-      const Center(child: CircularProgressIndicator())
-          : SlidingUpPanel(
-        controller: ApanelController,
-        maxHeight: 600,
-        minHeight: 0,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-        body: SafeArea(
-          child: SizedBox(
-            height: double.infinity,
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: 120,
-                  child: Column(
-                    children: [
-                      //Thine line
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 1,
-                        color: const Color(0xffEDEDED),
-                      ),
-
-                      //Manual Button
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 50,
-                        child: Center(
-                          child: Choose('اختيار يدوي', Colors.black, 'manual'),
-                        ),
-                      ),
-
-                      //Auto Button
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 50,
-                        height: 100,
-                        child: Center(
-                          child: Choose('اختيار التلقائي',
-                              const Color(0xff2FBF71), 'auto'),
-                        ),
-                      ),
-                    ],
+      body: drivers == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : drivers.isEmpty
+              ? const Center(
+                  child: Text(
+                    'لايوجد سائقين بهذه المواصفات حاليا',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height - 330,
-                  //  heightheight: double.infinity,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 25, right: 25, top: 25),
+                )
+              : SlidingUpPanel(
+                  controller: ApanelController,
+                  maxHeight: 600,
+                  minHeight: 0,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                  body: SafeArea(
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 50,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      height: double.infinity,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: 120,
+                            child: Column(
+                              children: [
+                                //Thine line
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 1,
+                                  color: const Color(0xffEDEDED),
+                                ),
+
+                                //Manual Button
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width - 50,
+                                  child: Center(
+                                    child: Choose(
+                                        'اختيار يدوي', Colors.black, 'manual'),
+                                  ),
+                                ),
+
+                                //Auto Button
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width - 50,
+                                  height: 100,
+                                  child: Center(
+                                    child: Choose('اختيار التلقائي',
+                                        const Color(0xff2FBF71), 'auto'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height - 330,
+                            //  heightheight: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 25, right: 25, top: 25),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width - 50,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 120,
+                                              width: 120,
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0xffF8F8F8),
+                                                  //   color: Colors.black12,
+                                                  shape: BoxShape.circle),
+                                              child: Center(
+                                                child: Clicked
+                                                    ? CircularProgressIndicator(
+                                                        //color: Color(0xffE1E1E1),
+                                                        color: Colors.black26,
+                                                      )
+                                                    : Icon(
+                                                        Icons.search,
+                                                        size: 90,
+                                                        color:
+                                                            Color(0xffE1E1E1),
+                                                      ),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Text(
+                                                'في إنتظار البحث عن سائق...',
+                                                textDirection:
+                                                    TextDirection.rtl,
+                                                style: TextStyle(
+                                                  fontSize: 11,
+                                                  fontFamily: 'STC',
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color(0xffC5C5C5),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 235,
+                                        child: Text(
+                                          'هل تود أن يتم اختيار السائق تلقائيا؟',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 25,
+                                              height: 1.5),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  panel: Container(
+                    height: 600,
+                    child: Stack(
+                      children: [
+                        Column(
                           children: [
+                            SizedBox(height: 25),
+
+                            Container(
+                              width: 58,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: Color(0xffEFEFEF),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+
+                            SizedBox(height: 56),
+
+                            //Driver Picture
                             Container(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  //Image position
                                   Container(
-                                    height: 120,
-                                    width: 120,
-                                    decoration: const BoxDecoration(
-                                        color: Color(0xffF8F8F8),
-                                        //   color: Colors.black12,
-                                        shape: BoxShape.circle),
-                                    child: Center(
-                                      child: Clicked
-                                          ? CircularProgressIndicator(
-                                              //color: Color(0xffE1E1E1),
-                                              color: Colors.black26,
-                                            )
-                                          : Icon(
-                                              Icons.search,
-                                              size: 90,
-                                              color: Color(0xffE1E1E1),
-                                            ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: const Color(0xffECF4FD),
                                     ),
+                                    width: 113,
+                                    height: 113,
+                                    child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child:
+                                            Image.network(drivers[0].avatar!)),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Text(
-                                      'في إنتظار البحث عن سائق...',
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        fontFamily: 'STC',
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(0xffC5C5C5),
-                                      ),
-                                    ),
-                                  ),
+
+                                  //to add space
+                                  const SizedBox(height: 10),
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              width: 235,
-                              child: Text(
-                                'هل تود أن يتم اختيار السائق تلقائيا؟',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 25,
-                                    height: 1.5),
+                            //Driver Name
+                            Text(
+                              drivers[0].fullName!,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontFamily: 'Montserrat',
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
+
+                            SizedBox(height: 10),
+
+                            //Truck name
+                            Text(
+                              drivers[0].numberOfShipments!.toString(),
+                              style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w300,
+                                  color: Color(0xff909090)),
+                            ),
+
+                            //Approvement('تم قبول الطلب','الحالة سليمة تمت الموافقة على طلبك من طرف السائق'),
+
+                            SizedBox(height: 10),
+
+                            rating(),
+
+                            //Truck Info
+                            truck(
+                                drivers[0].status.toString(),
+                                drivers[0].vehicleRegisterNumber.toString(),
+                                drivers[0].plateNumber.toString(),
+                                'assets/pics/trALX.png'),
                           ],
                         ),
-                      ),
+                        Positioned(
+                          bottom: 10,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width - 50,
+                                child: Next('أختر السائق', drivers[0].id!)),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
-        panel: Container(
-          height: 600,
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  SizedBox(height: 25),
-
-                  Container(
-                    width: 58,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Color(0xffEFEFEF),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-
-                  SizedBox(height: 56),
-
-                  //Driver Picture
-          Container(
-            child: Column(
-              children: [
-                //Image position
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: const Color(0xffECF4FD),
-                  ),
-                  width: 113,
-                  height: 113,
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(drivers![0].identityCardPhotoBack!)),
                 ),
-
-                //to add space
-                const SizedBox(height: 10),
-              ],
-            ),
-          ),
-                  //Driver Name
-                  Text(
-                    drivers![0].fullName!,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-
-                  SizedBox(height: 10),
-
-                  //Truck name
-                  Text(
-                    drivers![0].numberOfShipments!.toString(),
-                    style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w300,
-                        color: Color(0xff909090)),
-                  ),
-
-                  //Approvement('تم قبول الطلب','الحالة سليمة تمت الموافقة على طلبك من طرف السائق'),
-
-                  SizedBox(height: 10),
-
-                  rating(),
-
-                  //Truck Info
-                  truck(drivers![0].status.toString(), drivers![0].vehicleRegisterNumber.toString(), drivers![0].plateNumber.toString(),
-                      'assets/pics/trALX.png'),
-                ],
-              ),
-              Positioned(
-                bottom: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                      width: MediaQuery.of(context).size.width - 50,
-                      child: Next('أختر السائق',drivers[0].id!)),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 
@@ -690,7 +714,7 @@ class _chooseDriverState extends State<chooseDriver> {
     );
   }
 
-  Widget Next(String par,int driverId) => MaterialButton(
+  Widget Next(String par, int driverId) => MaterialButton(
         color: On,
         minWidth: double.infinity,
         height: 60,
@@ -711,21 +735,25 @@ class _chooseDriverState extends State<chooseDriver> {
         onPressed: () {
           driverData = [Name, Truck, Pic, ratings, Reviews];
           //Button destination
-           Get.to(() => ResumeScreen(                         widget.lat1,
-               widget.lat2,
-               widget.lng1,
-               widget.lng2,
-               widget.noteText,
-               widget.PayloadText,
-               widget.TimeNum,
-               widget.Trtext,
-               widget.Typetext,
-               driverId,
-               widget.placeuserpick1,
-               widget.placeuserdown1,
-               widget.placeuserpick2,
-               widget.placeuserdown2,widget.vicleId,
-               widget.trilerId), transition: Transition.rightToLeft);
+          Get.to(
+              () => ResumeScreen(
+                  widget.lat1,
+                  widget.lat2,
+                  widget.lng1,
+                  widget.lng2,
+                  widget.noteText,
+                  widget.PayloadText,
+                  widget.TimeNum,
+                  widget.Trtext,
+                  widget.Typetext,
+                  driverId,
+                  widget.placeuserpick1,
+                  widget.placeuserdown1,
+                  widget.placeuserpick2,
+                  widget.placeuserdown2,
+                  widget.vicleId,
+                  widget.trilerId),
+              transition: Transition.rightToLeft);
         },
       );
 }

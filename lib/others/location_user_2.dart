@@ -245,10 +245,6 @@ class LocationUser2State extends State<LocationUser2> {
           ),
         ),
         onPressed: () {
-          //Button destination
-          // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
-          print(par);
-          print('wwwwww');
           Get.to(
               () => package_place2(
                     Lat,

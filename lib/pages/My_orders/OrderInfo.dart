@@ -15,6 +15,7 @@ import 'Details.dart';
 
 class DateUtil {
   static const DATE_FORMAT = 'dd/MM/yyyy';
+
   String formattedDate(DateTime dateTime) {
     print('dateTime ($dateTime)');
     return DateFormat(DATE_FORMAT).format(dateTime);
@@ -23,6 +24,7 @@ class DateUtil {
 
 class orderInfo extends StatefulWidget {
   final int id;
+
   orderInfo(this.id);
 
   @override
@@ -32,6 +34,7 @@ class orderInfo extends StatefulWidget {
 class _orderInfoState extends State<orderInfo> {
   // Orders order;
   var driver;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -43,6 +46,7 @@ class _orderInfoState extends State<orderInfo> {
 
   // _orderInfoState(this.order);
   ChatListResponse? list;
+
   @override
   Widget build(BuildContext context) {
     var driver = context.watch<OrderProvider>().orderDitModel;
@@ -287,15 +291,14 @@ class _orderInfoState extends State<orderInfo> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(31)),
             color: Color(0xff191F28),
-            child: Text(
+            child: const Text(
               'إلغاء الطلب',
               style: TextStyle(
                   fontSize: 11, fontFamily: 'Araboto', color: Colors.white),
             ),
             onPressed: () {
-              if (driver!.accepted == 1) {
-                context.read<OrderProvider>().cancelOrders(driver.id);
-                showToast(' تم', true, true);
+              if (driver!.started != 1) {
+                context.read<OrderProvider>().cancelOrders(driver.id, context);
               } else {
                 showToast('غير مقبول', true, false);
               }

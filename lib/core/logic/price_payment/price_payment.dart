@@ -7,6 +7,7 @@ import '../../utilities/dio_helper.dart';
 class PriceProvider extends ChangeNotifier {
   bool isGetViecle = false;
   dynamic price;
+  dynamic distance;
 
   Future<void> getPrice(
       dynamic lat1, dynamic lang1, dynamic lat2, dynamic lang2) async {
@@ -22,6 +23,7 @@ class PriceProvider extends ChangeNotifier {
           });
 
       price = response.data['price'];
+      distance = response.data['distance'];
 
       isGetViecle = false;
       notifyListeners();
@@ -39,13 +41,15 @@ class PriceProvider extends ChangeNotifier {
 
   Future<void> createOrder(
       dynamic vicleId,
+      dynamic vicleTypeId,
       dynamic date,
       dynamic lat1,
       dynamic lang1,
       dynamic lat2,
       dynamic lang2,
       dynamic driverId,
-      dynamic trilerId) async {
+      dynamic trilerId,
+      dynamic trilerTypeId) async {
     res == true;
 
     try {
@@ -58,6 +62,8 @@ class PriceProvider extends ChangeNotifier {
             "location": {"lant": lat2, "long": lang2},
             "viecle_Id": vicleId,
             "trailer_id": trilerId,
+            "vehicle_type_Id": vicleTypeId,
+            "trailer_type_id": trilerTypeId,
             "Current_Location": {
               "lant": 29.951755714712075,
               "long": 30.934096798504832

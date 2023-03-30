@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:logist/core/logic/price_payment/price_payment.dart';
+import 'package:logist/core/logic/viecles/viecles_provider.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/pages/Payments/PaymentMethods.dart';
 import 'package:provider/provider.dart';
+
+import '../../widgets/Widgets.dart';
 
 class ResumeScreen extends StatefulWidget {
   var lat1;
@@ -96,6 +99,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
   @override
   Widget build(BuildContext context) {
     var price = context.watch<PriceProvider>().price;
+    var distance = context.watch<PriceProvider>().distance;
     return context.read<PriceProvider>().price == null
         ? const Center(
             child: SpinKitRing(
@@ -221,87 +225,121 @@ class _ResumeScreenState extends State<ResumeScreen> {
                                   children: [
                                     //Depart
 
-                                    ListView(
+                                    detailedBar(
                                         title: widget.placeuserpick1,
                                         subtitle: widget.placeuserdown1,
-                                        image: Icons.add_home_work_sharp),
+                                        numb: '',
+                                        unit: '',
+                                        image: 'depart',
+                                        context: context),
 
                                     Container(
                                         height: 1,
                                         color: const Color(0xffF2F1F4)),
-                                    ListView(
+                                    detailedBar(
                                         title: widget.placeuserpick2,
                                         subtitle: widget.placeuserdown2,
-                                        image: Icons.maps_home_work),
+                                        numb: '',
+                                        unit: '',
+                                        image: 'arriving',
+                                        context: context),
+
+                                    Container(
+                                        height: 1,
+                                        color: const Color(0xffF2F1F4)),
+                                    detailedBar(
+                                        title: 'مسافة نقل الشحنة',
+                                        subtitle: '',
+                                        numb: distance,
+                                        unit: 'KM',
+                                        image: 'distance',
+                                        context: context),
 
                                     //Arrive
                                     Container(
                                         height: 1,
                                         color: const Color(0xffF2F1F4)),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          50,
-                                      height: 63,
-                                      child: ListTile(
-                                          leading: Container(
-                                            alignment: Alignment.centerLeft,
-                                            width: 65,
-                                          ),
-                                          title: Text(
-                                            widget.PayloadText == 0
-                                                ? 'حمولة أدوية'
-                                                : widget.PayloadText == 1
-                                                    ? 'حمولة اطعمة'
-                                                    : widget.PayloadText == 2
-                                                        ? 'حمولة حديد'
-                                                        : widget.PayloadText ==
-                                                                3
-                                                            ? 'حمولة بضائع'
-                                                            : widget.PayloadText ==
-                                                                    4
-                                                                ? 'حمولة مواشي'
-                                                                : 'حمولة اخري     ,',
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontFamily: 'Araboto',
-                                                fontWeight: FontWeight.bold),
-                                            textDirection: TextDirection.rtl,
-                                          ),
-                                          trailing: CircleAvatar(
-                                              child: widget.PayloadText ==
-                                                      0 & 1 & 2
-                                                  ? Icon(
-                                                      widget.PayloadText == 0
-                                                          ? Icons
-                                                              .medical_services
-                                                          : widget.PayloadText ==
-                                                                  1
-                                                              ? Icons
-                                                                  .emoji_food_beverage
-                                                              : Icons
-                                                                  .build_circle_outlined,
-                                                      size: 20,
-                                                      color: Colors.white,
-                                                    )
-                                                  : widget.PayloadText == 3
-                                                      ? Image.asset(
-                                                          'assets/pics/package.png')
-                                                      : widget.PayloadText == 4
-                                                          ? Image.asset(
-                                                              'assets/pics/package.png')
-                                                          : Icon(Icons
-                                                              .shopping_bag_outlined))),
-                                    ),
+                                    detailedBar(
+                                        title: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTrailer!
+                                            .sName,
+                                        subtitle: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTrailer!
+                                            .sDesc,
+                                        numb: '',
+                                        unit: '',
+                                        image: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTrailer!
+                                            .sPic,
+                                        context: context,
+                                        isLocalImage: false),
+
                                     // ListView(title: widget.Typetext == 0 ? 'حمولة أدوية': widget.Typetext ==1 ?'حمولة اطعمة' : widget.Typetext ==2 ? 'حمولة حديد' :  widget.Typetext ==3? 'حمولة بضائع' : widget.Typetext ==4? 'حمولة مواشي': 'حمولة اخري'),
 
                                     //Distance
                                     Container(
                                         height: 1,
                                         color: const Color(0xffF2F1F4)),
-                                    ListView(
-                                        title: widget.Trtext,
-                                        subtitle: widget.placeuserdown1,
-                                        image: Icons.car_repair),
+                                    detailedBar(
+                                        title: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTruck!
+                                            .sName,
+                                        subtitle: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTruck!
+                                            .sDesc,
+                                        numb: '',
+                                        unit: '',
+                                        image: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTruck!
+                                            .sPic,
+                                        context: context,
+                                        isLocalImage: false),
+
+                                    //trailer type name
+                                    Container(
+                                        height: 1,
+                                        color: const Color(0xffF2F1F4)),
+
+                                    detailedBar(
+                                        title: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTrailerType!
+                                            .sName,
+                                        subtitle: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTrailerType!
+                                            .sDesc,
+                                        numb: '',
+                                        unit: '',
+                                        image: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTrailerType!
+                                            .sPic,
+                                        context: context,
+                                        isLocalImage: false),
+
+                                    //trailer type name
+                                    Container(
+                                        height: 1,
+                                        color: const Color(0xffF2F1F4)),
+
+                                    detailedBar(
+                                        title: Provider.of<VieclesProvider>(
+                                                context)
+                                            .selectedTruckType!
+                                            .sName,
+                                        subtitle: "",
+                                        numb: '',
+                                        unit: '',
+                                        image: "truck",
+                                        context: context,
+                                        isLocalImage: true),
 
                                     //Truck name
                                     Container(
@@ -379,21 +417,47 @@ class _ResumeScreenState extends State<ResumeScreen> {
   }
 
   //24.677289383397685 , 46.663560010492795
-  ListView({var title, var subtitle, var numb, var unit, var image}) {
-    return SizedBox(
+  detailedBar(
+      {var title,
+      var subtitle,
+      var numb,
+      var unit,
+      var image,
+      bool isLocalImage = true,
+      var context}) {
+    return Container(
       width: MediaQuery.of(context).size.width - 50,
       height: 63,
+      alignment: Alignment.center,
       child: ListTile(
-          leading: Container(
-            alignment: Alignment.centerLeft,
-            width: 65,
-          ),
+          leading: numb != ''
+              ? Container(
+                  alignment: Alignment.centerLeft,
+                  width: 65,
+                  child: RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                        text: '$numb ',
+                        style: const TextStyle(
+                            fontFamily: 'Madani',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                            color: Color(0xff191F28))),
+                    TextSpan(
+                        text: unit,
+                        style: const TextStyle(
+                            fontFamily: 'Madani',
+                            fontSize: 12,
+                            color: Color(0xff191F28)))
+                  ])),
+                )
+              : null,
           title: Text(
             title,
             style: const TextStyle(
-                fontSize: 15,
-                fontFamily: 'Araboto',
-                fontWeight: FontWeight.bold),
+                fontSize: 14,
+                fontFamily: 'Madani',
+                fontWeight: FontWeight.w500),
             textDirection: TextDirection.rtl,
           ),
           subtitle: subtitle == ''
@@ -402,21 +466,55 @@ class _ResumeScreenState extends State<ResumeScreen> {
                   subtitle,
                   style: const TextStyle(
                       fontSize: 10,
-                      fontFamily: 'Araboto',
+                      fontFamily: 'Madani',
                       color: Color(0xff909090)),
                   textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.start,
                 ),
-          trailing: CircleAvatar(
-            child: Icon(
-              image,
-              size: 20,
-              color: Colors.white,
-            ),
-            backgroundColor: Color(0xFF191F28),
-          )),
+          trailing: isLocalImage
+              ? SimplePic(image, 33, 33)
+              : SimplePicNetwork(image, 33, 33)),
     );
   }
+
+  // detailedBar({var title, var subtitle, var numb, var unit, var image}) {
+  //   return SizedBox(
+  //     width: MediaQuery.of(context).size.width - 50,
+  //     height: 63,
+  //     child: ListTile(
+  //         leading: Container(
+  //           alignment: Alignment.centerLeft,
+  //           width: 20,
+  //         ),
+  //         title: Text(
+  //           title,
+  //           overflow: TextOverflow.ellipsis,
+  //           style: const TextStyle(
+  //               fontSize: 15,
+  //               fontFamily: 'Araboto',
+  //               fontWeight: FontWeight.bold),
+  //           textDirection: TextDirection.rtl,
+  //         ),
+  //         subtitle: subtitle == ''
+  //             ? null
+  //             : Text(
+  //                 subtitle,
+  //                 style: const TextStyle(
+  //                     fontSize: 10,
+  //                     fontFamily: 'Araboto',
+  //                     color: Color(0xff909090)),
+  //                 textDirection: TextDirection.rtl,
+  //                 textAlign: TextAlign.start,
+  //               ),
+  //         trailing: CircleAvatar(
+  //           child: Icon(
+  //             image,
+  //             size: 20,
+  //             color: Colors.white,
+  //           ),
+  //           backgroundColor: Color(0xFF191F28),
+  //         )),
+  //   );
+  // }
 
   Widget Next(String par) => MaterialButton(
       color: On,
@@ -443,6 +541,9 @@ class _ResumeScreenState extends State<ResumeScreen> {
         Provider.of<PriceProvider>(context, listen: false)
             .createOrder(
               widget.vicleId,
+              Provider.of<VieclesProvider>(context, listen: false)
+                  .selectedTruckType!
+                  .id,
               widget.TimeNum[0],
               widget.lat1,
               widget.lng1,
@@ -450,6 +551,9 @@ class _ResumeScreenState extends State<ResumeScreen> {
               widget.lng2,
               widget.id,
               widget.trilerId,
+              Provider.of<VieclesProvider>(context, listen: false)
+                  .selectedTrailerType!
+                  .id,
             )
             .then((value) => Get.to(
                 () => paymentMethods(context.watch<PriceProvider>().price),
