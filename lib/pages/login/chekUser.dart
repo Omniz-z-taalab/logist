@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../../core/logic/auth/auth_provider.dart';
-import '../../others/variables.dart';
-import 'register.dart';
-import 'Verification.dart';
-import '../../widgets/Texts.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/logic/auth/auth_provider.dart';
+import '../../core/utilities/dio_helper.dart';
+import '../../others/variables.dart';
+import '../../widgets/Texts.dart';
+import 'Verification.dart';
+import 'register.dart';
 
 class CheckUser extends StatefulWidget {
   const CheckUser({Key? key}) : super(key: key);
@@ -39,29 +41,27 @@ class _CheckUserState extends State<CheckUser> {
         ),
         onPressed: () {
           if (formKey.currentState!.validate()) {
-            setUserphone('966' + _number.text);
-            phonenum = '+966' + _number.text;
-            // }
-            // if (_number.text.length == 9) {
-            context
-                .read<AuthProvider>()
-                .existsUser(phoneNumber: phonenum)
-                .then((value) {
-              if (value) {
-                Get.to(
-                    () => Verification(
-                          phone: phonenum,
-                        ),
-                    transition: Transition.downToUp);
-              } 
-              // else {
-              //   Get.to(
-              //       () => pagename(
-              //             phone: phonenum,
-              //           ),
-              //       transition: Transition.downToUp);
-              // }
-            });
+            if (_number.text.length == 9) {
+              setUserphone('+966' + _number.text);
+              phonenum = '+966' + _number.text;
+
+              context
+                  .read<AuthProvider>()
+                  .existsUser(phoneNumber: phonenum)
+                  .then((value) {
+                if (value) {
+                  Get.to(
+                      () => Verification(
+                            phone: phonenum,
+                          ),
+                      transition: Transition.downToUp);
+                } else {
+                  Get.to(() => pagename(phone: phonenum),
+                      transition: Transition.downToUp);
+                  showToast("قم بتسجيل حساب جديد", true, true);
+                }
+              });
+            }
           }
           // print(par);
         },
@@ -89,7 +89,7 @@ class _CheckUserState extends State<CheckUser> {
                     const SizedBox(height: 5),
                     Container(
                         alignment: Alignment.centerRight,
-                        child: Subtext('اكتب رقم هاتفك للتسجيل الدخول 966+',
+                        child: Subtext('اكتب رقم هاتفك لتسجيل الدخول 966+',
                             size: 14)),
                     const SizedBox(height: 50),
                     Container(

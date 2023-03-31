@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 import '../../local/cache_helper.dart';
-
-import '../../utilities/dio_helper.dart';
-
-import '../../../models/driver_model.dart';
 import '../../utilities/api_path.dart';
+import '../../utilities/dio_helper.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
@@ -43,8 +41,10 @@ class AuthProvider extends ChangeNotifier {
       );
       print(response);
       isExist = response.data['already'];
-      CacheHelper.putData(
-          key: "REQUEST_ID", value: response.data['REQUEST_ID']);
+      if (isExist!) {
+        CacheHelper.putData(
+            key: "REQUEST_ID", value: response.data['REQUEST_ID']);
+      }
 
       isLoading = false;
       notifyListeners();
@@ -70,11 +70,8 @@ class AuthProvider extends ChangeNotifier {
           "REQUEST_ID": CacheHelper.getData(key: "REQUEST_ID")
         },
       );
-      print(response);
       isVerify = response.data['Verified'];
-      print(response.data['accesToken']);
 
-      print('777777777');
       if (!isVerify) {
         showToast("الرمز غير صحيح", true, false);
       }
@@ -98,12 +95,8 @@ class AuthProvider extends ChangeNotifier {
         url: '${AppApiPaths.base}/api/v1/auth/Verify',
         data: {"phonenumber": phoneNumber},
       );
-      print(response);
       isExist = response.data;
-      String? tokeeeeeeeen = CacheHelper.getData(key: 'accesToken');
-      print(tokeeeeeeeen);
-      print(tokeeeeeeeen);
-      print('tokeeeeeeeeeeeeeeeeeeeeeeeeeen is');
+
       isLoading = false;
       notifyListeners();
       return isExist!;
@@ -154,7 +147,6 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> loginUser({String? phoneNumber, key}) async {
     isLoading = true;
     notifyListeners();
-    print('userrrrr');
     try {
       var response = await DioHelper.postData(
           url: '${AppApiPaths.base}/api/v1/auth/',
@@ -163,9 +155,7 @@ class AuthProvider extends ChangeNotifier {
             "key": key,
             "REQUEST_ID": CacheHelper.getData(key: "REQUEST_ID")
           });
-      print(response);
-      print('true');
-      // isVerify = response['Verified'];
+
       if (response.data['accesToken'] != null) {
         CacheHelper.putData(
             key: 'accessToken', value: response.data['accesToken']);

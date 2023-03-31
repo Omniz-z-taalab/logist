@@ -3,17 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'register.dart';
-import '../../widgets/Texts.dart';
-import '../../others/variables.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../core/logic/auth/auth_provider.dart';
+import '../../others/variables.dart';
+import '../../widgets/Texts.dart';
 import '../MainHomePage.dart';
+import 'register.dart';
 
 class Verification extends StatefulWidget {
   final String? phone;
+
   const Verification({Key? key, this.phone}) : super(key: key);
 
   @override
@@ -317,15 +318,6 @@ class _VerificationState extends State<Verification> {
     });
   }
 
-  void GoNext() {
-    Navigator.push<void>(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const pagename(),
-      ),
-    );
-  }
-
   Widget verifyCode(String par) => MaterialButton(
         color: On,
         height: 60,
@@ -346,7 +338,7 @@ class _VerificationState extends State<Verification> {
           if (formKey.currentState!.validate()) {
             context
                 .read<AuthProvider>()
-                .                                                      verifyUser(
+                .verifyUser(
                     phoneNumber: widget.phone,
                     key: _input1.text +
                         _input2.text +
@@ -469,7 +461,7 @@ class _VerificationState extends State<Verification> {
                       Container(
                           alignment: Alignment.centerRight,
                           child: Subtext(
-                              ' لقد اسرسلنا كود التفعيل على الرقم+$phonenum',
+                              ' لقد ارسلنا كود التفعيل على الرقم$phonenum',
                               size: 14)),
                       const SizedBox(height: 40),
                       Padding(

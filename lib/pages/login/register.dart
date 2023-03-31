@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logist/core/utilities/dio_helper.dart';
-import '../../others/variables.dart';
-import 'Loading.dart';
-import '../../widgets/Texts.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/logic/auth/auth_provider.dart';
+import '../../others/variables.dart';
+import '../../widgets/Texts.dart';
+import 'Loading.dart';
 
 class pagename extends StatefulWidget {
   const pagename({Key? key, this.phone}) : super(key: key);
@@ -19,7 +19,6 @@ class pagename extends StatefulWidget {
 class _pagenameState extends State<pagename> {
   final _name = TextEditingController();
   final _email = TextEditingController();
-  final _phone = TextEditingController();
   final _address = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -31,12 +30,10 @@ class _pagenameState extends State<pagename> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100.0),
         ),
-        child: Container(
-          child: Text(
-            par,
-            style: const TextStyle(
-                fontSize: 16, color: Colors.white, fontFamily: 'Madani'),
-          ),
+        child: Text(
+          par,
+          style: const TextStyle(
+              fontSize: 16, color: Colors.white, fontFamily: 'Madani'),
         ),
         onPressed: () {
           if (formKey.currentState!.validate()) {
@@ -51,7 +48,8 @@ class _pagenameState extends State<pagename> {
                 .registerUser(
                     _address.text, _email.text, _name.text, widget.phone)
                 .then((value) {
-              if (Provider.of<AuthProvider>(context,listen: false).model != null) {
+              if (Provider.of<AuthProvider>(context, listen: false).model !=
+                  null) {
                 Get.to(() => const loading(),
                     transition: Transition.rightToLeft);
               } else {

@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as itl;
+import 'package:logist/core/utilities/dio_helper.dart';
+import 'package:logist/widgets/Widgets.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../../core/logic/drivers/driver_provider.dart';
 import '../../core/logic/viecles/viecles_provider.dart';
 import '../../models/viecelModel/viecleModel.dart';
 import '../../models/viecle_model.dart';
@@ -590,17 +593,32 @@ class _chooseExtentionsState extends State<chooseExtentions> {
               selectedTrillaTypeId != 0 &&
               selectedTruckTypeId != 0 &&
               selectedTruckId != 0) {
-            Get.to(
-              () => pickupPlace(
-                  TheNote,
-                  time,
-                  selectedTrillaTypeId,
-                  selectedTruckId,
-                  selectedTruckName,
-                  selectedTruckId,
-                  trilerId!),
-              transition: Transition.rightToLeft,
-            );
+            Provider.of<DriversProvider>(context, listen: false)
+                .getAllDrivers(
+              trailerId: trilerId,
+              trailerTypeId: selectedTrillaTypeId,
+              vehicleId: selectedTruckId,
+              vehicleTypeId: selectedTruckTypeId,
+            )
+                .then((value) {
+              if (Provider.of<DriversProvider>(context, listen: false)
+                  .driver
+                  .isNotEmpty) {
+                Get.to(
+                  () => pickupPlace(
+                      TheNote,
+                      time,
+                      selectedTrillaTypeId,
+                      selectedTruckId,
+                      selectedTruckName,
+                      selectedTruckId,
+                      trilerId!),
+                  transition: Transition.rightToLeft,
+                );
+              } else {
+                showToast("لايوجد سائقين بهذه المواصفات حاليا", true, false);
+              }
+            });
           }
         },
       );
@@ -641,9 +659,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 const BorderRadius.all(Radius.circular(13.0)),
                           ),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   // mainAxisAlignment:
                                   // MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -685,25 +705,23 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                               Padding(
                                 padding: const EdgeInsets.all(14.0),
                                 child: Container(
-                                  width: 55,
-                                  height: 49,
-                                  decoration: const BoxDecoration(
-                                    //color: Colors.transparent,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(100),
+                                    width: 55,
+                                    height: 49,
+                                    decoration: const BoxDecoration(
+                                      //color: Colors.transparent,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(100),
+                                      ),
                                     ),
-                                  ),
-                                  alignment: Alignment.center,
+                                    alignment: Alignment.center,
 
-                                  //Image
-                                  child: Image.network(
-                                    Provider.of<VieclesProvider>(context)
-                                        .viecles[index]
-                                        .sPic!,
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                ),
+                                    //Image
+                                    child: SimplePicNetwork(
+                                        Provider.of<VieclesProvider>(context)
+                                            .viecles[index]
+                                            .sPic!,
+                                        40,
+                                        40)),
                               ),
                             ],
                           ),
@@ -750,6 +768,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) => InkWell(
                         child: AnimatedContainer(
+                          padding: EdgeInsets.all(10),
                           height: 80,
                           alignment: Alignment.centerRight,
                           duration: const Duration(milliseconds: 250),
@@ -839,11 +858,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 const BorderRadius.all(Radius.circular(13.0)),
                           ),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: Column(
-                                  // mainAxisAlignment:
-                                  // MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     //Title

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:logist/core/logic/drivers/driver_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../core/logic/viecles/viecles_provider.dart';
@@ -130,15 +131,17 @@ class _truckdriversState extends State<truckdrivers> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : drivers.isEmpty
-                ? const Center(
-                    child: Text(
-                      'لايوجد سائقين بهذه المواصفات حاليا',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : _buildListView(drivers),
+            : context.watch<DriversProvider>().isGetFillterDriver
+                ? ShimmerListView(context)
+                : drivers.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'لايوجد سائقين بهذه المواصفات حاليا',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : _buildListView(drivers),
       ),
     );
   }
@@ -701,3 +704,116 @@ class _paaaaState extends State<paaaa> {
 //   ratings = Rating[choice];
 //   Reviews = Review[choice];
 // }
+
+//Shimmer listview
+ShimmerListView(context) {
+  return Container(
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      //color: Colors.black12,
+      color: const Color(0xffF6F6F6),
+      borderRadius: BorderRadius.circular(13),
+    ),
+    width: MediaQuery.of(context).size.width - 50,
+    height: 95,
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListTile(
+        //Status Icon
+        leading: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Container(
+            alignment: Alignment.center,
+            width: 65,
+            height: 23,
+            decoration: BoxDecoration(
+              //    color: Color(0xffF9F1FD),
+              color: Colors.black54,
+              borderRadius: BorderRadius.circular(13),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //Status Color Shimmer
+                Container(
+                  height: 11,
+                  width: 11,
+                  decoration: BoxDecoration(
+                      //color: Color(0xffF8F8F8),
+                      color: Color(0xffa1a8a8),
+                      shape: BoxShape.circle),
+                ),
+
+                //name Shimmer
+                Container(
+                  height: 9,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xffa1a8a8),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        //Truck Name
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              height: 10,
+              width: 92,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Color(0xffcecece),
+              ),
+            ),
+          ],
+        ),
+
+        //Status
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              height: 9,
+              width: 72,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Color(0xffcecece),
+              ),
+            ),
+            Container(
+              height: 9,
+              width: 10,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            Container(
+              height: 9,
+              width: 82,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Color(0xffcecece),
+              ),
+            ),
+          ],
+        ),
+
+        //Truck Icon
+        trailing: Container(
+          height: 49,
+          width: 49,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Color(0xffcecece),
+          ),
+        ),
+      ),
+    ),
+  );
+}

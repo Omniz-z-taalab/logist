@@ -5,7 +5,7 @@ import '../../utilities/api_path.dart';
 import '../../utilities/dio_helper.dart';
 
 class DriversProvider extends ChangeNotifier {
-  bool isAddViecle = false;
+  bool isGetFillterDriver = false;
   List<DriversModel> driver = [];
 
   Future<void> getAllDrivers({
@@ -14,7 +14,7 @@ class DriversProvider extends ChangeNotifier {
     var trailerTypeId,
     var trailerId,
   }) async {
-    isAddViecle = true;
+    isGetFillterDriver = true;
     notifyListeners();
     driver = [];
     try {
@@ -25,12 +25,12 @@ class DriversProvider extends ChangeNotifier {
       print(response.data);
       response.data.forEach((user) => driver.add(DriversModel.fromJson(user)));
 
-      isAddViecle = true;
+      isGetFillterDriver = false;
       notifyListeners();
     } catch (error) {
       print(error);
       // showToast(error.toString(), false, false);
-      isAddViecle = false;
+      isGetFillterDriver = false;
     }
   }
 
