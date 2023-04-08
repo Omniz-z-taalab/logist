@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/logic/layout/profile/profile_provider.dart';
+import '../../core/utilities/dio_helper.dart';
 import '../../models/user_model.dart';
 import '../../others/variables.dart';
 import '../../widgets/Texts.dart';
@@ -29,6 +30,12 @@ class _profileState extends State<profile> {
   var type;
   File? image;
 
+  Future<bool> isFileLargerThan2MB(File file) async {
+    int maxSize = 2 * 1024 * 1024; // 2 MB in bytes
+    int size = await file.length();
+    return size < maxSize;
+  }
+
   Future pickImage() async {
     try {
       XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -36,10 +43,10 @@ class _profileState extends State<profile> {
       final imageTemp = File(image.path);
       setState(() async {
         this.image = imageTemp;
-        await context.read<ProfileProvider>().uploadDocs(file: imageTemp);
+        await isFileLargerThan2MB(imageTemp)
+            ? await context.read<ProfileProvider>().uploadDocs(file: imageTemp)
+            : showToast("يجب ان تكون الصورة اقل من 2 ميجا بايت", true, false);
       });
-      print(image.path);
-      print('weeweeee');
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }

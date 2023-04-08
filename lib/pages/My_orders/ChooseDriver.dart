@@ -688,8 +688,8 @@ class _chooseDriverState extends State<chooseDriver> {
                 color: Color(0xff191F28)),
             textDirection: TextDirection.rtl,
           ),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               RichText(
                   text: TextSpan(
@@ -699,13 +699,17 @@ class _chooseDriverState extends State<chooseDriver> {
                         color: Color(0xff969696),
                       ),
                       children: [
-                    TextSpan(
-                      text: '$id /',
-                    ),
-                    const TextSpan(
-                      text: 'رقم الرخصة ',
-                    ),
-                  ])),
+                        TextSpan(
+                          text: '$id /',
+                        ),
+                        const TextSpan(
+                          text: 'رقم الرخصة ',
+                        ),
+                      ]),
+                  overflow: TextOverflow.ellipsis),
+              const SizedBox(
+                height: 10,
+              ),
               RichText(
                   text: TextSpan(
                       style: const TextStyle(
@@ -714,9 +718,10 @@ class _chooseDriverState extends State<chooseDriver> {
                         color: Color(0xff969696),
                       ),
                       children: [
-                    TextSpan(text: '$plat /'),
-                    const TextSpan(text: 'رقم اللوحة ')
-                  ]))
+                        TextSpan(text: '$plat /'),
+                        const TextSpan(text: 'رقم اللوحة ')
+                      ]),
+                  overflow: TextOverflow.ellipsis)
             ],
           ),
           trailing: Image.asset(

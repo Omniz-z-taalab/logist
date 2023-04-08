@@ -197,7 +197,8 @@ class OrderProvider extends ChangeNotifier {
           data: {"id": id});
 
       getOrders();
-      showToast(' تم', true, true);
+      showToast(' تم إلغاء الطلب', true, true);
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
       isLoading = false;
       notifyListeners();

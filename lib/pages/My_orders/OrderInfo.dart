@@ -7,6 +7,7 @@ import 'package:logist/core/logic/layout/order/order_provider.dart';
 import 'package:logist/core/utilities/dio_helper.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../Classes/Order_Class.dart';
 import '../../models/chat/inbox_model.dart';
@@ -279,6 +280,131 @@ class _orderInfoState extends State<orderInfo> {
     );
   }
 
+  _AlertDialog() {
+    var alertStyle = AlertStyle(
+      overlayColor: Color(0x99000000),
+      alertAlignment: Alignment.center,
+      animationType: AnimationType.shrink,
+      animationDuration: const Duration(milliseconds: 100),
+      alertPadding: const EdgeInsets.all(24),
+      isButtonVisible: false,
+      constraints: const BoxConstraints(maxWidth: 293, maxHeight: 279),
+      buttonAreaPadding: const EdgeInsets.only(bottom: 20),
+      alertBorder:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
+      titleTextAlign: TextAlign.right,
+      descTextAlign: TextAlign.right,
+      isCloseButton: false,
+      isOverlayTapDismiss: false,
+    );
+
+    Alert(
+        style: alertStyle,
+        context: context,
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 49),
+
+            //Status
+            const SizedBox(
+              width: 238,
+              child: Text(
+                "إلغاء الطلب",
+                style: TextStyle(
+                    fontFamily: 'Madani',
+                    color: Color(0xff191F28),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            const SizedBox(height: 21),
+
+            //Description
+            const SizedBox(
+              width: 247,
+              child: Text(
+                "هل تود إلغاء الطلب",
+                style: TextStyle(
+                  fontFamily: 'Madani',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: Color(0xff999999),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            //Buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: MaterialButton(
+                  //Style Settings
+                  color: Colors.transparent,
+                  minWidth: 130,
+                  height: 66,
+                  elevation: 0.0,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(color: Colors.transparent, width: 0),
+                    borderRadius: BorderRadius.circular(37),
+                  ),
+                  splashColor: Colors.transparent,
+                  highlightElevation: 0,
+
+                  child: const Text(
+                    'ليس بعد',
+                    style: TextStyle(
+                      fontFamily: 'Madani',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff000000),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )),
+                Expanded(
+                    child: MaterialButton(
+                  //Style Settings
+                  color: true ? Confirme : const Color(0xff2FBF71),
+                  minWidth: 160,
+                  height: 66,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(37),
+                  ),
+
+                  child: const Text(
+                    'نعم',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Provider.of<OrderProvider>(context, listen: false)
+                        .cancelOrders(
+                            Provider.of<OrderProvider>(context, listen: false)
+                                .orderDitModel!
+                                .id,
+                            context);
+                  },
+                )),
+              ],
+            ),
+          ],
+        ),
+        buttons: []).show();
+  }
+
   Widget CancelOrder() {
     var driver = context.watch<OrderProvider>().orderDitModel;
 
@@ -298,7 +424,7 @@ class _orderInfoState extends State<orderInfo> {
             ),
             onPressed: () {
               if (driver!.started != 1) {
-                context.read<OrderProvider>().cancelOrders(driver.id, context);
+                _AlertDialog();
               } else {
                 showToast('غير مقبول', true, false);
               }

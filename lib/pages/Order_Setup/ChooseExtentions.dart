@@ -1449,7 +1449,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                       child: Options(selectedTruckName),
                       onTap: () {
                         setState(() {
-                          MaxHe = 570;
+                          MaxHe = MediaQuery.of(context).size.height * 0.75;
                           panelController.open();
                           ParaType = "trShape";
                         });
@@ -1467,7 +1467,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                       child: Options(selectedTruckTypeName),
                       onTap: () {
                         setState(() {
-                          MaxHe = 570;
+                          MaxHe = MediaQuery.of(context).size.height * 0.75;
                           panelController.open();
                           ParaType = "TRtype";
                         });
@@ -1485,7 +1485,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                       child: Options(selectedTrillaTypeName),
                       onTap: () {
                         setState(() {
-                          MaxHe = 570;
+                          MaxHe = MediaQuery.of(context).size.height * 0.75;
                           panelController.open();
                           ParaType = "payload";
                         });
@@ -1504,7 +1504,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                           TimeNum(_time), DateTime(_date)),
                       onTap: () {
                         setState(() {
-                          MaxHe = 780;
+                          MaxHe = MediaQuery.of(context).size.height * 1;
                           panelController.open();
                           ParaType = "time";
                         });
@@ -1522,7 +1522,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                       child: Options(NoteText(_note)),
                       onTap: () {
                         setState(() {
-                          MaxHe = 550;
+                          MaxHe = MediaQuery.of(context).size.height * 0.70;
                           panelController.open();
                           ParaType = "note";
                         });
