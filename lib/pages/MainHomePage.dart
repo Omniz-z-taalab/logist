@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logist/core/logic/layout/order/order_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../core/logic/layout/profile/profile_provider.dart';
@@ -27,6 +28,7 @@ class _mainHomePageState extends State<mainHomePage> {
     // var directions = await LocationService()
     //     .getDirections('24.7718399,46.7874393', '24.7474501,46.7274109');
   }
+
   //Animation variables
   bool Clicked = false;
   double ContHeight = 0;
@@ -589,10 +591,22 @@ class _mainHomePageState extends State<mainHomePage> {
                           BottomNavigationBarItem(
                             label: 'Shop',
                             // icon: Icon(BottomBarIcons.home),
-                            icon: Image.asset(
-                              'assets/pics/shop.png',
-                              height: 24,
-                              width: 24,
+                            icon: Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Image.asset(
+                                  'assets/pics/shop.png',
+                                  height: 24,
+                                  width: 24,
+                                ),
+                                if (Provider.of<OrderProvider>(context)
+                                    .myAcceptedOrdersModel!
+                                    .isNotEmpty)
+                                  CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    radius: 3,
+                                  )
+                              ],
                             ),
                             activeIcon: Image.asset(
                               'assets/pics/BottomIcons/shop_outlined.png',

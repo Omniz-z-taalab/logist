@@ -250,7 +250,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   //Note Functions
   String NoteText(int choice) {
     if (choice == 10 || TheNote.isEmpty) {
-      return 'ملاحظة للسائق';
+      return 'تفاصيل طلبك';
     } else if (choice == 3) {
       setState(() {
         botton = true;
@@ -590,6 +590,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
           //Button destination
 
           if (_time != 10 &&
+              _noteText.text.isNotEmpty &&
               selectedTrillaTypeId != 0 &&
               selectedTruckTypeId != 0 &&
               selectedTruckId != 0) {
@@ -619,6 +620,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                 showToast("لايوجد سائقين بهذه المواصفات حاليا", true, false);
               }
             });
+          } else {
+            showToast("تأكد من ملئ جميع الخانات", true, false);
           }
         },
       );
@@ -1245,7 +1248,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                       Container(
                         width: double.infinity,
                         child: const Text(
-                          'أكتب تفاصيل طلبك (اختياري)',
+                          'أكتب تفاصيل طلبك',
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               fontSize: 20,
