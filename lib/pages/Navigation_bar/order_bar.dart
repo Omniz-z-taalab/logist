@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../core/logic/layout/order/order_provider.dart';
@@ -30,24 +31,28 @@ class _OrdersState extends State<Orders> {
 
   // //Finish loading
   void done() async {
-    await Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
+    Provider.of<OrderProvider>(context, listen: false)
+        .getOrders()
+        .then((value) => setState(() {
+              isLoading = false;
+            }));
   }
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       done();
-
-      context.read<OrderProvider>().getOrders();
-      // context.read<OrderProvider>().acceptOrders();
-      // context.read<OrderProvider>().completeOrders();
-      // context.read<OrderProvider>().cancelOrders();
     });
     super.initState();
+  }
+
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    Provider.of<OrderProvider>(context, listen: false)
+        .getOrders()
+        .then((value) => _refreshController.refreshCompleted());
   }
 
   @override
@@ -79,101 +84,107 @@ class _OrdersState extends State<Orders> {
           const SizedBox(width: 20),
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                      width: 2,
-                      color: CurrentPage == 0
-                          ? Color(0xff2FBF71)
-                          : Colors.transparent,
-                    ))),
-                    child: TextButton(
-                        onPressed: () {
-                          controller.animateToPage(0,
-                              duration: Duration(milliseconds: 750),
-                              curve: Curves.easeOutQuart);
-                        },
-                        child: Text(
-                          'المنتهية',
-                          style: TextStyle(
-                              color: CurrentPage == 0
-                                  ? const Color(0xff2FBF71)
-                                  : const Color(0xffB8BED3),
-                              fontFamily: 'Madani',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        )),
-                  ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    width: 2,
+                    color: CurrentPage == 0
+                        ? Color(0xff2FBF71)
+                        : Colors.transparent,
+                  ))),
+                  child: TextButton(
+                      onPressed: () {
+                        controller.animateToPage(0,
+                            duration: Duration(milliseconds: 750),
+                            curve: Curves.easeOutQuart);
+                      },
+                      child: Text(
+                        'المنتهية',
+                        style: TextStyle(
+                            color: CurrentPage == 0
+                                ? const Color(0xff2FBF71)
+                                : const Color(0xffB8BED3),
+                            fontFamily: 'Madani',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      )),
                 ),
-                Hspace(20),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                      width: 2,
-                      color: CurrentPage == 1
-                          ? Color(0xff2c55fb)
-                          : Colors.transparent,
-                    ))),
-                    child: TextButton(
-                        onPressed: () {
-                          controller.animateToPage(1,
-                              duration: Duration(milliseconds: 750),
-                              curve: Curves.easeOutQuart);
-                        },
-                        child: Text(
-                          'الحالية',
-                          style: TextStyle(
-                              color: CurrentPage == 1
-                                  ? const Color(0xff2c55fb)
-                                  : const Color(0xffB8BED3),
-                              fontFamily: 'Madani',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        )),
-                  ),
+              ),
+              Hspace(20),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    width: 2,
+                    color: CurrentPage == 1
+                        ? Color(0xff2c55fb)
+                        : Colors.transparent,
+                  ))),
+                  child: TextButton(
+                      onPressed: () {
+                        controller.animateToPage(1,
+                            duration: Duration(milliseconds: 750),
+                            curve: Curves.easeOutQuart);
+                      },
+                      child: Text(
+                        'الحالية',
+                        style: TextStyle(
+                            color: CurrentPage == 1
+                                ? const Color(0xff2c55fb)
+                                : const Color(0xffB8BED3),
+                            fontFamily: 'Madani',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      )),
                 ),
-                Hspace(20),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                      width: 2,
-                      color: CurrentPage == 2
-                          ? const Color(0xff191f28)
-                          : Colors.transparent,
-                    ))),
-                    child: TextButton(
-                        onPressed: () {
-                          controller.animateToPage(2,
-                              duration: Duration(milliseconds: 750),
-                              curve: Curves.easeOutQuart);
-                        },
-                        child: Text(
-                          'الطلبات',
-                          style: TextStyle(
-                              color: CurrentPage == 2
-                                  ? const Color(0xff191f28)
-                                  : Color(0xffB8BED3),
-                              fontFamily: 'Madani',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        )),
-                  ),
+              ),
+              Hspace(20),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    width: 2,
+                    color: CurrentPage == 2
+                        ? const Color(0xff191f28)
+                        : Colors.transparent,
+                  ))),
+                  child: TextButton(
+                      onPressed: () {
+                        controller.animateToPage(2,
+                            duration: Duration(milliseconds: 750),
+                            curve: Curves.easeOutQuart);
+                      },
+                      child: Text(
+                        'الطلبات',
+                        style: TextStyle(
+                            color: CurrentPage == 2
+                                ? const Color(0xff191f28)
+                                : Color(0xffB8BED3),
+                            fontFamily: 'Madani',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      )),
                 ),
-              ],
-            ),
-            Vspace(28),
-            Expanded(
+              ),
+            ],
+          ),
+          Vspace(28),
+          Expanded(
+            child: SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: false,
+              header: WaterDropHeader(complete: Text("تم التحديث")),
+              controller: _refreshController,
+              onRefresh: _onRefresh,
+              // onLoading: _onLoading,
               child: PageView(
                 onPageChanged: (value) {
                   setState(() {
@@ -233,9 +244,9 @@ class _OrdersState extends State<Orders> {
                                   context)),
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -43,7 +43,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   date_utils: ^0.2.0
   geocoding:
-
+  pull_to_refresh: ^2.0.0
   get: ^4.6.5
   flutter_polyline_points: ^1.0.0
   location: ^4.4.0

@@ -58,8 +58,8 @@ class PriceProvider extends ChangeNotifier {
           data: {
             "Driver_ID": driverId,
             "Date_of_Order": date,
-            "Distination": {"lant": lat1, "long": lang1},
-            "location": {"lant": lat2, "long": lang2},
+            "Distination": {"lant": lat2, "long": lang2},
+            "location": {"lant": lat1, "long": lang1},
             "viecle_Id": vicleId,
             "trailer_id": trilerId,
             "vehicle_type_Id": vicleTypeId,
