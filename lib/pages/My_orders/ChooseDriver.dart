@@ -23,6 +23,7 @@ class chooseDriver extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   String placeuserpick1;
@@ -40,6 +41,7 @@ class chooseDriver extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.placeuserpick1,
@@ -109,6 +111,7 @@ class _chooseDriverState extends State<chooseDriver> {
                     widget.noteText,
                     widget.PayloadText,
                     widget.TimeNum,
+                    widget.TimeEnd,
                     widget.Trtext,
                     widget.Typetext,
                     widget.placeuserpick1,
@@ -761,6 +764,7 @@ class _chooseDriverState extends State<chooseDriver> {
                   widget.noteText,
                   widget.PayloadText,
                   widget.TimeNum,
+                  widget.TimeEnd,
                   widget.Trtext,
                   widget.Typetext,
                   driverId,

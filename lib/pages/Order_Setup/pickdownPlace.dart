@@ -18,6 +18,7 @@ class pickdownPlace extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   String placeuserpick1;
@@ -31,6 +32,7 @@ class pickdownPlace extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.placeuserpick1,
@@ -230,8 +232,8 @@ class _pickdownPlaceState extends State<pickdownPlace> {
                   var results = await LocationService()
                       .getPlaceNameFullName(places[i][0]);
 
-                  Destination = [results[0], results[1]];
-                  Destination = [results[0], results[1]];
+                  Destination = [place1, place2];
+                  // Destination = [results[0], results[1]];
 
                   Get.to(
                     () => package_place2(
@@ -242,12 +244,13 @@ class _pickdownPlaceState extends State<pickdownPlace> {
                       widget.noteText,
                       widget.PayloadText,
                       widget.TimeNum,
+                      widget.TimeEnd,
                       widget.Trtext,
                       widget.Typetext,
                       widget.placeuserpick1,
                       widget.placeuserdown1,
-                      results[0],
-                      results[1],
+                      place1,
+                      place2,
                       widget.vicleId,
                       widget.trilerId,
                     ),
@@ -313,6 +316,7 @@ class _pickdownPlaceState extends State<pickdownPlace> {
                 widget.noteText,
                 widget.PayloadText,
                 widget.TimeNum,
+                widget.TimeEnd,
                 widget.Trtext,
                 widget.Typetext,
                 widget.placeuserpick1,

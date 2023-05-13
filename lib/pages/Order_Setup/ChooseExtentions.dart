@@ -94,7 +94,10 @@ class _chooseExtentionsState extends State<chooseExtentions> {
 
   //Variables
   int _time = 10;
+  int _timeEnd = 10;
+
   int _date = 10;
+  int _dateEnd = 10;
   int _note = 10;
   String TheNote = '';
   bool AllSelected = false;
@@ -552,6 +555,13 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                 '${Fhour(hour)}:${Fminute(minute)}',
                 ''
               ];
+            } else if (ParaType == 'timeEnd') {
+              _timeEnd = 1;
+              timeEnd = [
+                '$year-${Fhour(month)}-${Fhour(day)}',
+                '${Fhour(hour)}:${Fminute(minute)}',
+                ''
+              ];
             } else if (ParaType == 'note') {
               if (formKey.currentState!.validate()) {
                 note = _noteText.text;
@@ -590,6 +600,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
           //Button destination
 
           if (_time != 10 &&
+              _timeEnd != 10 &&
               _noteText.text.isNotEmpty &&
               selectedTrillaTypeId != 0 &&
               selectedTruckTypeId != 0 &&
@@ -605,12 +616,14 @@ class _chooseExtentionsState extends State<chooseExtentions> {
               if (Provider.of<DriversProvider>(context, listen: false)
                   .driver
                   .isNotEmpty) {
+                print(timeEnd.toString() + "a7a");
                 Get.to(
                   () => pickupPlace(
                       TheNote,
                       time,
                       selectedTrillaTypeId,
                       selectedTruckId,
+                      timeEnd,
                       selectedTruckName,
                       selectedTruckId,
                       trilerId!),
@@ -997,7 +1010,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                         Container(
                           width: double.infinity,
                           child: const Text(
-                            'التوقيت',
+                            'توقيت استلام الشحنة',
                             textAlign: TextAlign.end,
                             style: TextStyle(
                                 fontSize: 24, fontFamily: 'ArabotoFat'),
@@ -1011,6 +1024,263 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                           width: double.infinity,
                           child: const Text(
                             'اختر توقيت الشحنة الخاصة بك متى تريد أن تؤخد لنقل',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontFamily: 'Araboto',
+                              color: Color(0xff868686),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        //Calendar Screen
+                        Container(
+                          alignment: Alignment.center,
+                          height: 69,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: const Color(0xffC3CAD3),
+                              width: 2,
+                            ),
+                          ),
+                          child: ListTile(
+                            contentPadding:
+                                const EdgeInsets.only(right: 17, bottom: 30),
+                            title: const Text(
+                              'اختر توقيت الشحن',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontFamily: 'Araboto',
+                                color: Color(0xff868686),
+                              ),
+                            ),
+                            subtitle: Text(
+                              '${Fhour(day)}.${Fhour(month)}.$year',
+                              textAlign: TextAlign.end,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'ArabotoFat',
+                                color: Colors.black,
+                              ),
+                            ),
+                            trailing: const Icon(
+                              Icons.calendar_today_outlined,
+                              color: Color(0xffA7AFBA),
+                              size: 20,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        //Calendar
+                        Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          width: 317,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF5F5F5),
+                            borderRadius: BorderRadius.circular(12.8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: SfDateRangePicker(
+                              initialSelectedDate: DateTime.now(),
+                              minDate: DateTime.now(),
+                              initialDisplayDate: DateTime.now(),
+                              selectionShape:
+                                  DateRangePickerSelectionShape.rectangle,
+                              showNavigationArrow: true,
+                              headerStyle: const DateRangePickerHeaderStyle(
+                                textAlign: TextAlign.center,
+                                textStyle: TextStyle(
+                                  color: Color(0xff141414),
+                                  fontFamily: 'lexend',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 19.2,
+                                ),
+                              ),
+                              monthViewSettings:
+                                  const DateRangePickerMonthViewSettings(
+                                      showTrailingAndLeadingDates: true,
+                                      firstDayOfWeek: 7,
+                                      numberOfWeeksInView: 6,
+                                      dayFormat: 'E',
+                                      viewHeaderStyle:
+                                          DateRangePickerViewHeaderStyle(
+                                              textStyle: TextStyle(
+                                        color: Color(0xff141414),
+                                        fontFamily: 'lexend',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.4,
+                                      ))),
+                              monthCellStyle: DateRangePickerMonthCellStyle(
+                                  trailingDatesTextStyle: TextStyle(
+                                    fontFamily: 'lexend',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.4,
+                                    color: const Color(0xff001754)
+                                        .withOpacity(0.15),
+                                  ),
+                                  trailingDatesDecoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(4.8),
+                                  ),
+                                  leadingDatesDecoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(4.8),
+                                  ),
+                                  leadingDatesTextStyle: TextStyle(
+                                    fontFamily: 'lexend',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.4,
+                                    color: const Color(0xff001754)
+                                        .withOpacity(0.15),
+                                  ),
+                                  cellDecoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(4.8),
+                                  ),
+                                  selectionTextStyle: const TextStyle(
+                                    fontFamily: 'lexend',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.4,
+                                    color: Colors.white,
+                                  ),
+                                  todayTextStyle: const TextStyle(
+                                    fontFamily: 'lexend',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.4,
+                                    color: Color(0xff1F1F1F),
+                                  ),
+                                  textStyle: const TextStyle(
+                                    fontFamily: 'lexend',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.4,
+                                    color: Color(0xff1F1F1F),
+                                  )),
+                              backgroundColor: const Color(0xffF5F5F5),
+                              controller: _datePickerController,
+                              onSelectionChanged: _onDateSelectionChanged,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 14),
+
+                        InkWell(
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 69,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: const Color(0xffC3CAD3),
+                                width: 2,
+                              ),
+                            ),
+                            child: ListTile(
+                              contentPadding:
+                                  const EdgeInsets.only(right: 17, bottom: 30),
+                              title: const Text(
+                                'اختر الساعة',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: 'Araboto',
+                                  color: Color(0xff868686),
+                                ),
+                              ),
+                              subtitle: Text(
+                                '${Fhour(hour)}:${Fminute(minute)}',
+                                textAlign: TextAlign.end,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'ArabotoFat',
+                                  color: Colors.black,
+                                ),
+                              ),
+                              trailing: const Icon(
+                                Icons.access_alarm_outlined,
+                                color: Color(0xffA7AFBA),
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            pickValue();
+                          },
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+
+                SizedBox(height: timeButtonHeight()),
+                //todo:make sure to check this when u go to android
+
+                Next('متابعة'),
+              ],
+            ),
+          ),
+        ],
+      );
+    } else if (type == 'timeEnd') {
+      return ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 33,
+              right: 33,
+            ),
+            child: Column(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height == 667
+                                  ? 0
+                                  : 9,
+                              bottom: 26),
+                          child: Container(
+                            width: 58,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                        ),
+
+                        //title
+                        Container(
+                          width: double.infinity,
+                          child: const Text(
+                            'توقيت توصيل الشحنة',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                                fontSize: 24, fontFamily: 'ArabotoFat'),
+                          ),
+                        ),
+
+                        const SizedBox(height: 5),
+
+                        //Subtitle
+                        Container(
+                          width: double.infinity,
+                          child: const Text(
+                            'اختر توقيت الشحنة الخاصة بك متى تريد أن يتم توصيلها',
                             textAlign: TextAlign.end,
                             style: TextStyle(
                               fontSize: 13,
@@ -1503,13 +1773,31 @@ class _chooseExtentionsState extends State<chooseExtentions> {
 
                     //التوقيت
                     InkWell(
-                      child: OptionsTime(TimeText(_time), TimeIcon(_time),
+                      child: OptionsTime("توقيت الاستلام", TimeIcon(_time),
                           TimeNum(_time), DateTime(_date)),
                       onTap: () {
                         setState(() {
                           MaxHe = MediaQuery.of(context).size.height * 1;
                           panelController.open();
                           ParaType = "time";
+                        });
+                      },
+                    ),
+
+                    Container(
+                      width: double.infinity,
+                      height: 2,
+                      color: const Color(0xffF2F1F4),
+                    ),
+                    // التوقيت تسليم
+                    InkWell(
+                      child: OptionsTime("توقيت التوصيل", TimeIcon(_timeEnd),
+                          TimeNum(_timeEnd), DateTime(_dateEnd)),
+                      onTap: () {
+                        setState(() {
+                          MaxHe = MediaQuery.of(context).size.height * 1;
+                          panelController.open();
+                          ParaType = "timeEnd";
                         });
                       },
                     ),

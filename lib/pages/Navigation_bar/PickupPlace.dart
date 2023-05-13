@@ -14,13 +14,15 @@ import '../create_order/location_user_1.dart';
 class pickupPlace extends StatefulWidget {
   String noteText;
   List<String> TimeNum;
+
+  List<String> TimeEnd;
   int PayloadText;
   int Typetext;
   String Trtext;
   int vicleId;
   int trilerId;
   pickupPlace(this.noteText, this.TimeNum, this.PayloadText, this.Typetext,
-      this.Trtext, this.vicleId, this.trilerId);
+      this.TimeEnd, this.Trtext, this.vicleId, this.trilerId);
 
   @override
   State<pickupPlace> createState() => _pickupPlaceState();
@@ -211,17 +213,18 @@ class _pickupPlaceState extends State<pickupPlace> {
                   var results = await LocationService()
                       .getPlaceNameFullName(places[i][0]);
 
-                  Origine = [results[0], results[1]];
+                  Origine = [places[i][0], places[i][1]];
                   Get.to(() => package_place(
                       results[2],
                       results[3],
                       widget.noteText,
                       widget.PayloadText,
                       widget.TimeNum,
+                      widget.TimeEnd,
                       widget.Trtext,
                       widget.Typetext,
-                      results[0],
-                      results[1],
+                      places[i][0],
+                      places[i][1],
                       widget.vicleId,
                       widget.trilerId));
                   //Go to the Second page
@@ -284,6 +287,7 @@ class _pickupPlaceState extends State<pickupPlace> {
                 widget.noteText,
                 widget.PayloadText,
                 widget.TimeNum,
+                widget.TimeEnd,
                 widget.Trtext,
                 widget.Typetext,
                 widget.vicleId,

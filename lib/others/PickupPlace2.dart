@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../pages/My_orders/ChooseDriver.dart';
+import 'app_input_text_field.dart';
 import 'variables.dart';
 
 class package_place2 extends StatefulWidget {
@@ -12,6 +13,7 @@ class package_place2 extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   String placeuserpick1;
@@ -31,6 +33,7 @@ class package_place2 extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.placeuserpick1,
@@ -94,6 +97,7 @@ class _package_place2State extends State<package_place2> {
                   widget.noteText,
                   widget.PayloadText,
                   widget.TimeNum,
+                  widget.TimeEnd,
                   widget.Trtext,
                   widget.Typetext,
                   widget.placeuserpick1,
@@ -117,7 +121,9 @@ class _package_place2State extends State<package_place2> {
         elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
+          
+          child:Padding(
           padding: EdgeInsets.all(25),
           child: Container(
             width: double.infinity,
@@ -253,6 +259,11 @@ class _package_place2State extends State<package_place2> {
                             ],
                           ),
                           SizedBox(height: 20),
+                          AppTextInputField(
+                            hintText: "أدخل عنوان الاستلام بالتفصيل",
+                            maxLines: 4,
+                          ),
+                          SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -328,6 +339,12 @@ class _package_place2State extends State<package_place2> {
                                   ))
                             ],
                           ),
+                          SizedBox(height: 20),
+                          AppTextInputField(
+                            hintText: "أدخل عنوان التوصيل بالتفصيل",
+                            maxLines: 4,
+                          ),
+                          SizedBox(height: 20),
                         ],
                       ),
                     ),
@@ -337,7 +354,7 @@ class _package_place2State extends State<package_place2> {
             ),
           ),
         ),
-      ),
+    )),
     );
   }
 }

@@ -10,6 +10,7 @@ class package_place extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   String placeuserpick1;
@@ -23,6 +24,7 @@ class package_place extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.placeuserpick1,
@@ -76,6 +78,7 @@ class _package_placeState extends State<package_place> {
                   widget.noteText,
                   widget.PayloadText,
                   widget.TimeNum,
+                  widget.TimeEnd,
                   widget.Trtext,
                   widget.Typetext,
                   widget.placeuserpick1,
@@ -118,7 +121,7 @@ class _package_placeState extends State<package_place> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          const Text(
                             'مكان الشحنة',
                             textAlign: TextAlign.right,
                             style: TextStyle(
@@ -128,8 +131,8 @@ class _package_placeState extends State<package_place> {
                             ),
                           ),
                           SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 27),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 27),
                             child: Text(
                               'يمكنك تحديد أكثر من شحنة  للوصول.',
                               style: TextStyle(

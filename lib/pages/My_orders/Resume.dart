@@ -18,6 +18,7 @@ class ResumeScreen extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   int id;
@@ -36,6 +37,7 @@ class ResumeScreen extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.id,

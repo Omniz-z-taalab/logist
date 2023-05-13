@@ -97,7 +97,7 @@ List<String> Destination = [];
 String LatPoint = '';
 String LatPoint2 = '';
 String langPoint = '';
-String langPoint2= '';
+String langPoint2 = '';
 String DesPoint = '';
 
 //Distance
@@ -211,7 +211,7 @@ List<String> trType = []; //same
 List<String> loadType = []; //same
 String note = ''; //same
 List<String> time = []; //'07.04.2022', '15:45', 'AM'
-
+List<String> timeEnd = []; //'07.04.2022', '15:45', 'AM'
 //For Demonstration (lkhdma lm3awda)
 
 //Shape

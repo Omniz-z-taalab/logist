@@ -19,6 +19,7 @@ class LocationUser2 extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   String placeuserpick1;
@@ -32,6 +33,7 @@ class LocationUser2 extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.placeuserpick1,
@@ -254,6 +256,7 @@ class LocationUser2State extends State<LocationUser2> {
                     widget.noteText,
                     widget.PayloadText,
                     widget.TimeNum,
+                    widget.TimeEnd,
                     widget.Trtext,
                     widget.Typetext,
                     widget.placeuserpick1,

@@ -18,8 +18,12 @@ class PriceProvider extends ChangeNotifier {
       Response response = await DioHelper.postData(
           url: '${AppApiPaths.base}/api/v1/order/price',
           data: {
-            "Distination": {"lant": lat1, "long": lang1},
-            "location": {"lant": lat2, "long": lang2}
+            "Distination": [
+              {"lant": lat1, "long": lang1}
+            ],
+            "location": [
+              {"lant": lat2, "long": lang2}
+            ]
           });
 
       price = response.data['price'];

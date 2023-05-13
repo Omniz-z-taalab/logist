@@ -20,7 +20,9 @@ class truckdrivers extends StatefulWidget {
   var lng2;
   String noteText;
   int PayloadText;
+
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   String placeuserpick1;
@@ -38,6 +40,7 @@ class truckdrivers extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.placeuserpick1,
@@ -511,6 +514,7 @@ class _truckdriversState extends State<truckdrivers> {
                                       widget.noteText,
                                       widget.PayloadText,
                                       widget.TimeNum,
+                                      widget.TimeEnd,
                                       widget.Trtext,
                                       widget.Typetext,
                                       widget.placeuserpick1,
@@ -538,6 +542,7 @@ class paaaa extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   String placeuserpick1;
@@ -556,6 +561,7 @@ class paaaa extends StatefulWidget {
       this.noteText,
       this.PayloadText,
       this.TimeNum,
+      this.TimeEnd,
       this.Trtext,
       this.Typetext,
       this.placeuserpick1,
@@ -677,6 +683,7 @@ class _paaaaState extends State<paaaa> {
                             widget.noteText,
                             widget.PayloadText,
                             widget.TimeNum,
+                            widget.TimeEnd,
                             widget.Trtext,
                             widget.Typetext,
                             driver.id!,

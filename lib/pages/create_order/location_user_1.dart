@@ -20,6 +20,7 @@ class LocationUser1 extends StatefulWidget {
   String noteText;
   int PayloadText;
   List<String> TimeNum;
+  List<String> TimeEnd;
   String Trtext;
   int Typetext;
   int vicleId;
@@ -27,8 +28,8 @@ class LocationUser1 extends StatefulWidget {
 
   // String place1;
   // String place2;
-  LocationUser1(this.noteText, this.PayloadText, this.TimeNum, this.Trtext,
-      this.Typetext, this.vicleId, this.trilerId);
+  LocationUser1(this.noteText, this.PayloadText, this.TimeNum, this.TimeEnd,
+      this.Trtext, this.Typetext, this.vicleId, this.trilerId);
 
   @override
   State<LocationUser1> createState() => LocationUser1State();
@@ -328,6 +329,7 @@ class LocationUser1State extends State<LocationUser1> {
                         widget.noteText,
                         widget.PayloadText,
                         widget.TimeNum,
+                        widget.TimeEnd,
                         widget.Trtext,
                         widget.Typetext,
                         placeUserpick1,
