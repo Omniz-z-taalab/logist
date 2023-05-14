@@ -32,24 +32,28 @@ class chooseDriver extends StatefulWidget {
   String placeuserdown2;
   int vicleId;
   int trilerId;
-
+  String? locationNote;
+  String? destenationNote;
   chooseDriver(
-      this.lat1,
-      this.lat2,
-      this.lng1,
-      this.lng2,
-      this.noteText,
-      this.PayloadText,
-      this.TimeNum,
-      this.TimeEnd,
-      this.Trtext,
-      this.Typetext,
-      this.placeuserpick1,
-      this.placeuserdown1,
-      this.placeuserpick2,
-      this.placeuserdown2,
-      this.vicleId,
-      this.trilerId);
+    this.lat1,
+    this.lat2,
+    this.lng1,
+    this.lng2,
+    this.noteText,
+    this.PayloadText,
+    this.TimeNum,
+    this.TimeEnd,
+    this.Trtext,
+    this.Typetext,
+    this.placeuserpick1,
+    this.placeuserdown1,
+    this.placeuserpick2,
+    this.placeuserdown2,
+    this.vicleId,
+    this.trilerId,
+    this.locationNote,
+    this.destenationNote,
+  );
 
   @override
   State<chooseDriver> createState() => _chooseDriverState();
@@ -85,15 +89,13 @@ class _chooseDriverState extends State<chooseDriver> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100.0),
         ),
-        child: Container(
-          child: Text(
-            par,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Colors.white,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w400,
-            ),
+        child: Text(
+          par,
+          style: const TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w400,
           ),
         ),
         onPressed: () async {
@@ -119,7 +121,9 @@ class _chooseDriverState extends State<chooseDriver> {
                     widget.placeuserpick2,
                     widget.placeuserdown2,
                     widget.vicleId,
-                    widget.trilerId),
+                    widget.trilerId,
+                    widget.locationNote,
+                    widget.destenationNote),
                 transition: Transition.rightToLeft);
           } else if (Type == 'auto') {
             // Get.to(orderMap());
@@ -773,7 +777,9 @@ class _chooseDriverState extends State<chooseDriver> {
                   widget.placeuserpick2,
                   widget.placeuserdown2,
                   widget.vicleId,
-                  widget.trilerId),
+                  widget.trilerId,
+                  widget.locationNote,
+                  widget.locationNote),
               transition: Transition.rightToLeft);
         },
       );

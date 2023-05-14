@@ -28,7 +28,8 @@ class ResumeScreen extends StatefulWidget {
   String placeuserdown2;
   int vicleId;
   int trilerId;
-
+  String? locationNote;
+  String? destenationNote;
   ResumeScreen(
       this.lat1,
       this.lat2,
@@ -46,7 +47,9 @@ class ResumeScreen extends StatefulWidget {
       this.placeuserpick2,
       this.placeuserdown2,
       this.vicleId,
-      this.trilerId);
+      this.trilerId,
+      this.locationNote,
+      this.destenationNote);
 
   @override
   State<ResumeScreen> createState() => _ResumeScreenState();
@@ -143,278 +146,263 @@ class _ResumeScreenState extends State<ResumeScreen> {
                 const SizedBox(width: 20),
               ],
             ),
-            body: context.read<PriceProvider>().price == null
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : SizedBox(
-                    height: double.infinity,
-                    child: Stack(
+            body:
+                // context.read<PriceProvider>().price == null
+                // ? Center(
+                //    child: CircularProgressIndicator(),
+                //    )
+                //   :
+                SizedBox(
+              height: double.infinity,
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: 28,
+                    child: Column(
                       children: [
-                        Positioned(
-                          bottom: 28,
-                          child: Column(
-                            children: [
-                              //Thine line
+                        //Thine line
 
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 1,
-                                color: const Color(0xffEDEDED),
-                              ),
-
-                              //Final Price
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width - 50,
-                                height: 100,
-                                child: Center(
-                                  child: ListTile(
-                                    leading: Container(
-                                      alignment: Alignment.centerLeft,
-                                      width: 150,
-                                      child: RichText(
-                                          text: TextSpan(children: [
-                                        TextSpan(
-                                            text: price.toString(),
-                                            style: const TextStyle(
-                                                fontFamily: 'visbydemibold',
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(0xff191F28))),
-                                        TextSpan(
-                                            text: ' SAR',
-                                            style: TextStyle(
-                                                fontFamily: 'visbylight',
-                                                fontSize: 18,
-                                                color: Color(0xff191F28)))
-                                      ])),
-                                    ),
-                                    title: const Text(
-                                      'السعر النهائي',
-                                      style: TextStyle(
-                                          fontSize: 13, fontFamily: 'Araboto'),
-                                      textDirection: TextDirection.rtl,
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              //Thin line
-                              // Container(
-                              //   width: MediaQuery.of(context).size.width,
-                              //   height: 1,
-                              //   color: const Color(0xffEDEDED),
-                              // ),
-
-                              //Driver Name
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width - 50,
-                                height: 60,
-                                child: Next('ادفع الآن'),
-                              ),
-                            ],
-                          ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 1,
+                          color: const Color(0xffEDEDED),
                         ),
+
+                        //Final Price
                         SizedBox(
-                          height: MediaQuery.of(context).size.height - 258,
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 25, right: 25, top: 25),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width - 50,
-                                child: Column(
-                                  children: [
-                                    //Depart
-
-                                    detailedBar(
-                                        title: widget.placeuserpick1,
-                                        subtitle: widget.placeuserdown1,
-                                        numb: '',
-                                        unit: '',
-                                        image: 'depart',
-                                        context: context),
-
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-                                    detailedBar(
-                                        title: widget.placeuserpick2,
-                                        subtitle: widget.placeuserdown2,
-                                        numb: '',
-                                        unit: '',
-                                        image: 'arriving',
-                                        context: context),
-
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-                                    detailedBar(
-                                        title: 'مسافة نقل الشحنة',
-                                        subtitle: '',
-                                        numb: distance,
-                                        unit: 'KM',
-                                        image: 'distance',
-                                        context: context),
-
-                                    //Arrive
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-                                    detailedBar(
-                                        title: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTrailer!
-                                            .sName,
-                                        subtitle: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTrailer!
-                                            .sDesc,
-                                        numb: '',
-                                        unit: '',
-                                        image: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTrailer!
-                                            .sPic,
-                                        context: context,
-                                        isLocalImage: false),
-
-                                    // ListView(title: widget.Typetext == 0 ? 'حمولة أدوية': widget.Typetext ==1 ?'حمولة اطعمة' : widget.Typetext ==2 ? 'حمولة حديد' :  widget.Typetext ==3? 'حمولة بضائع' : widget.Typetext ==4? 'حمولة مواشي': 'حمولة اخري'),
-
-                                    //Distance
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-                                    detailedBar(
-                                        title: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTruck!
-                                            .sName,
-                                        subtitle: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTruck!
-                                            .sDesc,
-                                        numb: '',
-                                        unit: '',
-                                        image: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTruck!
-                                            .sPic,
-                                        context: context,
-                                        isLocalImage: false),
-
-                                    //trailer type name
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-
-                                    detailedBar(
-                                        title: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTrailerType!
-                                            .sName,
-                                        subtitle: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTrailerType!
-                                            .sDesc,
-                                        numb: '',
-                                        unit: '',
-                                        image: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTrailerType!
-                                            .sPic,
-                                        context: context,
-                                        isLocalImage: false),
-
-                                    //trailer type name
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-
-                                    detailedBar(
-                                        title: Provider.of<VieclesProvider>(
-                                                context)
-                                            .selectedTruckType!
-                                            .sName,
-                                        subtitle: "",
-                                        numb: '',
-                                        unit: '',
-                                        image: "truck",
-                                        context: context,
-                                        isLocalImage: true),
-
-                                    //Truck name
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          50,
-                                      height: 80,
-                                      child: ListTile(
-                                          leading: Container(
-                                            alignment: Alignment.centerLeft,
-                                            width: 65,
-                                          ),
-                                          title: Text(
-                                            widget.TimeNum[0].toString(),
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontFamily: 'Araboto',
-                                                fontWeight: FontWeight.bold),
-                                            textDirection: TextDirection.rtl,
-                                          ),
-                                          trailing: CircleAvatar(
-                                            child: Icon(
-                                              Icons.calendar_month,
-                                              size: 20,
-                                              color: Colors.white,
-                                            ),
-                                            backgroundColor: Color(0xFF191F28),
-                                          )),
-                                    ),
-                                    //Truck Shape
-                                    Container(
-                                        height: 1,
-                                        color: const Color(0xffF2F1F4)),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          50,
-                                      height: 63,
-                                      child: ListTile(
-                                          leading: Container(
-                                            alignment: Alignment.centerLeft,
-                                            width: 65,
-                                          ),
-                                          title: Text(
-                                            widget.noteText,
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontFamily: 'Araboto',
-                                                fontWeight: FontWeight.bold),
-                                            textDirection: TextDirection.rtl,
-                                          ),
-                                          trailing: CircleAvatar(
-                                            child: Icon(
-                                              Icons.edit_note,
-                                              size: 20,
-                                              color: Colors.white,
-                                            ),
-                                            backgroundColor: Color(0xFF191F28),
-                                          )),
-                                    ),
-
-                                    //Truck Type
-                                  ],
-                                ),
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: 100,
+                          child: Center(
+                            child: ListTile(
+                              leading: Container(
+                                alignment: Alignment.centerLeft,
+                                width: 150,
+                                child: RichText(
+                                    text: TextSpan(children: [
+                                  //   TextSpan(
+                                  //   text: price.toString(),
+                                  //  style: const TextStyle(
+                                  //   fontFamily: 'visbydemibold',
+                                  //   fontSize: 24,
+                                  //   fontWeight: FontWeight.w600,
+                                  //  color: Color(0xff191F28))),
+                                  TextSpan(
+                                      text: ' SAR',
+                                      style: TextStyle(
+                                          fontFamily: 'visbylight',
+                                          fontSize: 18,
+                                          color: Color(0xff191F28)))
+                                ])),
+                              ),
+                              title: const Text(
+                                'السعر النهائي',
+                                style: TextStyle(
+                                    fontSize: 13, fontFamily: 'Araboto'),
+                                textDirection: TextDirection.rtl,
                               ),
                             ),
                           ),
-                        )
+                        ),
+
+                        //Thin line
+                        // Container(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   height: 1,
+                        //   color: const Color(0xffEDEDED),
+                        // ),
+
+                        //Driver Name
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: 60,
+                          child: Next('ادفع الآن'),
+                        ),
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 258,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 25, right: 25, top: 25),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 50,
+                          child: Column(
+                            children: [
+                              //Depart
+
+                              detailedBar(
+                                  title: widget.placeuserpick1,
+                                  subtitle: widget.placeuserdown1,
+                                  numb: '',
+                                  unit: '',
+                                  image: 'depart',
+                                  context: context),
+
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+                              detailedBar(
+                                  title: widget.placeuserpick2,
+                                  subtitle: widget.placeuserdown2,
+                                  numb: '',
+                                  unit: '',
+                                  image: 'arriving',
+                                  context: context),
+
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+                              detailedBar(
+                                  title: 'مسافة نقل الشحنة',
+                                  subtitle: '',
+                                  numb: distance,
+                                  unit: 'KM',
+                                  image: 'distance',
+                                  context: context),
+
+                              //Arrive
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+                              detailedBar(
+                                  title: Provider.of<VieclesProvider>(context)
+                                      .selectedTrailer!
+                                      .sName,
+                                  subtitle:
+                                      Provider.of<VieclesProvider>(context)
+                                          .selectedTrailer!
+                                          .sDesc,
+                                  numb: '',
+                                  unit: '',
+                                  image: Provider.of<VieclesProvider>(context)
+                                      .selectedTrailer!
+                                      .sPic,
+                                  context: context,
+                                  isLocalImage: false),
+
+                              // ListView(title: widget.Typetext == 0 ? 'حمولة أدوية': widget.Typetext ==1 ?'حمولة اطعمة' : widget.Typetext ==2 ? 'حمولة حديد' :  widget.Typetext ==3? 'حمولة بضائع' : widget.Typetext ==4? 'حمولة مواشي': 'حمولة اخري'),
+
+                              //Distance
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+                              detailedBar(
+                                  title: Provider.of<VieclesProvider>(context)
+                                      .selectedTruck!
+                                      .sName,
+                                  subtitle:
+                                      Provider.of<VieclesProvider>(context)
+                                          .selectedTruck!
+                                          .sDesc,
+                                  numb: '',
+                                  unit: '',
+                                  image: Provider.of<VieclesProvider>(context)
+                                      .selectedTruck!
+                                      .sPic,
+                                  context: context,
+                                  isLocalImage: false),
+
+                              //trailer type name
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+
+                              detailedBar(
+                                  title: Provider.of<VieclesProvider>(context)
+                                      .selectedTrailerType!
+                                      .sName,
+                                  subtitle:
+                                      Provider.of<VieclesProvider>(context)
+                                          .selectedTrailerType!
+                                          .sDesc,
+                                  numb: '',
+                                  unit: '',
+                                  image: Provider.of<VieclesProvider>(context)
+                                      .selectedTrailerType!
+                                      .sPic,
+                                  context: context,
+                                  isLocalImage: false),
+
+                              //trailer type name
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+
+                              detailedBar(
+                                  title: Provider.of<VieclesProvider>(context)
+                                      .selectedTruckType!
+                                      .sName,
+                                  subtitle: "",
+                                  numb: '',
+                                  unit: '',
+                                  image: "truck",
+                                  context: context,
+                                  isLocalImage: true),
+
+                              //Truck name
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 50,
+                                height: 80,
+                                child: ListTile(
+                                    leading: Container(
+                                      alignment: Alignment.centerLeft,
+                                      width: 65,
+                                    ),
+                                    title: Text(
+                                      widget.TimeNum[0].toString(),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'Araboto',
+                                          fontWeight: FontWeight.bold),
+                                      textDirection: TextDirection.rtl,
+                                    ),
+                                    trailing: CircleAvatar(
+                                      child: Icon(
+                                        Icons.calendar_month,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      backgroundColor: Color(0xFF191F28),
+                                    )),
+                              ),
+                              //Truck Shape
+                              Container(
+                                  height: 1, color: const Color(0xffF2F1F4)),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 50,
+                                height: 63,
+                                child: ListTile(
+                                    leading: Container(
+                                      alignment: Alignment.centerLeft,
+                                      width: 65,
+                                    ),
+                                    title: Text(
+                                      widget.noteText,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'Araboto',
+                                          fontWeight: FontWeight.bold),
+                                      textDirection: TextDirection.rtl,
+                                    ),
+                                    trailing: CircleAvatar(
+                                      child: Icon(
+                                        Icons.edit_note,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      backgroundColor: Color(0xFF191F28),
+                                    )),
+                              ),
+
+                              //Truck Type
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           );
   }
 

@@ -31,6 +31,8 @@ class truckdrivers extends StatefulWidget {
   String placeuserdown2;
   int vicleId;
   int trilerId;
+  String? locationNote;
+  String? destenationNote;
 
   truckdrivers(
       this.lat1,
@@ -48,7 +50,9 @@ class truckdrivers extends StatefulWidget {
       this.placeuserpick2,
       this.placeuserdown2,
       this.vicleId,
-      this.trilerId);
+      this.trilerId,
+      this.locationNote,
+      this.destenationNote);
 
   @override
   State<truckdrivers> createState() => _truckdriversState();
@@ -476,7 +480,7 @@ class _truckdriversState extends State<truckdrivers> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          drivers![index].license!,
+                          drivers[index].license!,
                           style: const TextStyle(
                               fontSize: 10,
                               fontFamily: 'Araboto',
@@ -497,8 +501,6 @@ class _truckdriversState extends State<truckdrivers> {
                       backgroundImage: NetworkImage(drivers[index].avatar!),
                     ),
                     onTap: () {
-                      print(drivers[index].id!);
-
                       showCupertinoModalPopup(
                         context: context,
                         builder: (BuildContext builder) {
@@ -522,7 +524,9 @@ class _truckdriversState extends State<truckdrivers> {
                                       widget.placeuserpick2,
                                       widget.placeuserdown2,
                                       widget.vicleId,
-                                      widget.trilerId)));
+                                      widget.trilerId,
+                                      widget.locationNote,
+                                      widget.destenationNote)));
                         },
                       );
                     },
@@ -551,6 +555,8 @@ class paaaa extends StatefulWidget {
   String placeuserdown2;
   int vicleId;
   int trilerId;
+  String? locationNote;
+  String? destenationNote;
 
   paaaa(
       this.id,
@@ -569,7 +575,9 @@ class paaaa extends StatefulWidget {
       this.placeuserpick2,
       this.placeuserdown2,
       this.vicleId,
-      this.trilerId);
+      this.trilerId,
+      this.locationNote,
+      this.destenationNote);
 
   @override
   State<paaaa> createState() => _paaaaState();
@@ -626,7 +634,7 @@ class _paaaaState extends State<paaaa> {
 
                 const SizedBox(height: 10),
 
-                //Truck name
+                //driver status
                 Text(
                   driver.status!,
                   style: const TextStyle(
@@ -692,7 +700,9 @@ class _paaaaState extends State<paaaa> {
                             widget.placeuserpick2,
                             widget.placeuserdown2,
                             widget.vicleId,
-                            widget.trilerId));
+                            widget.trilerId,
+                            widget.locationNote,
+                            widget.destenationNote));
                         //Button destination
                       },
                     ),
