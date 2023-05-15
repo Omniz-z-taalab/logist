@@ -3,36 +3,33 @@ class AllOrders {
   var driverID;
   var userId;
   String? dateOfOrder;
-  var distination;
-  var location;
+  List<Distinations>? distinations;
+  List<Distinations>? locations;
   var paymentDone;
   var totalDistance;
   var price;
   var accepted;
   var canceled;
   var viecleId;
-  var trailerId;
   var currentLocation;
   String? orderType;
   var orderComplited;
-  var started;
   String? orderStartTime;
   String? orderEndTime;
+  var started;
+  int? vehicleTypeId;
+  int? trailerTypeId;
+  var trailerId;
+  String? orderNote;
+  String? dateOfOrderDelivered;
   String? driverName;
   String? userName;
   String? status;
-  var distinationLat;
-  var distinationLong;
-  var locationLat;
-  var locationLong;
   var currentLocationLat;
   var currentLocationLong;
   String? trailerName;
   String? trailerPic;
   String? trailerDesc;
-
-  int? vehicleTypeId;
-  int? trailerTypeId;
   String? traillerTypeName;
   String? traillerTypePic;
   String? traillerTypeDesc;
@@ -47,8 +44,6 @@ class AllOrders {
       this.driverID,
       this.userId,
       this.dateOfOrder,
-      this.distination,
-      this.location,
       this.paymentDone,
       this.totalDistance,
       this.price,
@@ -67,10 +62,6 @@ class AllOrders {
       this.driverName,
       this.userName,
       this.status,
-      this.distinationLat,
-      this.distinationLong,
-      this.locationLat,
-      this.locationLong,
       this.currentLocationLat,
       this.currentLocationLong,
       this.trailerName,
@@ -82,23 +73,36 @@ class AllOrders {
       this.vehicleName,
       this.vehiclePic,
       this.vehicleDesc,
-      this.vehicleTypeName,
-      this.driverAvatar});
+      this.dateOfOrderDelivered,
+      this.distinations,
+      this.driverAvatar,
+      this.locations,
+      this.orderNote,
+      this.vehicleTypeName});
 
   AllOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     driverID = json['Driver_ID'];
     userId = json['user_id'];
     dateOfOrder = json['Date_of_Order'];
-    distination = json['Distination'];
-    location = json['location'];
+    if (json['Distinations'] != null) {
+      distinations = <Distinations>[];
+      json['Distinations'].forEach((v) {
+        distinations!.add(Distinations.fromJson(v));
+      });
+    }
+    if (json['locations'] != null) {
+      locations = <Distinations>[];
+      json['locations'].forEach((v) {
+        locations!.add(Distinations.fromJson(v));
+      });
+    }
     paymentDone = json['payment_done'];
     totalDistance = json['total_distance'];
     price = json['price'];
     accepted = json['Accepted'];
     canceled = json['Canceled'];
     viecleId = json['viecle_Id'];
-    trailerId = json['trailer_id'];
     currentLocation = json['Current_Location'];
     orderType = json['Order_Type'];
     orderComplited = json['Order_Complited'];
@@ -107,13 +111,12 @@ class AllOrders {
     started = json['Started'];
     vehicleTypeId = json['vehicle_type_Id'];
     trailerTypeId = json['trailer_type_id'];
+    trailerId = json['trailer_id'];
+    orderNote = json['order_note'];
+    dateOfOrderDelivered = json['Date_of_Order_Delivered'];
     driverName = json['Driver Name'];
     userName = json['User Name'];
     status = json['status'];
-    distinationLat = json['Distination_lat'];
-    distinationLong = json['Distination_long'];
-    locationLat = json['location_lat'];
-    locationLong = json['location_long'];
     currentLocationLat = json['Current_Location.lat'];
     currentLocationLong = json['Current_Location_long'];
     trailerName = json['trailer_name'];
@@ -135,8 +138,7 @@ class AllOrders {
     data['Driver_ID'] = driverID;
     data['user_id'] = userId;
     data['Date_of_Order'] = dateOfOrder;
-    data['Distination'] = distination;
-    data['location'] = location;
+
     data['payment_done'] = paymentDone;
     data['total_distance'] = totalDistance;
     data['price'] = price;
@@ -155,10 +157,7 @@ class AllOrders {
     data['Driver Name'] = driverName;
     data['User Name'] = userName;
     data['status'] = status;
-    data['Distination_lat'] = distinationLat;
-    data['Distination_long'] = distinationLong;
-    data['location_lat'] = locationLat;
-    data['location_long'] = locationLong;
+
     data['Current_Location.lat'] = currentLocationLat;
     data['Current_Location_long'] = currentLocationLong;
     data['trailer_name'] = trailerName;
@@ -297,6 +296,39 @@ class OrderDitModel {
     data['location_long'] = this.locationLong;
     data['Current_Location.lat'] = this.currentLocationLat;
     data['Current_Location_long'] = this.currentLocationLong;
+    return data;
+  }
+}
+
+class Distinations {
+  int? id;
+  var latitude;
+  var longitude;
+  String? addressName;
+  String? addressNote;
+
+  Distinations(
+      {this.id,
+      this.latitude,
+      this.longitude,
+      this.addressName,
+      this.addressNote});
+
+  Distinations.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    addressName = json['address_name'];
+    addressNote = json['address_note'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['address_name'] = this.addressName;
+    data['address_note'] = this.addressNote;
     return data;
   }
 }

@@ -52,8 +52,8 @@ class OrderProvider extends ChangeNotifier {
               heading: 1,
               timestamp: DateTime.now(),
               speedAccuracy: 1,
-              longitude: myOrderModel.locationLong!,
-              latitude: myOrderModel.locationLat!,
+              longitude: myOrderModel.locations![0].longitude,
+              latitude: myOrderModel.locations![0].latitude,
             ),
             true),
         await getAddressFromLatLong(
@@ -64,11 +64,12 @@ class OrderProvider extends ChangeNotifier {
               heading: 1,
               timestamp: DateTime.now(),
               speedAccuracy: 1,
-              longitude: myOrderModel.locationLong!,
-              latitude: myOrderModel.locationLat!,
+              longitude: myOrderModel.locations![0].longitude,
+              latitude: myOrderModel.locations![0].latitude,
             ),
             false),
-        LatLng(myOrderModel.locationLat!, myOrderModel.locationLong!),
+        LatLng(myOrderModel.locations![0].latitude,
+            myOrderModel.locations![0].longitude),
         "Origine");
     Place destenation = Place(
         await getAddressFromLatLong(
@@ -79,8 +80,8 @@ class OrderProvider extends ChangeNotifier {
               heading: 1,
               timestamp: DateTime.now(),
               speedAccuracy: 1,
-              longitude: myOrderModel.distinationLong!,
-              latitude: myOrderModel.distinationLat!,
+              longitude: myOrderModel.locations![0].longitude,
+              latitude: myOrderModel.locations![0].latitude,
             ),
             true),
         await getAddressFromLatLong(
@@ -91,11 +92,12 @@ class OrderProvider extends ChangeNotifier {
               heading: 1,
               timestamp: DateTime.now(),
               speedAccuracy: 1,
-              longitude: myOrderModel.distinationLong!,
-              latitude: myOrderModel.distinationLat!,
+              longitude: myOrderModel.locations![0].longitude,
+              latitude: myOrderModel.locations![0].latitude,
             ),
             false),
-        LatLng(myOrderModel.distinationLat!, myOrderModel.distinationLong!),
+        LatLng(myOrderModel.locations![0].latitude,
+            myOrderModel.locations![0].longitude),
         "Destination");
 
     points = [origin, destenation];

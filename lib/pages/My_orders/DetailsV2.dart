@@ -233,12 +233,25 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                     height: 75,
                     child: ListTile(
                       //Button
-                      leading: Container(
-                          width: 134,
-                          height: 52,
-                          foregroundDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(39)),
-                          child: ConfirmationButtn(order.status)),
+                      leading: order.status == "Canceled" ||
+                              order.status == "Delivered"
+                          ? Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(60),
+                                  image: DecorationImage(
+                                    image: NetworkImage(order.driverAvatar!),
+                                    onError: (exception, stackTrace) =>
+                                        Icon(Icons.person),
+                                  )),
+                            )
+                          : Container(
+                              width: 134,
+                              height: 52,
+                              foregroundDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(39)),
+                              child: ConfirmationButtn(order.status)),
 
                       //Client name
                       title: Text(
@@ -289,12 +302,8 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
                       children: [
                         //Depart
                         DetailsListView(
-                            title: Provider.of<OrderProvider>(context)
-                                .points[0]
-                                .Name,
-                            subtitle: Provider.of<OrderProvider>(context)
-                                .points[0]
-                                .Desc,
+                            title: order.locations![0].addressName ?? "",
+                            subtitle: order.locations![0].addressNote ?? "",
                             numb: '',
                             unit: '',
                             image: 'depart',
@@ -303,12 +312,8 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
 
                         //Arrive
                         DetailsListView(
-                            title: Provider.of<OrderProvider>(context)
-                                .points[1]
-                                .Name,
-                            subtitle: Provider.of<OrderProvider>(context)
-                                .points[1]
-                                .Desc,
+                            title: order.distinations![0].addressName ?? "",
+                            subtitle: order.distinations![0].addressNote ?? "",
                             numb: '',
                             unit: '',
                             image: 'arriving',
@@ -375,13 +380,22 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
 
                         //Date and Time
                         DetailsListView(
-                            title: order.dateOfOrder!.substring(0, 10),
+                            title:
+                                "الاستلام: ${order.dateOfOrder!.substring(0, 10)}",
                             subtitle: '',
-                            numb: order.orderStartTime!.substring(11, 16),
+                            numb: order.dateOfOrder!.substring(11, 16),
                             unit: '',
                             image: 'time',
                             context: context),
-                        //Container(height: 1,color: const Color(0xffF2F1F4)),
+                        Container(height: 1, color: const Color(0xffF2F1F4)),
+                        DetailsListView(
+                            title:
+                                "التوصيل: ${order.dateOfOrderDelivered!.substring(0, 10)}",
+                            subtitle: '',
+                            numb: order.dateOfOrderDelivered!.substring(11, 16),
+                            unit: '',
+                            image: 'time',
+                            context: context),
                       ],
                     ),
                   ),

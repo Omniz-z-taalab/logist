@@ -630,6 +630,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
                 note: widget.noteText)
             .then((value) => Get.to(
                 () => paymentMethods(context.watch<PriceProvider>().price),
-                transition: Transition.rightToLeft));
+                transition: Transition.rightToLeft))
+            .catchError((e) => print(e));
       });
 }

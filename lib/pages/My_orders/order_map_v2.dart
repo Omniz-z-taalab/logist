@@ -286,8 +286,8 @@ class orderMapv2State extends State<orderMapv2> {
                   _controller.complete(controller);
                   googleMapController = controller;
                   _customInfoWindowController.googleMapController = controller;
-                  journeyInfo(
-                      LatLng(order.distinationLat, order.distinationLong));
+                  journeyInfo(LatLng(order.distinations![0].latitude,
+                      order.distinations![0].longitude));
                   tooglePanel();
                 },
               ),
@@ -760,8 +760,11 @@ class orderMapv2State extends State<orderMapv2> {
     );
 
     // _setOrigineMarker(Orlat,Orlng);
-    _setMarker(LatLng(order.distinationLat, order.distinationLong),
-        order.locationLat, order.locationLong);
+    _setMarker(
+        LatLng(
+            order.distinations![0].latitude, order.distinations![0].longitude),
+        order.locations![0].latitude,
+        order.locations![0].longitude);
 
     try {
       controller.animateCamera(

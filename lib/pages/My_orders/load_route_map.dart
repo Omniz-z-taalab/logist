@@ -27,11 +27,12 @@ class _LoadingRouteState extends State<LoadingRoute> {
   }
 
   _setData(AllOrders order) async {
-    OrPoint =
-        order.locationLat.toString() + ',' + order.locationLong.toString();
-    DesPoint = order.distinationLat.toString() +
+    OrPoint = order.locations![0].latitude.toString() +
         ',' +
-        order.distinationLong.toString();
+        order.locations![0].longitude.toString();
+    DesPoint = order.distinations![0].latitude.toString() +
+        ',' +
+        order.distinations![0].longitude.toString();
 
     var directions = await LocationService().getDirections(OrPoint, DesPoint);
 

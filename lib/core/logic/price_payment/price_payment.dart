@@ -13,7 +13,6 @@ class PriceProvider extends ChangeNotifier {
       dynamic lat1, dynamic lang1, dynamic lat2, dynamic lang2) async {
     isGetViecle = true;
     notifyListeners();
-
     try {
       Response response = await DioHelper.postData(
           url: '${AppApiPaths.base}/api/v1/order/price',
@@ -28,7 +27,9 @@ class PriceProvider extends ChangeNotifier {
 
       price = response.data['price'];
       distance = response.data['distance'];
-
+      print(price);
+      print(distance.toString() + "a7a");
+      print("$lat2 $lang2 $lat1 $lang1");
       isGetViecle = false;
       notifyListeners();
       print(price);
