@@ -105,15 +105,18 @@ class _chooseExtentionsState extends State<chooseExtentions> {
 
   final now = new DateTime.now();
 
-  late int Currenthour = int.parse(itl.DateFormat('H').format(now));
-  late int Currentminute = int.parse(itl.DateFormat('m').format(now));
-
   late int hour = int.parse(itl.DateFormat('H').format(now));
   late int minute = int.parse(itl.DateFormat('m').format(now));
 
   late String year = now.year.toString();
   late int month = now.month;
   late int day = now.day;
+  late int hourE = int.parse(itl.DateFormat('H').format(now));
+  late int minuteE = int.parse(itl.DateFormat('m').format(now));
+
+  late String yearE = now.year.toString();
+  late int monthE = now.month;
+  late int dayE = now.day;
 
   double MaxHe = 450;
   String ParaType = '';
@@ -124,69 +127,6 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   String TitleNote(String note, {int limit = 30}) {
     return note.length >= limit ? note.substring(0, limit) + '...' : note;
   }
-
-  // //Truck Shape Functions
-  // String Tricon(int choice) {
-  //   if (choice == 0) {
-  //     return viecle![0].sPic!;
-  //   } else if (choice == 1) {
-  //     return viecle![1].sPic!;
-  //   } else if (choice == 2) {
-  //     return viecle![2].sPic!;
-  //   } else {
-  //     return 'IconTruck';
-  //   }
-  // }
-  //
-  // int num = 0;
-
-  // String Trtext(int choice) {
-  //   if (choice == 0) {
-  //     setState(() {
-  //       num = 1;
-  //     });
-  //
-  //     return viecle![0].sName!;
-  //   } else if (choice == 1) {
-  //     setState(() {
-  //       num = 2;
-  //     });
-  //     return viecle![1].sName!;
-  //   } else if (choice == 2) {
-  //     setState(() {
-  //       num = 3;
-  //     });
-  //     return viecle![2].sName!;
-  //   } else {
-  //     return 'شكل الشاحنة';
-  //   }
-  // }
-  //
-  // //Truck type
-  // // funtcionts
-  // String TypeIcon(int choice) {
-  //   if (choice == 0) {
-  //     return 'Aired';
-  //   } else if (choice == 1) {
-  //     return 'Snow';
-  //   } else if (choice == 2) {
-  //     return 'Dry';
-  //   } else {
-  //     return 'IconTruCkFront';
-  //   }
-  // }
-  //
-  // String Typetext(int choice) {
-  //   if (choice == 0) {
-  //     return 'شاحنه مبردة';
-  //   } else if (choice == 1) {
-  //     return 'شاحنة مثلجة';
-  //   } else if (choice == 2) {
-  //     return 'شاحنة جافة';
-  //   } else {
-  //     return 'نوع الشاحنة';
-  //   }
-  // }
 
   //Payload Type funtions
   String payloadIcon(int choice) {
@@ -312,7 +252,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   }
 
   //Time Selection Option
-  void pickValue() {
+  void pickValue(bool isEnd) {
     showDialog<int>(
         context: context,
         builder: (BuildContext context) {
@@ -331,11 +271,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       //Hour - minute text
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          const Text(
+                          Text(
                             'الساعة',
                             style: TextStyle(
                               fontSize: 16,
@@ -343,7 +283,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                               color: Color(0xff868686),
                             ),
                           ),
-                          const Text(
+                          Text(
                             'الدقيقة',
                             style: TextStyle(
                               fontSize: 16,
@@ -368,7 +308,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                     color: Color(0xffB9B9B9),
                                     fontSize: 64,
                                     fontFamily: 'circular std'),
-                                value: hour,
+                                value: isEnd ? hourE : hour,
                                 minValue: 00,
                                 maxValue: 23,
                                 step: 1,
@@ -378,10 +318,14 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 itemWidth: double.infinity,
                                 itemCount: 3,
                                 onChanged: (value) {
-                                  setState(() => hour =
-                                      value); // to change on widget level state
-                                  SBsetState(() => hour =
-                                      value); //* to change on dialog state
+                                  setState(() => isEnd
+                                      ? hourE
+                                      : hour =
+                                          value); // to change on widget level state
+                                  SBsetState(() => isEnd
+                                      ? hourE
+                                      : hour =
+                                          value); //* to change on dialog state
                                 }),
                           ),
 
@@ -396,7 +340,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                     color: Color(0xffB9B9B9),
                                     fontSize: 64,
                                     fontFamily: 'circular std'),
-                                value: minute,
+                                value: isEnd ? minuteE : minute,
                                 minValue: 00,
                                 maxValue: 59,
                                 step: 1,
@@ -406,10 +350,14 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 itemWidth: double.infinity,
                                 itemCount: 3,
                                 onChanged: (value) {
-                                  setState(() => minute =
-                                      value); // to change on widget level state
-                                  SBsetState(() => minute =
-                                      value); //* to change on dialog state
+                                  setState(() => isEnd
+                                      ? minuteE
+                                      : minute =
+                                          value); // to change on widget level state
+                                  SBsetState(() => isEnd
+                                      ? minuteE
+                                      : minute =
+                                          value); //* to change on dialog state
                                 }),
                           ),
                         ],
@@ -435,7 +383,16 @@ class _chooseExtentionsState extends State<chooseExtentions> {
       month = dateRangePickerSelectionChangedArgs.value.month;
       day = dateRangePickerSelectionChangedArgs.value.day;
     });
-    print(year + ',' + month.toString() + ',' + day.toString());
+  }
+
+  //Date Selection Function
+  void _onDateSelectionChangedEnd(
+      DateRangePickerSelectionChangedArgs dateRangePickerSelectionChangedArgs) {
+    setState(() {
+      yearE = dateRangePickerSelectionChangedArgs.value.year.toString();
+      monthE = dateRangePickerSelectionChangedArgs.value.month;
+      dayE = dateRangePickerSelectionChangedArgs.value.day;
+    });
   }
 
   //Options Tab
@@ -479,8 +436,9 @@ class _chooseExtentionsState extends State<chooseExtentions> {
   }
 
   //Time Options Tab
-  Widget OptionsTime(Object title, String Icon, bool selected, DateTime date) {
-    return Container(
+  Widget OptionsTime(
+      Object title, String Icon, bool selected, DateTime date, bool isEnd) {
+    return SizedBox(
       width: double.infinity,
       height: 54,
       child: Row(
@@ -497,13 +455,14 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                       height: 12,
                     )
                   : Text(
-                      '${Fhour(hour)}:${Fminute(minute)}',
+                      '${Fhour(isEnd ? hourE : hour)}:${Fminute(isEnd ? minuteE : minute)}',
                       style: const TextStyle(
                           fontSize: 12, fontFamily: 'visbydemibold'),
                     )),
           selected
               ? Container()
-              : Text('/${Fhour(day)}.${Fhour(month)}.$year',
+              : Text(
+                  '/${Fhour(isEnd ? dayE : day)}.${Fhour(isEnd ? monthE : month)}.${isEnd ? yearE : year}',
                   style: const TextStyle(
                       fontSize: 12, fontFamily: 'visbydemibold')),
           Expanded(
@@ -1212,7 +1171,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                             ),
                           ),
                           onTap: () {
-                            pickValue();
+                            pickValue(false);
                           },
                         )
                       ],
@@ -1316,7 +1275,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                               ),
                             ),
                             subtitle: Text(
-                              '${Fhour(day)}.${Fhour(month)}.$year',
+                              '${Fhour(dayE)}.${Fhour(monthE)}.$yearE',
                               textAlign: TextAlign.end,
                               style: const TextStyle(
                                 fontSize: 16,
@@ -1422,7 +1381,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                   )),
                               backgroundColor: const Color(0xffF5F5F5),
                               controller: _datePickerController,
-                              onSelectionChanged: _onDateSelectionChanged,
+                              onSelectionChanged: _onDateSelectionChangedEnd,
                             ),
                           ),
                         ),
@@ -1453,7 +1412,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 ),
                               ),
                               subtitle: Text(
-                                '${Fhour(hour)}:${Fminute(minute)}',
+                                '${Fhour(hourE)}:${Fminute(minuteE)}',
                                 textAlign: TextAlign.end,
                                 style: const TextStyle(
                                   fontSize: 16,
@@ -1469,7 +1428,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                             ),
                           ),
                           onTap: () {
-                            pickValue();
+                            pickValue(true);
                           },
                         )
                       ],
@@ -1774,7 +1733,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                     //التوقيت
                     InkWell(
                       child: OptionsTime("توقيت الاستلام", TimeIcon(_time),
-                          TimeNum(_time), DateTime(_date)),
+                          TimeNum(_time), DateTime(_date), false),
                       onTap: () {
                         setState(() {
                           MaxHe = MediaQuery.of(context).size.height * 1;
@@ -1792,7 +1751,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                     // التوقيت تسليم
                     InkWell(
                       child: OptionsTime("توقيت التوصيل", TimeIcon(_timeEnd),
-                          TimeNum(_timeEnd), DateTime(_dateEnd)),
+                          TimeNum(_timeEnd), DateTime(_dateEnd), true),
                       onTap: () {
                         setState(() {
                           MaxHe = MediaQuery.of(context).size.height * 1;

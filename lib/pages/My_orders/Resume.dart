@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:logist/core/logic/price_payment/price_payment.dart';
 import 'package:logist/core/logic/viecles/viecles_provider.dart';
 import 'package:logist/others/variables.dart';
-import 'package:logist/pages/Payments/PaymentMethods.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/Widgets.dart';
@@ -30,6 +29,7 @@ class ResumeScreen extends StatefulWidget {
   int trilerId;
   String? locationNote;
   String? destenationNote;
+
   ResumeScreen(
       this.lat1,
       this.lat2,
@@ -237,9 +237,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
                                         unit: '',
                                         image: 'depart',
                                         context: context),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
+
                                     Container(
                                         height: 1,
                                         color: const Color(0xffF2F1F4)),
@@ -494,7 +492,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
       var context}) {
     return Container(
       width: MediaQuery.of(context).size.width - 50,
-      height: 63,
+      // height: 63,
       alignment: Alignment.center,
       child: ListTile(
           leading: numb != ''
@@ -592,45 +590,45 @@ class _ResumeScreenState extends State<ResumeScreen> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(100.0),
       ),
-      child: Text(
-        par,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-          fontFamily: 'Montserrat',
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      onPressed: () {
-        //Button destination
+      child: !Provider.of<PriceProvider>(context).res
+          ? Text(
+              par,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          : CircularProgressIndicator(),
+      onPressed: !Provider.of<PriceProvider>(context).res
+          ? () {
+              //Button destination
 
-        Provider.of<PriceProvider>(context, listen: false)
-            .createOrder(
-                vicleId: widget.vicleId,
-                vicleTypeId:
-                    Provider.of<VieclesProvider>(context, listen: false)
-                        .selectedTruckType!
-                        .id,
-                dateStart: widget.TimeNum,
-                dateEnd: widget.TimeEnd,
-                lat1: widget.lat1,
-                lang1: widget.lng1,
-                lat2: widget.lat2,
-                lang2: widget.lng2,
-                driverId: widget.id,
-                trilerId: widget.trilerId,
-                trilerTypeId:
-                    Provider.of<VieclesProvider>(context, listen: false)
-                        .selectedTrailerType!
-                        .id,
-                destenationNote: widget.destenationNote,
-                destenationTitle: widget.placeuserpick2,
-                locationNote: widget.locationNote,
-                locationTitle: widget.placeuserpick1,
-                note: widget.noteText)
-            .then((value) => Get.to(
-                () => paymentMethods(context.watch<PriceProvider>().price),
-                transition: Transition.rightToLeft))
-            .catchError((e) => print(e));
-      });
+              Provider.of<PriceProvider>(context, listen: false).createOrder(
+                  context: context,
+                  vicleId: widget.vicleId,
+                  vicleTypeId:
+                      Provider.of<VieclesProvider>(context, listen: false)
+                          .selectedTruckType!
+                          .id,
+                  dateStart: widget.TimeNum,
+                  dateEnd: widget.TimeEnd,
+                  lat1: widget.lat1,
+                  lang1: widget.lng1,
+                  lat2: widget.lat2,
+                  lang2: widget.lng2,
+                  driverId: widget.id,
+                  trilerId: widget.trilerId,
+                  trilerTypeId:
+                      Provider.of<VieclesProvider>(context, listen: false)
+                          .selectedTrailerType!
+                          .id,
+                  destenationNote: widget.destenationNote,
+                  destenationTitle: widget.placeuserpick2,
+                  locationNote: widget.locationNote,
+                  locationTitle: widget.placeuserpick1,
+                  note: widget.noteText);
+            }
+          : () {});
 }

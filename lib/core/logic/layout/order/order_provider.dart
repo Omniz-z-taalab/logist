@@ -23,10 +23,11 @@ class OrderProvider extends ChangeNotifier {
   // List<AllOrders> cancelorder = [];
   OrderDitModel? orderDitModel;
 
-  List<AllOrders>? myOrdersModel = [];
-  List<AllOrders>? myEndedOrdersModel = [];
-  List<AllOrders>? myAcceptedOrdersModel = [];
+  List<AllOrders> myOrdersModel = [];
+  List<AllOrders> myEndedOrdersModel = [];
+  List<AllOrders> myAcceptedOrdersModel = [];
   List<Place> points = [];
+
   Future<String> getAddressFromLatLong(Position position, bool isName) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
@@ -104,8 +105,10 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  int page = 0;
+
   //get orders
-  Future<void> getOrders() async {
+  Future<void> getOrders({int? page1}) async {
     myOrdersModel = [];
     // myWaitingOrdersModel = [];
     myEndedOrdersModel = [];
@@ -115,20 +118,26 @@ class OrderProvider extends ChangeNotifier {
 
     try {
       var response = await DioHelper.getData(
-          url: '${AppApiPaths.base}/api/v1/user/GetOrders');
+          url:
+              '${AppApiPaths.base}/api/v1/user/GetOrders?page=${page1 ?? page}&limit=5');
 
       response.data
-          .forEach((order) => myOrdersModel!.add(AllOrders.fromJson(order)));
+          .forEach((order) => myOrdersModel.add(AllOrders.fromJson(order)));
       print(myOrdersModel);
-      for (var element in myOrdersModel!) {
+      for (var element in myOrdersModel) {
         if (element.status == "Pending" ||
             element.status == "Accepted" ||
             element.status == "Started") {
-          myAcceptedOrdersModel!.add(element);
+          myAcceptedOrdersModel.add(element);
         } else if (element.status == "Delivered" ||
             element.status == "Canceled") {
-          myEndedOrdersModel!.add(element);
+          myEndedOrdersModel.add(element);
         }
+      }
+      if (page1 == null && myOrdersModel.isNotEmpty) {
+        page++;
+      } else {
+        page = 0;
       }
       notifyListeners();
 

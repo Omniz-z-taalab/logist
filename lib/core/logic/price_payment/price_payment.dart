@@ -1,6 +1,10 @@
 import 'package:dio/src/response.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 
+import '../../../pages/Payments/PaymentMethods.dart';
 import '../../utilities/api_path.dart';
 import '../../utilities/dio_helper.dart';
 
@@ -38,7 +42,7 @@ class PriceProvider extends ChangeNotifier {
     }
   }
 
-  bool? res;
+  bool res = false;
 
   bool? responsee;
 
@@ -46,6 +50,7 @@ class PriceProvider extends ChangeNotifier {
 
   Future<void> createOrder(
       {int? vicleId,
+      required BuildContext context,
       int? vicleTypeId,
       List<String>? dateStart,
       List<String>? dateEnd,
@@ -62,7 +67,7 @@ class PriceProvider extends ChangeNotifier {
       int? trilerId,
       int? trilerTypeId}) async {
     res == true;
-
+    notifyListeners();
     DioHelper.postData(url: '${AppApiPaths.base}/api/v1/order', data: {
       "Driver_ID": driverId,
       "Date_of_Order": "${dateStart![0]} ${dateStart[1]}",
@@ -97,12 +102,19 @@ class PriceProvider extends ChangeNotifier {
       "Order_Start_Time": dateStart[0],
       "order_note": note,
     }).then((value) {
-      print(value.data);
-      orderId = value.data['id'];
-      print(orderId);
+      if (value.statusCode == 200) {
+        print(value.data);
+        orderId = value.data['id'];
+        print(orderId);
+        res = false;
+        Get.to(() => paymentMethods(context.watch<PriceProvider>().price),
+            transition: Transition.rightToLeft);
+        notifyListeners();
+      }
       res = false;
       notifyListeners();
     }).catchError((error) {
+      res = false;
       print(error);
     });
   }

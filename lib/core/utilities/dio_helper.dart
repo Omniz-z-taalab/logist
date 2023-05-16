@@ -451,6 +451,7 @@ class DioHelper {
     data,
   }) async {
     String? token = CacheHelper.getData(key: 'accessToken');
+
     return await dio!.get(url,
         queryParameters: query,
         options: Options(

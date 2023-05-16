@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/widgets/Widgets.dart';
-import 'package:provider/provider.dart';
 
-import '../../core/logic/layout/order/order_provider.dart';
 import '../../models/order_list.dart';
 
 class OrderDetailsV2 extends StatefulWidget {
@@ -380,19 +378,29 @@ class _OrderDetailsV2State extends State<OrderDetailsV2> {
 
                         //Date and Time
                         DetailsListView(
-                            title:
-                                "الاستلام: ${order.dateOfOrder!.substring(0, 10)}",
+                            title: order.dateOfOrder != null &&
+                                    order.dateOfOrder!.length > 15
+                                ? "الاستلام: ${order.dateOfOrder!.substring(0, 10)}"
+                                : "",
                             subtitle: '',
-                            numb: order.dateOfOrder!.substring(11, 16),
+                            numb: order.dateOfOrder != null &&
+                                    order.dateOfOrder!.length > 15
+                                ? order.dateOfOrder!.substring(10)
+                                : "",
                             unit: '',
                             image: 'time',
                             context: context),
                         Container(height: 1, color: const Color(0xffF2F1F4)),
                         DetailsListView(
-                            title:
-                                "التوصيل: ${order.dateOfOrderDelivered!.substring(0, 10)}",
+                            title: order.dateOfOrderDelivered != null &&
+                                    order.dateOfOrderDelivered!.length > 15
+                                ? "التوصيل: ${order.dateOfOrderDelivered!.substring(0, 10)}"
+                                : "",
                             subtitle: '',
-                            numb: order.dateOfOrderDelivered!.substring(11, 16),
+                            numb: order.dateOfOrderDelivered != null &&
+                                    order.dateOfOrderDelivered!.length > 15
+                                ? order.dateOfOrderDelivered!.substring(10)
+                                : "",
                             unit: '',
                             image: 'time',
                             context: context),

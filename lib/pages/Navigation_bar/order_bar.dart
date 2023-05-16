@@ -32,7 +32,7 @@ class _OrdersState extends State<Orders> {
   // //Finish loading
   void done() async {
     Provider.of<OrderProvider>(context, listen: false)
-        .getOrders()
+        .getOrders(page1: 0)
         .then((value) => setState(() {
               isLoading = false;
             }));
@@ -55,6 +55,12 @@ class _OrdersState extends State<Orders> {
         .then((value) => _refreshController.refreshCompleted());
   }
 
+  void _onLoading() async {
+    Provider.of<OrderProvider>(context, listen: false)
+        .getOrders()
+        .then((value) => _refreshController.refreshCompleted());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +69,11 @@ class _OrdersState extends State<Orders> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         elevation: 0,
-        title: const Text('طلباتي'),
+        title: const Text('طلباتي',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            )),
         actions: [
           SizedBox(
             height: 52,
@@ -180,11 +190,13 @@ class _OrdersState extends State<Orders> {
           Expanded(
             child: SmartRefresher(
               enablePullDown: true,
-              enablePullUp: false,
-              header: WaterDropHeader(complete: Text("تم التحديث")),
+              enablePullUp: true,
+              header: WaterDropHeader(
+                complete: Text("تم التحديث"),
+              ),
               controller: _refreshController,
               onRefresh: _onRefresh,
-              // onLoading: _onLoading,
+              onLoading: _onLoading,
               child: PageView(
                 onPageChanged: (value) {
                   setState(() {
@@ -196,31 +208,26 @@ class _OrdersState extends State<Orders> {
                   //delivered
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child:
-                          context.watch<OrderProvider>().myEndedOrdersModel ==
-                                  null
-                              ? ShimmerData()
-                              : context
-                                      .watch<OrderProvider>()
-                                      .myEndedOrdersModel!
-                                      .isEmpty
-                                  ? const Center(child: Text("لايوجد طلبات"))
-                                  : DeliveredOrdersList(
-                                      context
-                                          .watch<OrderProvider>()
-                                          .myEndedOrdersModel!,
-                                      context)),
-                  //now
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: context
-                                  .watch<OrderProvider>()
-                                  .myAcceptedOrdersModel ==
-                              null
+                      child: Provider.of<OrderProvider>(context).isLoading
                           ? ShimmerData()
                           : context
                                   .watch<OrderProvider>()
-                                  .myAcceptedOrdersModel!
+                                  .myEndedOrdersModel
+                                  .isEmpty
+                              ? const Center(child: Text("لايوجد طلبات"))
+                              : DeliveredOrdersList(
+                                  context
+                                      .watch<OrderProvider>()
+                                      .myEndedOrdersModel,
+                                  context)),
+                  //now
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Provider.of<OrderProvider>(context).isLoading
+                          ? ShimmerData()
+                          : context
+                                  .watch<OrderProvider>()
+                                  .myAcceptedOrdersModel
                                   .isEmpty
                               ? const Center(child: Text("لايوجد طلبات"))
                               : OrdersList(
@@ -231,13 +238,9 @@ class _OrdersState extends State<Orders> {
                   //all orders
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: context.watch<OrderProvider>().myOrdersModel ==
-                              null
+                      child: Provider.of<OrderProvider>(context).isLoading
                           ? ShimmerData()
-                          : context
-                                  .watch<OrderProvider>()
-                                  .myOrdersModel!
-                                  .isEmpty
+                          : context.watch<OrderProvider>().myOrdersModel.isEmpty
                               ? const Center(child: Text("لايوجد طلبات"))
                               : OrdersListNow(
                                   context.watch<OrderProvider>().myOrdersModel!,
