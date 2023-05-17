@@ -118,6 +118,7 @@ class _ResumeScreenState extends State<ResumeScreen> {
               backgroundColor: Obackground,
               centerTitle: true,
               elevation: 0,
+              leading: const SizedBox(),
               title: Text(
                 'ملخص',
                 style: TextStyle(
@@ -330,6 +331,8 @@ class _ResumeScreenState extends State<ResumeScreen> {
                                         isLocalImage: false),
 
                                     //trailer type name
+
+                                    //trailer type name
                                     Container(
                                         height: 1,
                                         color: const Color(0xffF2F1F4)),
@@ -351,90 +354,115 @@ class _ResumeScreenState extends State<ResumeScreen> {
                                         height: 1,
                                         color: const Color(0xffF2F1F4)),
 
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          50,
-                                      // height: 80,
-                                      child: ListTile(
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "الي " +
-                                                        widget.TimeEnd[0]
-                                                            .toString(),
-                                                    style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontFamily: 'Araboto',
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                  ),
-                                                  Text(
-                                                    "الساعة " +
-                                                        widget.TimeEnd[1]
-                                                            .toString(),
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        fontFamily: 'Araboto',
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "من " +
-                                                        widget.TimeNum[0]
-                                                            .toString(),
-                                                    style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontFamily: 'Araboto',
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                  ),
-                                                  Text(
-                                                    "الساعة " +
-                                                        widget.TimeNum[1]
-                                                            .toString(),
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
-                                                        fontFamily: 'Araboto',
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    textDirection:
-                                                        TextDirection.rtl,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          trailing: const CircleAvatar(
-                                            child: Icon(
-                                              Icons.calendar_month,
-                                              size: 20,
-                                              color: Colors.white,
-                                            ),
-                                            backgroundColor: Color(0xFF191F28),
-                                          )),
-                                    ),
+                                    detailedBar(
+                                        title: widget.TimeNum[0],
+                                        subtitle: "",
+                                        numb: widget.TimeNum[1],
+                                        unit: '',
+                                        image: "time",
+                                        context: context,
+                                        isLocalImage: true),
+                                    //Truck name
+                                    Container(
+                                        height: 1,
+                                        color: const Color(0xffF2F1F4)),
+
+                                    detailedBar(
+                                        title: widget.TimeEnd[0],
+                                        subtitle: "",
+                                        numb: widget.TimeEnd[1],
+                                        unit: '',
+                                        image: "time",
+                                        context: context,
+                                        isLocalImage: true),
+                                    Container(
+                                        height: 1,
+                                        color: const Color(0xffF2F1F4)),
+
+                                    // SizedBox(
+                                    //   width: MediaQuery.of(context).size.width -
+                                    //       50,
+                                    //   // height: 80,
+                                    //   child: ListTile(
+                                    //       title: Row(
+                                    //         mainAxisAlignment:
+                                    //             MainAxisAlignment.spaceBetween,
+                                    //         children: [
+                                    //           Column(
+                                    //             crossAxisAlignment:
+                                    //                 CrossAxisAlignment.end,
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment.center,
+                                    //             children: [
+                                    //               Text(
+                                    //                 "الي " +
+                                    //                     widget.TimeEnd[0]
+                                    //                         .toString(),
+                                    //                 style: const TextStyle(
+                                    //                     fontSize: 15,
+                                    //                     fontFamily: 'Araboto',
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold),
+                                    //                 textDirection:
+                                    //                     TextDirection.rtl,
+                                    //               ),
+                                    //               Text(
+                                    //                 "الساعة " +
+                                    //                     widget.TimeEnd[1]
+                                    //                         .toString(),
+                                    //                 style: const TextStyle(
+                                    //                     fontSize: 12,
+                                    //                     fontFamily: 'Araboto',
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold),
+                                    //                 textDirection:
+                                    //                     TextDirection.rtl,
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //           Column(
+                                    //             crossAxisAlignment:
+                                    //                 CrossAxisAlignment.end,
+                                    //             mainAxisAlignment:
+                                    //                 MainAxisAlignment.center,
+                                    //             children: [
+                                    //               Text(
+                                    //                 "من " +
+                                    //                     widget.TimeNum[0]
+                                    //                         .toString(),
+                                    //                 style: const TextStyle(
+                                    //                     fontSize: 15,
+                                    //                     fontFamily: 'Araboto',
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold),
+                                    //                 textDirection:
+                                    //                     TextDirection.rtl,
+                                    //               ),
+                                    //               Text(
+                                    //                 "الساعة " +
+                                    //                     widget.TimeNum[1]
+                                    //                         .toString(),
+                                    //                 style: const TextStyle(
+                                    //                     fontSize: 12,
+                                    //                     fontFamily: 'Araboto',
+                                    //                     fontWeight:
+                                    //                         FontWeight.bold),
+                                    //                 textDirection:
+                                    //                     TextDirection.rtl,
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //       trailing: const CircleAvatar(
+                                    //         child: Icon(
+                                    //           Icons.calendar_month,
+                                    //           size: 20,
+                                    //           color: Colors.white,
+                                    //         ),
+                                    //         backgroundColor: Color(0xFF191F28),
+                                    //       )),
+                                    // ),
                                     //Truck Shape
                                     Container(
                                         height: 1,

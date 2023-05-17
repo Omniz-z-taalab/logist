@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:logist/core/logic/drivers/driver_provider.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -153,297 +152,9 @@ class _truckdriversState extends State<truckdrivers> {
     );
   }
 
-  Approvement(var title, var subtitle) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width - 50,
-      height: 63,
-      child: ListTile(
-        title: Text(
-          title,
-          style: const TextStyle(
-              fontSize: 16,
-              fontFamily: 'Araboto',
-              fontWeight: FontWeight.w500,
-              color: Color(0xff191F28)),
-          textDirection: TextDirection.rtl,
-        ),
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(
-              fontSize: 10, fontFamily: 'Araboto', color: Color(0xff969696)),
-          textDirection: TextDirection.rtl,
-        ),
-        trailing: const Icon(
-          CupertinoIcons.checkmark_alt_circle_fill,
-          size: 42,
-          color: Color(0xff004440),
-        ),
-      ),
-    );
-  }
-
   //Profile picture
-  Widget Profile_pic() {
-    return Container(
-      child: Column(
-        children: [
-          //Image position
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: const Color(0xffECF4FD),
-            ),
-            width: 113,
-            height: 113,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset(Pic)),
-          ),
-
-          //to add space
-          const SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
 
   //Here
-  rating() {
-    return Container(
-      //color: Colors.grey,
-      height: 95,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 30, right: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            //Rating lines
-            Container(
-              height: 95,
-              width: (MediaQuery.of(context).size.width / 2) - (25 + 30),
-              //color: Colors.black12,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //5 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '5 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    alignment: MainAxisAlignment.center,
-                    percent: 1,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-
-                  //4 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    alignment: MainAxisAlignment.center,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '4 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    percent: 0.35,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-
-                  //3 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    alignment: MainAxisAlignment.center,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '3 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    percent: 0.12,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-
-                  //2 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    alignment: MainAxisAlignment.center,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '4 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    percent: 0.1,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-
-                  //1 Stars
-                  LinearPercentIndicator(
-                    width: 94.0,
-                    alignment: MainAxisAlignment.center,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '1 نجمة',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    isRTL: true,
-                    percent: 0.1,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-                ],
-              ),
-            ),
-
-            //Rating Data
-            Container(
-              // width:  (MediaQuery.of(context).size.width / 2) - (25+30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                //todo: Complete the rating indicator
-                // 3 Widgets Here
-                children: [
-                  //4.6 / 5
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        ratings,
-                        style:
-                            TextStyle(fontSize: 20, fontFamily: 'circular std'),
-                      ),
-                      Text(
-                        '/5',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'circular std',
-                          color: Color(0xffC2C2C2),
-                        ),
-                      )
-                    ],
-                  ),
-
-                  //بناء على 300 مراجعة
-                  Text(
-                    'بناء على $Reviews مراجعة',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w200,
-                      color: Color(0xffC2C2C2),
-                    ),
-
-                    //Stars check Figma
-                  ),
-
-                  RatingBar.builder(
-                      itemSize: 24,
-                      initialRating: double.parse(ratings),
-                      ignoreGestures: true,
-                      textDirection: TextDirection.rtl,
-                      itemBuilder: (context, _) =>
-                          Icon(Icons.star, color: Color(0xffF3B304)),
-                      onRatingUpdate: (rating) {})
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  truck(var title, var id, var plat, var image) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width - 50,
-      height: 63,
-      child: ListTile(
-          title: Text(
-            title,
-            style: const TextStyle(
-                fontSize: 14,
-                fontFamily: 'Araboto',
-                fontWeight: FontWeight.w500,
-                color: Color(0xff191F28)),
-            textDirection: TextDirection.rtl,
-          ),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RichText(
-                  text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontFamily: 'Araboto',
-                        color: Color(0xff969696),
-                      ),
-                      children: [
-                    TextSpan(
-                      text: '$id /',
-                    ),
-                    const TextSpan(
-                      text: 'رقم الرخصة ',
-                    ),
-                  ])),
-              RichText(
-                  text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontFamily: 'Araboto',
-                        color: Color(0xff969696),
-                      ),
-                      children: [
-                    TextSpan(text: '$plat /'),
-                    const TextSpan(text: 'رقم اللوحة ')
-                  ]))
-            ],
-          ),
-          trailing: Image.asset(
-            image,
-            width: 33,
-          )),
-    );
-  }
 
   ListView _buildListView(List<DriversModel> drivers) {
     return ListView.builder(
@@ -470,11 +181,37 @@ class _truckdriversState extends State<truckdrivers> {
                       Icons.circle,
                       color: Colors.green,
                     ),
-                    title: Text(
-                      drivers[index].fullName!,
-                      style: const TextStyle(
-                          fontSize: 14, fontFamily: 'ArabotoFat'),
-                      textDirection: TextDirection.rtl,
+                    title: Row(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            RatingBar.builder(
+                                itemSize: 12,
+                                initialRating: drivers[index].rating + 0.0 ?? 0,
+                                ignoreGestures: true,
+                                allowHalfRating: true,
+                                textDirection: TextDirection.rtl,
+                                itemBuilder: (context, _) =>
+                                    Icon(Icons.star, color: Color(0xffF3B304)),
+                                onRatingUpdate: (rating) {}),
+                            Text(
+                              " (+${drivers[index].reviewsCount ?? 0}) ",
+                              style: const TextStyle(
+                                  fontSize: 10, fontFamily: 'ArabotoFat'),
+                              textDirection: TextDirection.rtl,
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Text(
+                            drivers[index].fullName!,
+                            style: const TextStyle(
+                                fontSize: 14, fontFamily: 'ArabotoFat'),
+                            textDirection: TextDirection.rtl,
+                          ),
+                        ),
+                      ],
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,

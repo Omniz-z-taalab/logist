@@ -59,8 +59,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
 
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            primarySwatch: Colors.blue,
+            appBarTheme:
+                AppBarTheme(iconTheme: IconThemeData(color: Colors.black))),
 
         home: const splash(),
         //  home:  logout(),

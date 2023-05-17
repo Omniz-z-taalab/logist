@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart' as itl;
 import 'package:logist/core/utilities/dio_helper.dart';
 import 'package:logist/widgets/Widgets.dart';
@@ -319,11 +320,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 itemCount: 3,
                                 onChanged: (value) {
                                   setState(() => isEnd
-                                      ? hourE
+                                      ? hourE=value
                                       : hour =
                                           value); // to change on widget level state
                                   SBsetState(() => isEnd
-                                      ? hourE
+                                      ? hourE=value
                                       : hour =
                                           value); //* to change on dialog state
                                 }),
@@ -351,11 +352,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 itemCount: 3,
                                 onChanged: (value) {
                                   setState(() => isEnd
-                                      ? minuteE
+                                      ? minuteE=value
                                       : minute =
                                           value); // to change on widget level state
                                   SBsetState(() => isEnd
-                                      ? minuteE
+                                      ? minuteE=value
                                       : minute =
                                           value); //* to change on dialog state
                                 }),
@@ -397,7 +398,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
 
   //Options Tab
   Widget Options(String title) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 54,
       child: Row(
@@ -517,8 +518,8 @@ class _chooseExtentionsState extends State<chooseExtentions> {
             } else if (ParaType == 'timeEnd') {
               _timeEnd = 1;
               timeEnd = [
-                '$year-${Fhour(month)}-${Fhour(day)}',
-                '${Fhour(hour)}:${Fminute(minute)}',
+                '$yearE-${Fhour(monthE)}-${Fhour(dayE)}',
+                '${Fhour(hourE)}:${Fminute(minuteE)}',
                 ''
               ];
             } else if (ParaType == 'note') {

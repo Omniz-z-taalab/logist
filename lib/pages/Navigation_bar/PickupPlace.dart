@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
@@ -80,6 +81,26 @@ class _pickupPlaceState extends State<pickupPlace> {
           'assets/pics/logo.png',
           width: 82,
         ),
+        leading: SizedBox(),
+        actions: [
+          SizedBox(
+            height: 52,
+            width: 52,
+            child: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.white.withOpacity(0.8)),
+              child: IconButton(
+                color: const Color(0xff323232),
+                icon: const Icon(CupertinoIcons.chevron_forward),
+                iconSize: 25,
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ),
+          ),
+          const SizedBox(width: 20),
+        ],
       ),
       body: SafeArea(
         child: Padding(

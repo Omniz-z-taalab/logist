@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logist/pages/Order_Setup/pickdownPlace.dart';
@@ -98,6 +99,26 @@ class _package_placeState extends State<package_place> {
         backgroundColor: Obackground,
         centerTitle: true,
         elevation: 0,
+        leading: SizedBox(),
+        actions: [
+          SizedBox(
+            height: 52,
+            width: 52,
+            child: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.white.withOpacity(0.8)),
+              child: IconButton(
+                color: const Color(0xff323232),
+                icon: const Icon(CupertinoIcons.chevron_forward),
+                iconSize: 25,
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ),
+          ),
+          const SizedBox(width: 20),
+        ],
       ),
       body: SafeArea(
         child: Padding(

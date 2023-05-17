@@ -32,7 +32,6 @@ class PriceProvider extends ChangeNotifier {
       price = response.data['price'];
       distance = response.data['distance'];
       print(price);
-      print(distance.toString() + "a7a");
       print("$lat2 $lang2 $lat1 $lang1");
       isGetViecle = false;
       notifyListeners();
@@ -82,8 +81,8 @@ class PriceProvider extends ChangeNotifier {
       ],
       "locations": [
         {
-          "lant": lat2,
-          "long": lang2,
+          "lant": lat1,
+          "long": lang1,
           "address_name": "$locationTitle",
           "address_note": "$locationNote"
         }
@@ -115,6 +114,7 @@ class PriceProvider extends ChangeNotifier {
       notifyListeners();
     }).catchError((error) {
       res = false;
+      showToast("يوجد مشكله فنية و جاري العمل عليها",false,false);
       print(error);
     });
   }

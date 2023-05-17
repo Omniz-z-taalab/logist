@@ -1,6 +1,8 @@
 class DriversModel {
   int? id;
   int? userId;
+  int? reviewsCount;
+  var rating;
   String? nationality;
   String? identityCard;
   String? license;
@@ -39,6 +41,8 @@ class DriversModel {
       this.vehicleTypeId,
       this.verified,
       this.status,
+      this.rating,
+      this.reviewsCount,
       this.numberOfShipments,
       this.phoneNumber,
       this.fullName,
@@ -46,6 +50,8 @@ class DriversModel {
 
   DriversModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    reviewsCount = json["reviews_count"];
+    rating = json['rating'];
     userId = json['user_id'];
     nationality = json['nationality'];
     identityCard = json['identity_card'];
@@ -71,6 +77,8 @@ class DriversModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['reviews_count'] = reviewsCount;
+    data['rating'] = rating;
     data['rejection_reason'] = rejectionReason;
     data['date_of_birth'] = dateOfBirth;
     data['vehicle_id'] = vehicleId;

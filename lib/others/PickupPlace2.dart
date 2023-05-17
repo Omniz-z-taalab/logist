@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logist/core/utilities/dio_helper.dart';
+import 'package:provider/provider.dart';
 
+import '../core/logic/price_payment/price_payment.dart';
 import '../pages/My_orders/ChooseDriver.dart';
 import 'app_input_text_field.dart';
 import 'variables.dart';
@@ -22,6 +26,7 @@ class package_place2 extends StatefulWidget {
   String placeuserdown2;
   int vicleId;
   int trilerId;
+
   //I/flutter (14415): latttttt24.7721495,lnggggggg46.6975932
 //  I/flutter (14415): latt124.79367045270101lng146.677787117660046
 //I/flutter (14415): latt224.7721495lng246.6975932
@@ -68,6 +73,7 @@ class _package_place2State extends State<package_place2> {
 
   final _locationNoteController = TextEditingController();
   final _destenationNoteController = TextEditingController();
+
   //Next Button
   Widget Next(String par) => MaterialButton(
         color: On,
@@ -91,27 +97,36 @@ class _package_place2State extends State<package_place2> {
           print(_formKey.currentState!.validate());
           // Get.to(orderMap()); //todo: what was planned to DO
           if (_formKey.currentState!.validate()) {
-            Get.to(
-                () => chooseDriver(
-                    widget.lat1,
-                    widget.lat2,
-                    widget.lng1,
-                    widget.lng2,
-                    widget.noteText,
-                    widget.PayloadText,
-                    widget.TimeNum,
-                    widget.TimeEnd,
-                    widget.Trtext,
-                    widget.Typetext,
-                    widget.placeuserpick1,
-                    widget.placeuserdown1,
-                    widget.placeuserpick2,
-                    widget.placeuserdown2,
-                    widget.vicleId,
-                    widget.trilerId,
-                    _locationNoteController.text,
-                    _destenationNoteController.text),
-                transition: Transition.rightToLeft);
+            Provider.of<PriceProvider>(context, listen: false)
+                .getPrice(widget.lat1, widget.lng1, widget.lat2, widget.lng2)
+                .then((value) {
+              if (Provider.of<PriceProvider>(context, listen: false).distance !=
+                  -1) {
+                Get.to(
+                    () => chooseDriver(
+                        widget.lat1,
+                        widget.lat2,
+                        widget.lng1,
+                        widget.lng2,
+                        widget.noteText,
+                        widget.PayloadText,
+                        widget.TimeNum,
+                        widget.TimeEnd,
+                        widget.Trtext,
+                        widget.Typetext,
+                        widget.placeuserpick1,
+                        widget.placeuserdown1,
+                        widget.placeuserpick2,
+                        widget.placeuserdown2,
+                        widget.vicleId,
+                        widget.trilerId,
+                        _locationNoteController.text,
+                        _destenationNoteController.text),
+                    transition: Transition.rightToLeft);
+              } else {
+                showToast("يوجد خطأ في مكان التوصيل و الاستلام", false, false);
+              }
+            });
           }
           print('Went to Map2');
         },
@@ -122,6 +137,26 @@ class _package_place2State extends State<package_place2> {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
+        leading: SizedBox(),
+        actions: [
+          SizedBox(
+            height: 52,
+            width: 52,
+            child: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.white.withOpacity(0.8)),
+              child: IconButton(
+                color: const Color(0xff323232),
+                icon: const Icon(CupertinoIcons.chevron_forward),
+                iconSize: 25,
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ),
+          ),
+          const SizedBox(width: 20),
+        ],
         backgroundColor: Obackground,
         centerTitle: true,
         elevation: 0,

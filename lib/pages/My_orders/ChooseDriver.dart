@@ -8,12 +8,12 @@ import 'package:get/get.dart';
 import 'package:logist/others/variables.dart';
 import 'package:logist/pages/My_orders/Resume.dart';
 import 'package:logist/pages/My_orders/TruckDrivers.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../core/logic/drivers/driver_provider.dart';
 import '../../core/logic/viecles/viecles_provider.dart';
+import '../../models/driver_model.dart';
 
 class chooseDriver extends StatefulWidget {
   var lat1;
@@ -397,7 +397,7 @@ class _chooseDriverState extends State<chooseDriver> {
 
                                 SizedBox(height: 10),
 
-                                rating(),
+                                rating(drivers[0]),
 
                                 //Truck Info
                                 truck(
@@ -496,185 +496,61 @@ class _chooseDriverState extends State<chooseDriver> {
     );
   }
 
-  rating() {
-    return Container(
+  rating(DriversModel driver) {
+    return SizedBox(
       //color: Colors.grey,
       height: 95,
       child: Padding(
         padding: const EdgeInsets.only(left: 30, right: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          //todo: Complete the rating indicator
+          // 3 Widgets Here
           children: [
-            //Rating lines
-            Container(
-              height: 95,
-              width: (MediaQuery.of(context).size.width / 2) - (25 + 30),
-              //color: Colors.black12,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  //5 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '5 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    alignment: MainAxisAlignment.center,
-                    percent: 1,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
+            //4.6 / 5
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "${driver.rating ?? 0}",
+                  style:
+                      const TextStyle(fontSize: 20, fontFamily: 'circular std'),
+                ),
+                Text(
+                  '/5',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'circular std',
+                    color: Color(0xffC2C2C2),
                   ),
-
-                  //4 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    alignment: MainAxisAlignment.center,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '4 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    percent: 0.35,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-
-                  //3 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    alignment: MainAxisAlignment.center,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '3 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    percent: 0.12,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-
-                  //2 Stars
-                  LinearPercentIndicator(
-                    isRTL: true,
-                    alignment: MainAxisAlignment.center,
-                    width: 94.0,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '4 نجوم',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    percent: 0.1,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-
-                  //1 Stars
-                  LinearPercentIndicator(
-                    width: 94.0,
-                    alignment: MainAxisAlignment.center,
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 6.0,
-                    trailing: Text(
-                      '1 نجمة',
-                      style: TextStyle(
-                        fontFamily: 'Araboto',
-                        fontSize: 9,
-                        color: Color(0xffC2C2C2),
-                      ),
-                    ),
-                    isRTL: true,
-                    percent: 0.1,
-                    progressColor: Color(0xffF3B304),
-                    barRadius: Radius.circular(10),
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
 
-            //Rating Data
-            Container(
-              // width:  (MediaQuery.of(context).size.width / 2) - (25+30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                //todo: Complete the rating indicator
-                // 3 Widgets Here
-                children: [
-                  //4.6 / 5
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        ratings,
-                        style:
-                            TextStyle(fontSize: 20, fontFamily: 'circular std'),
-                      ),
-                      Text(
-                        '/5',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'circular std',
-                          color: Color(0xffC2C2C2),
-                        ),
-                      )
-                    ],
-                  ),
-
-                  //بناء على 300 مراجعة
-                  Text(
-                    'بناء على $Reviews مراجعة',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w200,
-                      color: Color(0xffC2C2C2),
-                    ),
-
-                    //Stars check Figma
-                  ),
-
-                  RatingBar.builder(
-                      itemSize: 24,
-                      initialRating: 5,
-                      ignoreGestures: true,
-                      textDirection: TextDirection.rtl,
-                      itemBuilder: (context, _) =>
-                          Icon(Icons.star, color: Color(0xffF3B304)),
-                      onRatingUpdate: (rating) {})
-                ],
+            //بناء على 300 مراجعة
+            Text(
+              'بناء على ${driver.reviewsCount ?? 0} مراجعة',
+              style: TextStyle(
+                fontSize: 11,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w200,
+                color: Color(0xffC2C2C2),
               ),
-            )
+
+              //Stars check Figma
+            ),
+
+            RatingBar.builder(
+                itemSize: 24,
+                initialRating: driver.rating + 0.0 ?? 0,
+                ignoreGestures: true,
+                allowHalfRating: true,
+                textDirection: TextDirection.rtl,
+                itemBuilder: (context, _) =>
+                    Icon(Icons.star, color: Color(0xffF3B304)),
+                onRatingUpdate: (rating) {})
           ],
         ),
       ),
