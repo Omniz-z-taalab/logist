@@ -35,13 +35,13 @@ Color SayColor(Status) {
   if (Status == 'Delivered') {
     return const Color(0xff2FBF71);
   } else if (Status == 'Pending') {
-    return const Color(0xff015FF5);
-  } else if (Status == 'Accepted') {
-    return const Color(0xff191F28);
-  } else if (Status == 'Waiting') {
-    return const Color(0xffe1c01c);
+    return const Color(0xFF284166);
+  } else if (Status == 'Accepted' || Status == 'Started') {
+    return const Color(0xff2c55fb);
+  } else if (Status == 'Canceled') {
+    return const Color(0xFFBF2F2F);
   } else {
-    return Colors.red;
+    return Color(0xFFBF2F2F);
   }
 }
 
@@ -381,7 +381,15 @@ Widget _OrdersListView(BuildContext context, AllOrders order) {
                 width: 15,
                 decoration: BoxDecoration(
                     //todo: set its own Parameter
-                    color: SayColor("Delivered"),
+                    color: order.status == 'Delivered'
+                        ? SayColor('Delivered')
+                        : order.status == 'Accepted'
+                            ? SayColor('Accepted')
+                            : order.status == 'Canceled'
+                                ? SayColor('Canceled')
+                                : order.status == 'Pending'
+                                    ? SayColor('Pending')
+                                    : SayColor('Started'),
                     shape: BoxShape.circle),
               ),
             ],
@@ -454,11 +462,9 @@ ListView OrdersList(List<AllOrders> List, var context,
     shrinkWrap: true,
     itemCount: trial && List.length > limit ? limit : List.length,
     itemBuilder: (context, index) {
-      return 'Pending' != List[index].orderType
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: _OrdersListView(context, List[index]))
-          : Container();
+      return Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: _OrdersListView(context, List[index]));
     },
   );
 }

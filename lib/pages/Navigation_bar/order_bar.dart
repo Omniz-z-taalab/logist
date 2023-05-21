@@ -32,7 +32,7 @@ class _OrdersState extends State<Orders> {
   // //Finish loading
   void done() async {
     Provider.of<OrderProvider>(context, listen: false)
-        .getOrders(page1: 0)
+        .getOrders()
         .then((value) => setState(() {
               isLoading = false;
             }));
@@ -105,7 +105,7 @@ class _OrdersState extends State<Orders> {
                           bottom: BorderSide(
                     width: 2,
                     color: CurrentPage == 0
-                        ? Color(0xff2FBF71)
+                        ? Color(0xFFBF2F2F)
                         : Colors.transparent,
                   ))),
                   child: TextButton(
@@ -115,10 +115,10 @@ class _OrdersState extends State<Orders> {
                             curve: Curves.easeOutQuart);
                       },
                       child: Text(
-                        'المنتهية',
+                        'الملغية',
                         style: TextStyle(
                             color: CurrentPage == 0
-                                ? const Color(0xff2FBF71)
+                                ? const Color(0xFFBF2F2F)
                                 : const Color(0xffB8BED3),
                             fontFamily: 'Madani',
                             fontSize: 14,
@@ -134,7 +134,7 @@ class _OrdersState extends State<Orders> {
                           bottom: BorderSide(
                     width: 2,
                     color: CurrentPage == 1
-                        ? Color(0xff2c55fb)
+                        ? Color(0xff2FBF71)
                         : Colors.transparent,
                   ))),
                   child: TextButton(
@@ -144,10 +144,10 @@ class _OrdersState extends State<Orders> {
                             curve: Curves.easeOutQuart);
                       },
                       child: Text(
-                        'الحالية',
+                        'المنتهية',
                         style: TextStyle(
                             color: CurrentPage == 1
-                                ? const Color(0xff2c55fb)
+                                ? const Color(0xff2FBF71)
                                 : const Color(0xffB8BED3),
                             fontFamily: 'Madani',
                             fontSize: 14,
@@ -163,7 +163,7 @@ class _OrdersState extends State<Orders> {
                           bottom: BorderSide(
                     width: 2,
                     color: CurrentPage == 2
-                        ? const Color(0xff191f28)
+                        ? Color(0xff2c55fb)
                         : Colors.transparent,
                   ))),
                   child: TextButton(
@@ -173,9 +173,67 @@ class _OrdersState extends State<Orders> {
                             curve: Curves.easeOutQuart);
                       },
                       child: Text(
-                        'الطلبات',
+                        'الحالية',
                         style: TextStyle(
                             color: CurrentPage == 2
+                                ? const Color(0xff2c55fb)
+                                : const Color(0xffB8BED3),
+                            fontFamily: 'Madani',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      )),
+                ),
+              ),
+              Hspace(20),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    width: 2,
+                    color: CurrentPage == 3
+                        ? Color(0xFF284166)
+                        : Colors.transparent,
+                  ))),
+                  child: TextButton(
+                      onPressed: () {
+                        controller.animateToPage(3,
+                            duration: Duration(milliseconds: 750),
+                            curve: Curves.easeOutQuart);
+                      },
+                      child: Text(
+                        'المعلقة',
+                        style: TextStyle(
+                            color: CurrentPage == 3
+                                ? const Color(0xFF284166)
+                                : const Color(0xffB8BED3),
+                            fontFamily: 'Madani',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      )),
+                ),
+              ),
+              Hspace(20),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                    width: 2,
+                    color: CurrentPage == 4
+                        ? const Color(0xff191f28)
+                        : Colors.transparent,
+                  ))),
+                  child: TextButton(
+                      onPressed: () {
+                        controller.animateToPage(4,
+                            duration: Duration(milliseconds: 750),
+                            curve: Curves.easeOutQuart);
+                      },
+                      child: Text(
+                        'الطلبات',
+                        style: TextStyle(
+                            color: CurrentPage == 4
                                 ? const Color(0xff191f28)
                                 : Color(0xffB8BED3),
                             fontFamily: 'Madani',
@@ -190,8 +248,8 @@ class _OrdersState extends State<Orders> {
           Expanded(
             child: SmartRefresher(
               enablePullDown: true,
-              enablePullUp: true,
-              header: WaterDropHeader(
+              enablePullUp: false,
+              header: const WaterDropHeader(
                 complete: Text("تم التحديث"),
               ),
               controller: _refreshController,
@@ -212,28 +270,59 @@ class _OrdersState extends State<Orders> {
                           ? ShimmerData()
                           : context
                                   .watch<OrderProvider>()
-                                  .myEndedOrdersModel
+                                  .myCanceldOrdersModel
                                   .isEmpty
                               ? const Center(child: Text("لايوجد طلبات"))
                               : DeliveredOrdersList(
                                   context
                                       .watch<OrderProvider>()
-                                      .myEndedOrdersModel,
+                                      .myCanceldOrdersModel,
                                   context)),
-                  //now
+
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: Provider.of<OrderProvider>(context).isLoading
                           ? ShimmerData()
                           : context
                                   .watch<OrderProvider>()
-                                  .myAcceptedOrdersModel
+                                  .myDelivredOrdersModel
+                                  .isEmpty
+                              ? const Center(child: Text("لايوجد طلبات"))
+                              : DeliveredOrdersList(
+                                  context
+                                      .watch<OrderProvider>()
+                                      .myDelivredOrdersModel,
+                                  context)),
+                  //pending
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Provider.of<OrderProvider>(context).isLoading
+                        ? ShimmerData()
+                        : context
+                                .watch<OrderProvider>()
+                                .myAcceptedOrdersModel
+                                .isEmpty
+                            ? const Center(child: Text("لايوجد طلبات"))
+                            : OrdersList(
+                                context
+                                    .watch<OrderProvider>()
+                                    .myAcceptedOrdersModel,
+                                context),
+                  ),
+
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Provider.of<OrderProvider>(context).isLoading
+                          ? ShimmerData()
+                          : context
+                                  .watch<OrderProvider>()
+                                  .myWaitingOrdersModel
                                   .isEmpty
                               ? const Center(child: Text("لايوجد طلبات"))
                               : OrdersList(
                                   context
                                       .watch<OrderProvider>()
-                                      .myAcceptedOrdersModel!,
+                                      .myWaitingOrdersModel,
                                   context)),
                   //all orders
                   Padding(
@@ -242,8 +331,8 @@ class _OrdersState extends State<Orders> {
                           ? ShimmerData()
                           : context.watch<OrderProvider>().myOrdersModel.isEmpty
                               ? const Center(child: Text("لايوجد طلبات"))
-                              : OrdersListNow(
-                                  context.watch<OrderProvider>().myOrdersModel!,
+                              : OrdersList(
+                                  context.watch<OrderProvider>().myOrdersModel,
                                   context)),
                 ],
               ),
