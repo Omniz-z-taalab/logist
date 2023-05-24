@@ -114,15 +114,18 @@ class _OrdersState extends State<Orders> {
                             duration: Duration(milliseconds: 750),
                             curve: Curves.easeOutQuart);
                       },
-                      child: Text(
-                        'الملغية',
-                        style: TextStyle(
-                            color: CurrentPage == 0
-                                ? const Color(0xFFBF2F2F)
-                                : const Color(0xffB8BED3),
-                            fontFamily: 'Madani',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'الملغية',
+                          style: TextStyle(
+                              color: CurrentPage == 0
+                                  ? const Color(0xFFBF2F2F)
+                                  : const Color(0xffB8BED3),
+                              fontFamily: 'Madani',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
                       )),
                 ),
               ),
@@ -143,15 +146,18 @@ class _OrdersState extends State<Orders> {
                             duration: Duration(milliseconds: 750),
                             curve: Curves.easeOutQuart);
                       },
-                      child: Text(
-                        'المنتهية',
-                        style: TextStyle(
-                            color: CurrentPage == 1
-                                ? const Color(0xff2FBF71)
-                                : const Color(0xffB8BED3),
-                            fontFamily: 'Madani',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'المنتهية',
+                          style: TextStyle(
+                              color: CurrentPage == 1
+                                  ? const Color(0xff2FBF71)
+                                  : const Color(0xffB8BED3),
+                              fontFamily: 'Madani',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
                       )),
                 ),
               ),
@@ -201,15 +207,18 @@ class _OrdersState extends State<Orders> {
                             duration: Duration(milliseconds: 750),
                             curve: Curves.easeOutQuart);
                       },
-                      child: Text(
-                        'المعلقة',
-                        style: TextStyle(
-                            color: CurrentPage == 3
-                                ? const Color(0xFF284166)
-                                : const Color(0xffB8BED3),
-                            fontFamily: 'Madani',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'المعلقة',
+                          style: TextStyle(
+                              color: CurrentPage == 3
+                                  ? const Color(0xFF284166)
+                                  : const Color(0xffB8BED3),
+                              fontFamily: 'Madani',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
                       )),
                 ),
               ),
@@ -224,22 +233,28 @@ class _OrdersState extends State<Orders> {
                         ? const Color(0xff191f28)
                         : Colors.transparent,
                   ))),
-                  child: TextButton(
-                      onPressed: () {
-                        controller.animateToPage(4,
-                            duration: Duration(milliseconds: 750),
-                            curve: Curves.easeOutQuart);
-                      },
-                      child: Text(
-                        'الطلبات',
-                        style: TextStyle(
-                            color: CurrentPage == 4
-                                ? const Color(0xff191f28)
-                                : Color(0xffB8BED3),
-                            fontFamily: 'Madani',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
-                      )),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: TextButton(
+                        onPressed: () {
+                          controller.animateToPage(4,
+                              duration: Duration(milliseconds: 750),
+                              curve: Curves.easeOutQuart);
+                        },
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'الطلبات',
+                            style: TextStyle(
+                                color: CurrentPage == 4
+                                    ? const Color(0xff191f28)
+                                    : Color(0xffB8BED3),
+                                fontFamily: 'Madani',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                  ),
                 ),
               ),
             ],

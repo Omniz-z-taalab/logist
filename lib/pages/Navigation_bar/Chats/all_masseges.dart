@@ -54,6 +54,7 @@ class _conversationsListState extends State<conversationsList> {
           backgroundColor: Color(0xffFAFBFB),
           centerTitle: true,
           elevation: 0,
+          automaticallyImplyLeading: false,
           title: Text(
             'الرسائل',
             style: TextStyle(

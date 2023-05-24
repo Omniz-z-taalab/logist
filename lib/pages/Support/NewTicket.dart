@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../others/variables.dart';
 
 class newTickets extends StatefulWidget {
@@ -16,13 +17,11 @@ class _newTicketsState extends State<newTickets> {
   final _title = TextEditingController();
   final _context = TextEditingController();
 
-
   // Initial Selected Value
   String? dropdownvalue;
   bool TitleError = false;
   bool TextError = false;
   bool _dropdown = false;
-
 
   // List of items in our dropdown menu
   var items = [
@@ -58,15 +57,13 @@ class _newTicketsState extends State<newTickets> {
                 ),
               ),
             ),
-            Expanded(
-                flex: 2,
-                child: Container())
+            Expanded(flex: 2, child: Container())
           ],
         )),
         onPressed: () {
           //Button destination
           // Navigator.push<void>( context,  MaterialPageRoute<void>( builder: (BuildContext context) => const s1() ));
-          if(formKey.currentState!.validate())
+          if (formKey.currentState!.validate())
             print('All good');
           else
             print('Something Wrong');
@@ -83,11 +80,11 @@ class _newTicketsState extends State<newTickets> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Obackground,
-
       appBar: AppBar(
         backgroundColor: Obackground,
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Text(
           'الدعم الفني',
           style: TextStyle(
@@ -117,7 +114,6 @@ class _newTicketsState extends State<newTickets> {
           const SizedBox(width: 20),
         ],
       ),
-
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(25),
@@ -135,157 +131,170 @@ class _newTicketsState extends State<newTickets> {
 
                 //Page Content
                 Form(
-                  key: formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        //Drop Down Menu
-                        Container(
-                          height: 71,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Color(0x1a000000)),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Color(0xffF8F8F8),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 25, right: 25),
-                            child: DropdownButton(
-                              isExpanded: true,
-
-                              focusColor: Color(0xffF8F8F8),
-                              autofocus: true,
-                              itemHeight: 71,
-                              // Initial Value
-                              value: dropdownvalue,
-                              underline: Container(),
-
-                              borderRadius: BorderRadius.circular(8),
-
-                              //Explanation
-                              hint: Image.asset(
-                                'assets/pics/DownArrow.png',
-                                width: 24,
-                              ),
-
-                              // Down Arrow Icon
-                              icon: dropdownvalue == null
-                                  ? Text(
-                                'نوع التدكرة',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w300,
-                                    fontFamily: 'Montserrat'),
-                              )
-                                  : Container(height: 0),
-
-                              dropdownColor: Color(0xffF8F8F8),
-
-                              // Array list of items
-                              items: items.map((String items) {
-                                return DropdownMenuItem(
-                                  alignment: Alignment.centerRight,
-                                  value: items,
-                                  child: Text(items,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w300,
-                                          fontFamily: 'Montserrat')),
-                                );
-                              }).toList(),
-                              // After selecting the desired option,it will
-                              // change button value to selected value
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  dropdownvalue = newValue!;
-                                });
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-
-                        //Title Input
-                        Container(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          //Drop Down Menu
+                          Container(
                             height: 71,
                             decoration: BoxDecoration(
-                              border: Border.all(width: TitleError ? 1.5 : 1, color: TitleError ? Colors.red :Color(0x1a000000)),
+                              border: Border.all(
+                                  width: 1, color: Color(0x1a000000)),
                               borderRadius: BorderRadius.circular(8),
                               color: Color(0xffF8F8F8),
                             ),
-                            child: TextFormField(
-                              controller: _title,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 25, right: 25),
+                              child: DropdownButton(
+                                isExpanded: true,
 
-                                hintText: 'العنوان',
-                                hintStyle: TextStyle(fontFamily: 'Montserrat',fontSize: 13,fontWeight: FontWeight.w200),
-                                hintTextDirection: TextDirection.rtl,
-                              ),
-                              textDirection: TextDirection.rtl,
-                              style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12,fontFamily: 'Montserrat'),
+                                focusColor: Color(0xffF8F8F8),
+                                autofocus: true,
+                                itemHeight: 71,
+                                // Initial Value
+                                value: dropdownvalue,
+                                underline: Container(),
 
-                              validator: (value){
-                                if(value!.isEmpty || value == null){
-                                  print('Title Error');
+                                borderRadius: BorderRadius.circular(8),
 
+                                //Explanation
+                                hint: Image.asset(
+                                  'assets/pics/DownArrow.png',
+                                  width: 24,
+                                ),
+
+                                // Down Arrow Icon
+                                icon: dropdownvalue == null
+                                    ? Text(
+                                        'نوع المحادثة',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w300,
+                                            fontFamily: 'Montserrat'),
+                                      )
+                                    : Container(height: 0),
+
+                                dropdownColor: Color(0xffF8F8F8),
+
+                                // Array list of items
+                                items: items.map((String items) {
+                                  return DropdownMenuItem(
+                                    alignment: Alignment.centerRight,
+                                    value: items,
+                                    child: Text(items,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w300,
+                                            fontFamily: 'Montserrat')),
+                                  );
+                                }).toList(),
+                                // After selecting the desired option,it will
+                                // change button value to selected value
+                                onChanged: (String? newValue) {
                                   setState(() {
-                                    TitleError = true;
+                                    dropdownvalue = newValue!;
                                   });
-                                  return'';
-                                } else
-                                  TitleError = false;
-
-                              },
-
-                            )
-                        ),
-                        SizedBox(height: 20),
-
-                        //Context Input
-                        Container(
-                            height: 197,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: TextError ? 1.5 : 1, color: TextError ? Colors.red :Color(0x1a000000)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xffF8F8F8),
+                                },
+                              ),
                             ),
-                            child: TextFormField(
-                              controller: _context,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          ),
+                          SizedBox(height: 20),
 
-                                hintText: 'أكتب شيئا',
-                                hintStyle: TextStyle(fontFamily: 'Montserrat',fontSize: 13,fontWeight: FontWeight.w200),
-                                hintTextDirection: TextDirection.rtl,
+                          //Title Input
+                          Container(
+                              height: 71,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: TitleError ? 1.5 : 1,
+                                    color: TitleError
+                                        ? Colors.red
+                                        : Color(0x1a000000)),
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color(0xffF8F8F8),
                               ),
-                              maxLines: 11,
-                              textDirection: TextDirection.rtl,
-                              style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12,fontFamily: 'Montserrat'),
+                              child: TextFormField(
+                                controller: _title,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  hintText: 'العنوان',
+                                  hintStyle: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w200),
+                                  hintTextDirection: TextDirection.rtl,
+                                ),
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12,
+                                    fontFamily: 'Montserrat'),
+                                validator: (value) {
+                                  if (value!.isEmpty || value == null) {
+                                    print('Title Error');
 
-                              validator: (value){
-                                if(value!.isEmpty || value == null){
-                                  print('Text Error');
+                                    setState(() {
+                                      TitleError = true;
+                                    });
+                                    return '';
+                                  } else
+                                    TitleError = false;
+                                },
+                              )),
+                          SizedBox(height: 20),
 
-                                  setState(() {
-                                    TextError = true;
-                                  });
-                                  return'';
-                                } else
-                                  setState(() {
-                                    TextError = false;
-                                  });
+                          //Context Input
+                          Container(
+                              height: 197,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: TextError ? 1.5 : 1,
+                                    color: TextError
+                                        ? Colors.red
+                                        : Color(0x1a000000)),
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color(0xffF8F8F8),
+                              ),
+                              child: TextFormField(
+                                controller: _context,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                  hintText: 'أكتب شيئا',
+                                  hintStyle: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w200),
+                                  hintTextDirection: TextDirection.rtl,
+                                ),
+                                maxLines: 11,
+                                textDirection: TextDirection.rtl,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12,
+                                    fontFamily: 'Montserrat'),
+                                validator: (value) {
+                                  if (value!.isEmpty || value == null) {
+                                    print('Text Error');
 
-                              },
-
-                            )
-                        )
-                      ],
-                    ),
-                  )
-                ),
+                                    setState(() {
+                                      TextError = true;
+                                    });
+                                    return '';
+                                  } else
+                                    setState(() {
+                                      TextError = false;
+                                    });
+                                },
+                              ))
+                        ],
+                      ),
+                    )),
               ],
             ),
           ),

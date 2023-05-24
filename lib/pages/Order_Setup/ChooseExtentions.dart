@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart' as itl;
 import 'package:logist/core/utilities/dio_helper.dart';
 import 'package:logist/widgets/Widgets.dart';
@@ -303,11 +302,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                             child: NumberPicker(
                                 selectedTextStyle: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 76,
+                                    fontSize: 60,
                                     fontFamily: 'circular std'),
                                 textStyle: const TextStyle(
                                     color: Color(0xffB9B9B9),
-                                    fontSize: 64,
+                                    fontSize: 60,
                                     fontFamily: 'circular std'),
                                 value: isEnd ? hourE : hour,
                                 minValue: 00,
@@ -320,11 +319,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 itemCount: 3,
                                 onChanged: (value) {
                                   setState(() => isEnd
-                                      ? hourE=value
+                                      ? hourE = value
                                       : hour =
                                           value); // to change on widget level state
                                   SBsetState(() => isEnd
-                                      ? hourE=value
+                                      ? hourE = value
                                       : hour =
                                           value); //* to change on dialog state
                                 }),
@@ -335,11 +334,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                             child: NumberPicker(
                                 selectedTextStyle: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 76,
+                                    fontSize: 60,
                                     fontFamily: 'circular std'),
                                 textStyle: const TextStyle(
                                     color: Color(0xffB9B9B9),
-                                    fontSize: 64,
+                                    fontSize: 60,
                                     fontFamily: 'circular std'),
                                 value: isEnd ? minuteE : minute,
                                 minValue: 00,
@@ -352,11 +351,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                 itemCount: 3,
                                 onChanged: (value) {
                                   setState(() => isEnd
-                                      ? minuteE=value
+                                      ? minuteE = value
                                       : minute =
                                           value); // to change on widget level state
                                   SBsetState(() => isEnd
-                                      ? minuteE=value
+                                      ? minuteE = value
                                       : minute =
                                           value); //* to change on dialog state
                                 }),
@@ -1041,7 +1040,7 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                         Container(
                           alignment: Alignment.center,
                           height: MediaQuery.of(context).size.height * 0.35,
-                          width: 317,
+                          // width: 317,
                           decoration: BoxDecoration(
                             color: const Color(0xffF5F5F5),
                             borderRadius: BorderRadius.circular(12.8),
@@ -1058,11 +1057,11 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                               headerStyle: const DateRangePickerHeaderStyle(
                                 textAlign: TextAlign.center,
                                 textStyle: TextStyle(
-                                  color: Color(0xff141414),
-                                  fontFamily: 'lexend',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 19.2,
-                                ),
+                                    color: Color(0xff141414),
+                                    fontFamily: 'lexend',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 19.2,
+                                    overflow: TextOverflow.ellipsis),
                               ),
                               monthViewSettings:
                                   const DateRangePickerMonthViewSettings(
@@ -1073,11 +1072,12 @@ class _chooseExtentionsState extends State<chooseExtentions> {
                                       viewHeaderStyle:
                                           DateRangePickerViewHeaderStyle(
                                               textStyle: TextStyle(
-                                        color: Color(0xff141414),
-                                        fontFamily: 'lexend',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14.4,
-                                      ))),
+                                                  color: Color(0xff141414),
+                                                  fontFamily: 'lexend',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 10.4,
+                                                  overflow:
+                                                      TextOverflow.ellipsis))),
                               monthCellStyle: DateRangePickerMonthCellStyle(
                                   trailingDatesTextStyle: TextStyle(
                                     fontFamily: 'lexend',

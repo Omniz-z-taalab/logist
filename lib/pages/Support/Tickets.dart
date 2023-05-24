@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../others/variables.dart';
 import 'NewTicket.dart';
 
@@ -21,51 +22,50 @@ class _ticketsState extends State<tickets> {
           borderRadius: BorderRadius.circular(100.0),
         ),
         child: Container(
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                  child: Container()),
-              Expanded(
-                flex: 4,
-                child: Text(
-                  par,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
-                  ),
+            child: Row(
+          children: [
+            Expanded(flex: 2, child: Container()),
+            Expanded(
+              flex: 4,
+              child: Text(
+                par,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-              Expanded(
+            ),
+            Expanded(
                 flex: 2,
-                  child: Image.asset('assets/pics/add.png',width: 16,height: 16,))
-            ],
-          )
-        ),
-
+                child: Image.asset(
+                  'assets/pics/add.png',
+                  width: 16,
+                  height: 16,
+                ))
+          ],
+        )),
         onPressed: () {
           //Button destination
-          Get.to(
-            () => const newTickets(),
-            transition: Transition.rightToLeft
-          );
-
+          Get.to(() => const newTickets(), transition: Transition.rightToLeft);
         },
       );
 
-  noTickets(){
+  noTickets() {
     return Column(
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/pics/support.png',width: 240,),
+            Image.asset(
+              'assets/pics/support.png',
+              width: 240,
+            ),
             const SizedBox(height: 30),
             const Text(
-              'لا يوجد تذاكر حاليا',
+              'لا يوجد محادتات حاليا',
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w200,
@@ -75,13 +75,11 @@ class _ticketsState extends State<tickets> {
             ),
             const SizedBox(height: 10),
             const SizedBox(
-
               child: Text(
-                'قم بإضافة تذكرة من زر بالأسفل و ملأ المعلومات المطلوبة',
+                'قم بإضافة مح من زر بالأسفل و ملأ المعلومات المطلوبة',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Montserrat',
-
                   fontWeight: FontWeight.w200,
                   fontSize: 14,
                   color: Color(0xff72757A),
@@ -90,8 +88,6 @@ class _ticketsState extends State<tickets> {
             ),
           ],
         )
-
-
       ],
     );
   }
@@ -104,6 +100,7 @@ class _ticketsState extends State<tickets> {
         backgroundColor: Obackground,
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Text(
           'الدعم الفني',
           style: TextStyle(
@@ -145,7 +142,7 @@ class _ticketsState extends State<tickets> {
                     bottom: 0,
                     child: Container(
                         width: MediaQuery.of(context).size.width - 50,
-                        child: Next('تدكرة جديدة'))),
+                        child: Next('محادثة جديدة'))),
 
                 //Tickets page
                 noTickets(),
