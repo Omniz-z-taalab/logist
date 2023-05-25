@@ -23,7 +23,7 @@ class _ChoseTrailerState extends State<ChoseTrailer> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Provider.of<VieclesProvider>(context, listen: false).getTrailers();
+      Provider.of<VieclesProvider>(context, listen: false).getTrailers();
     });
   }
 

@@ -170,7 +170,7 @@ class _profileState extends State<profile> {
       // extendBody: true,
       // resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,

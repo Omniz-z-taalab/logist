@@ -25,7 +25,7 @@ class ProfileProvider extends ChangeNotifier {
         "email": userModel.email,
         "avatar": userModel.avatar
       });
-       userModel = UserModel.fromJson(response.data);
+      userModel = UserModel.fromJson(response.data);
       showToast("تم تعديل بنجاح", true, true);
       getUser();
 

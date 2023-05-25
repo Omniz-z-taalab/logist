@@ -57,6 +57,7 @@ class _orderInfoState extends State<orderInfo> {
     return Scaffold(
       backgroundColor: Obackground,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Obackground,
         centerTitle: true,
         elevation: 0,
