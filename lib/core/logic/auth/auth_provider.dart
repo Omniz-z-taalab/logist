@@ -111,20 +111,24 @@ class AuthProvider extends ChangeNotifier {
 
   Future<bool> registerUser(
       String? address, String? email, String? name, String? phone) async {
+    print(address);
+    print(email);
+    print(phone);
+    print(name);
     print('----------------------------------------------------------------');
     isLoading = true;
     notifyListeners();
-
     try {
       var response = await DioHelper.postData(
         url: '${AppApiPaths.base}/api/v1/auth/regester',
         data: {
           "FullName": name,
-          "phonenumber": "$phone",
+          "phonenumber": "00201063247332",
           "adrress": address,
           "email": email
         },
       );
+      print(response.data);
       model = registerModel.fromJson(response.data);
       if (model!.accesToken == null) {
         showToast('غير صحيح', true, false);

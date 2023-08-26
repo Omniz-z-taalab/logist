@@ -42,8 +42,8 @@ class _CheckUserState extends State<CheckUser> {
         onPressed: () {
           if (formKey.currentState!.validate()) {
             if (_number.text.length == 9) {
-              setUserphone('+966' + _number.text);
-              phonenum = '+966' + _number.text;
+              setUserphone('+966'+ '01063247332' );
+              phonenum = '+966' + '01063247332';
 
               context
                   .read<AuthProvider>()

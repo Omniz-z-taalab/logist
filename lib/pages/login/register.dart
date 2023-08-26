@@ -47,6 +47,7 @@ class _pagenameState extends State<pagename> {
                 .read<AuthProvider>()
                 .registerUser(
                     _address.text, _email.text, _name.text, widget.phone)
+
                 .then((value) {
               if (Provider.of<AuthProvider>(context, listen: false).model !=
                   null) {
